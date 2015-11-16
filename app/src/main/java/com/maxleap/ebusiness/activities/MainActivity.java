@@ -33,13 +33,13 @@ public class MainActivity extends BaseActivity {
         mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         mTabHost.getTabWidget().setDividerDrawable(null);
-        mTabHost.addTab(mTabHost.newTabSpec("mainTab").setIndicator(getTabView(R.mipmap.ic_launcher, R.string.activity_main_tab_home)),
+        mTabHost.addTab(mTabHost.newTabSpec("mainTab").setIndicator(getTabView(R.drawable.btn_home, R.string.activity_main_tab_home)),
                 MainFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("categoryTab").setIndicator(getTabView(R.mipmap.ic_launcher, R.string.activity_main_tab_category)),
+        mTabHost.addTab(mTabHost.newTabSpec("categoryTab").setIndicator(getTabView(R.drawable.btn_category, R.string.activity_main_tab_category)),
                 CategoryFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("shopTab").setIndicator(getTabView(R.mipmap.ic_launcher, R.string.activity_main_tab_shop)),
+        mTabHost.addTab(mTabHost.newTabSpec("shopTab").setIndicator(getTabView(R.drawable.btn_shop, R.string.activity_main_tab_shop)),
                 ShopFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("mineTab").setIndicator(getTabView(R.mipmap.ic_launcher, R.string.activity_main_tab_mine)),
+        mTabHost.addTab(mTabHost.newTabSpec("mineTab").setIndicator(getTabView(R.drawable.btn_mine, R.string.activity_main_tab_mine)),
                 MineFragment.class, null);
     }
 
