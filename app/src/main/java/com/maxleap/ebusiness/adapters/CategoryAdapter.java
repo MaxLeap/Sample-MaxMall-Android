@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  */
-package com.maxleap.ebusiness.adapter;
+package com.maxleap.ebusiness.adapters;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;

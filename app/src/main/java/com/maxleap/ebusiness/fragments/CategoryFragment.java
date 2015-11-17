@@ -24,11 +24,11 @@ import com.maxleap.MLObject;
 import com.maxleap.MLQuery;
 import com.maxleap.MLQueryManager;
 import com.maxleap.ebusiness.R;
-import com.maxleap.ebusiness.adapter.CategoryAdapter;
+import com.maxleap.ebusiness.adapters.CategoryAdapter;
 import com.maxleap.ebusiness.databinding.FragmentCategoriesBinding;
 import com.maxleap.ebusiness.models.Category;
 import com.maxleap.ebusiness.utils.FFLog;
-import com.maxleap.ebusiness.utils.HorizontalDividerItemDecoration;
+import com.maxleap.ebusiness.widget.HorizontalDividerItemDecoration;
 import com.maxleap.exception.MLException;
 
 import java.util.List;
@@ -57,7 +57,7 @@ public class CategoryFragment extends Fragment {
         mBinding.recyclerview.setHasFixedSize(true);
         mBinding.recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
         mBinding.recyclerview.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
-                        .color(R.color.list_view_divider)
+                        .color(R.color.bg_main)
                         .size(1)
                         .marginResId(R.dimen.item_margin,
                                 R.dimen.item_margin).build()

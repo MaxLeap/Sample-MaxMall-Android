@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.maxleap.ebusiness.R;
-import com.maxleap.ebusiness.util.UnitUtil;
+import com.maxleap.ebusiness.utils.UnitUtil;
 
 
 public class Indicator extends LinearLayout {

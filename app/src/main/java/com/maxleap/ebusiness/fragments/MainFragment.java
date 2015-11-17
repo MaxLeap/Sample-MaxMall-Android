@@ -37,7 +37,7 @@ import com.maxleap.ebusiness.adapters.ProductTypeAdapter;
 import com.maxleap.ebusiness.models.Banner;
 import com.maxleap.ebusiness.models.Product;
 import com.maxleap.ebusiness.models.ProductType;
-import com.maxleap.ebusiness.util.FFLog;
+import com.maxleap.ebusiness.utils.FFLog;
 import com.maxleap.ebusiness.widget.Indicator;
 import com.maxleap.exception.MLException;
 

@@ -1,4 +1,4 @@
-package com.maxleap.ebusiness.util;
+package com.maxleap.ebusiness.utils;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
