@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.android.databinding'
 
 android {
     compileSdkVersion 23
@@ -11,17 +12,39 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
+            buildConfigField("boolean", "LOG_DEBUG", "false")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            buildConfigField("boolean", "LOG_DEBUG", "true")
+        }
     }
+
+    productFlavors {
+        google {
+            applicationId "com.maxleapmobile.ebusiness"
+            manifestPlaceholders = [ml_channel : "google"]
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+ext {
+    supportLibVersion = "23.1.0"
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile "com.android.support:appcompat-v7:${supportLibVersion}"
+    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
     compile 'com.squareup.picasso:picasso:2.5.2'
 }
