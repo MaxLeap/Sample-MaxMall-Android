@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".EBusinessApplication"
+        android:name="com.maxleap.ebusiness.EBusinessApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,7 +18,7 @@
 
         <meta-data
             android:name="ml_channel"
-            android:value="wandoujia" />
+            android:value="${ml_channel}" />
         
         <activity android:name=".activities.MainActivity" >
             <intent-filter>
@@ -27,6 +27,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name="com.maxleap.ebusiness.activities.CategoriesActivity"/>
     </application>
 
 </manifest>
