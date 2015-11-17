@@ -3,7 +3,7 @@
 
     <data>
         <variable name="category"
-                  type="com.maxleap.ebusiness.models.Category" />
+                  type="com.maxleap.ebusiness.models.ProductType" />
     </data>
 
     <LinearLayout

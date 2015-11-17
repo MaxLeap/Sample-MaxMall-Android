@@ -26,7 +26,7 @@ import com.maxleap.MLQueryManager;
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.adapters.CategoryAdapter;
 import com.maxleap.ebusiness.databinding.FragmentCategoriesBinding;
-import com.maxleap.ebusiness.models.Category;
+import com.maxleap.ebusiness.models.ProductType;
 import com.maxleap.ebusiness.utils.FFLog;
 import com.maxleap.ebusiness.widget.HorizontalDividerItemDecoration;
 import com.maxleap.exception.MLException;
@@ -36,7 +36,7 @@ import java.util.List;
 public class CategoryFragment extends Fragment {
 
     private FragmentCategoriesBinding mBinding;
-    private ObservableArrayList<Category> mCategories;
+    private ObservableArrayList<ProductType> mCategories;
     private CategoryAdapter mAdapter;
 
     @Nullable
@@ -76,7 +76,7 @@ public class CategoryFragment extends Fragment {
                 mBinding.progressbar.setVisibility(View.GONE);
                 if (e == null) {
                     for (MLObject object : list) {
-                        Category category = new Category(object);
+                        ProductType category = new ProductType(object);
                         FFLog.i(category.toString());
                         mCategories.add(category);
                         mAdapter.notifyDataSetChanged();

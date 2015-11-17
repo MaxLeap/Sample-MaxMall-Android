@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.databinding.ItemCategoryBinding;
-import com.maxleap.ebusiness.models.Category;
+import com.maxleap.ebusiness.models.ProductType;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryHolder>{
 
@@ -37,14 +37,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             this.binding = binding;
         }
 
-        public void bind(Category category) {
+        public void bind(ProductType category) {
             binding.setCategory(category);
         }
     }
 
-    private ObservableArrayList<Category> mList;
+    private ObservableArrayList<ProductType> mList;
 
-    public CategoryAdapter(ObservableArrayList<Category> list) {
+    public CategoryAdapter(ObservableArrayList<ProductType> list) {
         this.mList = list;
     }
 
@@ -61,7 +61,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     @Override
     public void onBindViewHolder(CategoryHolder holder, int position) {
-        Category category = mList.get(position);
+        ProductType category = mList.get(position);
         holder.bind(category);
     }
 

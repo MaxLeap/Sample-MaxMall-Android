@@ -16,14 +16,14 @@ public class ProductType {
     private String icon;
     private MLRelation products;
     private boolean recommend;
-    private boolean on_sales;
+    private boolean onSales;
 
     public ProductType(MLObject object) {
         this.setTitle(object.getString("title"));
         this.setIcon(object.getString("icon"));
         this.setProducts(object.getRelation("products"));
         this.setRecommend(object.getBoolean("recommend"));
-        this.setOn_sales(object.getBoolean("on_sales"));
+        this.setOnSales(object.getBoolean("on_sales"));
     }
 
     public String getTitle() {
@@ -32,14 +32,6 @@ public class ProductType {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public boolean isOn_sales() {
-        return on_sales;
-    }
-
-    public void setOn_sales(boolean on_sales) {
-        this.on_sales = on_sales;
     }
 
     public boolean isRecommend() {
@@ -66,6 +58,14 @@ public class ProductType {
         this.icon = icon;
     }
 
+    public boolean isOnSales() {
+        return onSales;
+    }
+
+    public void setOnSales(boolean onSales) {
+        this.onSales = onSales;
+    }
+
     @Override
     public String toString() {
         return "ProductType{" +
@@ -73,7 +73,7 @@ public class ProductType {
                 ", icon='" + icon + '\'' +
                 ", products=" + products +
                 ", recommend=" + recommend +
-                ", on_sales=" + on_sales +
+                ", onSales=" + onSales +
                 '}';
     }
 }
