@@ -28,7 +28,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.maxleap.ebusiness.activities.CategoriesActivity"/>
     </application>
 
 </manifest>

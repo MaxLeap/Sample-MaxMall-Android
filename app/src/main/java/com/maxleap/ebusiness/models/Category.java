@@ -69,11 +69,11 @@ public class Category implements Serializable {
     }
 
     public MLRelation getProduct() {
-        return product;
+        return products;
     }
 
-    public void setProduct(MLRelation product) {
-        this.product = product;
+    public void setProduct(MLRelation products) {
+        this.products = products;
     }
 
     @Override
