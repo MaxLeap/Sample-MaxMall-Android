@@ -22,7 +22,6 @@ public class Order {
     private String remarks;
     private String payMethod;
     private String orderStatus;
-    private String deliveryStatus;
     private List<OrderProduct> orderProducts;
 
     public String getId() {
@@ -63,14 +62,6 @@ public class Order {
 
     public void setDelivery(String delivery) {
         this.delivery = delivery;
-    }
-
-    public String getDeliveryStatus() {
-        return deliveryStatus;
-    }
-
-    public void setDeliveryStatus(String deliveryStatus) {
-        this.deliveryStatus = deliveryStatus;
     }
 
     public List<OrderProduct> getOrderProducts() {
@@ -148,7 +139,6 @@ public class Order {
         order.setRemarks(object.getString("remarks"));
         order.setPayMethod(object.getString("pay_method"));
         order.setOrderStatus(object.getString("order_status"));
-        order.setDeliveryStatus(object.getString("delivery_status"));
 
         MLQueryManager.findAllInBackground(object.getRelation("order_products").getQuery(), new FindCallback<MLObject>() {
             @Override

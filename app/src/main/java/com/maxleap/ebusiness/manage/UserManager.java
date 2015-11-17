@@ -246,7 +246,6 @@ public class UserManager {
         obj.put("remarks", order.getRemarks());
         obj.put("pay_method", order.getPayMethod());
         obj.put("order_status", order.getOrderStatus());
-        obj.put("delivery_status", order.getDeliveryStatus());
 
         // pointer: user, address
         obj.put("user", MLUser.getCurrentUser());
@@ -293,7 +292,7 @@ public class UserManager {
     /**
      * 更新订单状态, 仅支持订单状态更新, 不支持菜品更新
      *
-     * @param order    订单状态包括: 0 - 商户接单中; 1 - 菜品制作中; 2 - 快递派送中; 3 - 用户已收货; 4 - 用户已评论; 10 - 用户取消订单; 11 - 商户取消订单
+     * @param order    订单状态包括: 1 - 订单处理中; 2 - 待发货; 3 - 已发货; 4 - 已收货; 5 - 已评论; 6 - 用户取消订单; 7 - 商户取消订单
      * @param callback
      */
     public void updateOrder(Order order, final OperationCallback callback) {
@@ -305,7 +304,6 @@ public class UserManager {
         obj.setObjectId(order.getId());
 
         obj.put("order_status", order.getOrderStatus());
-        obj.put("delivery_status", order.getDeliveryStatus());
 
         MLDataManager.saveInBackground(obj, new SaveCallback() {
             @Override
