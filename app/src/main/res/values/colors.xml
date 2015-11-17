@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#FF4400</color>
+    <color name="colorPrimaryDark">#CE3700</color>
+    <color name="colorAccent">#009688</color>
     <color name="bg_tab_bar">#F8F8F8</color>
+
+    <!-- common color -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="bg_main">#C9C9C9</color>
+    <color name="bg_btn">#FF7700</color>
+    <color name="bg_btn_disable">#BFBFBF</color>
+    <color name="normal_font_color">#444444</color>
+    <color name="normal_hint_color">#8F8F8F</color>
+
 </resources>
