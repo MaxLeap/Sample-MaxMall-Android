@@ -2,7 +2,6 @@ package com.maxleap.ebusiness.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,10 +27,6 @@ public class MainActivity extends BaseActivity {
 
     private void init() {
         initTab();
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.app_name);
-        setSupportActionBar(toolbar);
     }
 
     private void initTab() {
