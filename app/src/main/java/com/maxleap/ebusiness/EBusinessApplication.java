@@ -10,10 +10,16 @@ package com.maxleap.ebusiness;
 
 import android.app.Application;
 
+import com.flurry.android.FlurryAgent;
+import com.maxleap.MaxLeap;
+
 public class EBusinessApplication extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        MaxLeap.initialize(this, ApiKey.MAXLEAP_APP_ID, ApiKey.MAXLEAP_CLIENT_KEY);
+        FlurryAgent.init(this, ApiKey.FLURRY_KEY);
     }
 }
