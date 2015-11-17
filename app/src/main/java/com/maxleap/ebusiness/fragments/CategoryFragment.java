@@ -8,24 +8,81 @@
  */
 package com.maxleap.ebusiness.fragments;
 
-import android.graphics.Color;
+import android.databinding.DataBindingUtil;
+import android.databinding.ObservableArrayList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.maxleap.FindCallback;
+import com.maxleap.MLObject;
+import com.maxleap.MLQuery;
+import com.maxleap.MLQueryManager;
+import com.maxleap.ebusiness.R;
+import com.maxleap.ebusiness.adapter.CategoryAdapter;
+import com.maxleap.ebusiness.databinding.FragmentCategoriesBinding;
+import com.maxleap.ebusiness.models.Category;
+import com.maxleap.ebusiness.utils.FFLog;
+import com.maxleap.ebusiness.utils.HorizontalDividerItemDecoration;
+import com.maxleap.exception.MLException;
+
+import java.util.List;
 
 public class CategoryFragment extends Fragment {
+
+    private FragmentCategoriesBinding mBinding;
+    private ObservableArrayList<Category> mCategories;
+    private CategoryAdapter mAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        TextView textView = new TextView(getActivity());
-        textView.setText("CategoryFragment");
-        textView.setTextColor(Color.BLUE);
-        textView.setTextSize(22);
-        return textView;
+        mBinding = DataBindingUtil.inflate(inflater,
+                R.layout.fragment_categories, container, false);
+        mCategories = new ObservableArrayList<>();
+        initViews();
+        fetchData();
+        return mBinding.getRoot();
+    }
+
+    private void initViews() {
+        Toolbar toolbar = mBinding.toolbar;
+        toolbar.setTitle(R.string.activity_categories_title);
+
+        mBinding.recyclerview.setHasFixedSize(true);
+        mBinding.recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
+        mBinding.recyclerview.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
+                        .color(R.color.list_view_divider)
+                        .size(1)
+                        .marginResId(R.dimen.item_margin,
+                                R.dimen.item_margin).build()
+        );
+        mAdapter = new CategoryAdapter(mCategories);
+        mBinding.recyclerview.setAdapter(mAdapter);
+    }
+
+    private void fetchData() {
+        MLQuery<MLObject> query = MLQuery.getQuery("ProductType");
+
+        MLQueryManager.findAllInBackground(query, new FindCallback<MLObject>() {
+            @Override
+            public void done(List<MLObject> list, MLException e) {
+                mCategories.clear();
+                mBinding.progressbar.setVisibility(View.GONE);
+                if (e == null) {
+                    for (MLObject object : list) {
+                        Category category = new Category(object);
+                        FFLog.i(category.toString());
+                        mCategories.add(category);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
     }
 }

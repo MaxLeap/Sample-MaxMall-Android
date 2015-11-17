@@ -12,6 +12,7 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             buildConfigField("boolean", "LOG_DEBUG", "false")
@@ -22,6 +23,17 @@ android {
         debug {
             buildConfigField("boolean", "LOG_DEBUG", "true")
         }
+    }
+
+    productFlavors {
+        google {
+            applicationId "com.maxleapmobile.ebusiness"
+            manifestPlaceholders = [ml_channel : "google"]
+        }
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
 
