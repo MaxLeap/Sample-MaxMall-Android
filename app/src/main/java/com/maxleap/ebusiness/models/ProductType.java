@@ -11,29 +11,19 @@ package com.maxleap.ebusiness.models;
 import com.maxleap.MLObject;
 import com.maxleap.MLRelation;
 
-import java.io.Serializable;
-
-public class Category implements Serializable {
-
-    private String id;
+public class ProductType {
     private String title;
     private String icon;
     private MLRelation products;
     private boolean recommend;
     private boolean onSales;
 
-    public Category(MLObject object) {
-        this.title = object.getString("title");
-        this.recommend = object.getBoolean("recommend");
-        this.onSales = object.getBoolean("on_sales");
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public ProductType(MLObject object) {
+        this.setTitle(object.getString("title"));
+        this.setIcon(object.getString("icon"));
+        this.setProducts(object.getRelation("products"));
+        this.setRecommend(object.getBoolean("recommend"));
+        this.setOnSales(object.getBoolean("on_sales"));
     }
 
     public String getTitle() {
@@ -44,20 +34,28 @@ public class Category implements Serializable {
         this.title = title;
     }
 
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
     public boolean isRecommend() {
         return recommend;
     }
 
     public void setRecommend(boolean recommend) {
         this.recommend = recommend;
+    }
+
+    public MLRelation getProducts() {
+        return products;
+    }
+
+    public void setProducts(MLRelation products) {
+        this.products = products;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public boolean isOnSales() {
@@ -68,20 +66,12 @@ public class Category implements Serializable {
         this.onSales = onSales;
     }
 
-    public MLRelation getProduct() {
-        return products;
-    }
-
-    public void setProduct(MLRelation products) {
-        this.products = products;
-    }
-
     @Override
     public String toString() {
-        return "Category{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
+        return "ProductType{" +
+                "title='" + title + '\'' +
                 ", icon='" + icon + '\'' +
+                ", products=" + products +
                 ", recommend=" + recommend +
                 ", onSales=" + onSales +
                 '}';
