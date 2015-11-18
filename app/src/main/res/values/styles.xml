@@ -20,4 +20,9 @@
         <item name="android:windowBackground">@android:color/white</item>
     </style>
 
+    <style name="CustomizeDialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/bg_dialog</item>
+    </style>
+
 </resources>

@@ -19,7 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.maxleap.ebusiness.R;
+import com.maxleap.ebusiness.activities.AccountInfoActivity;
 import com.maxleap.ebusiness.activities.LoginActivity;
+import com.maxleap.ebusiness.manage.UserManager;
 
 public class MineFragment extends Fragment implements View.OnClickListener {
 
@@ -47,8 +49,13 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_frag_account:
-                Intent toAccountIntent = new Intent(mContext, LoginActivity.class);
-                startActivity(toAccountIntent);
+                if (UserManager.getInstance().getCurrentUser() != null) {
+                    Intent toAccountIntent = new Intent(mContext, AccountInfoActivity.class);
+                    startActivity(toAccountIntent);
+                } else {
+                    Intent toAccountIntent = new Intent(mContext, LoginActivity.class);
+                    startActivity(toAccountIntent);
+                }
                 break;
             case R.id.mine_frag_like:
                 break;
