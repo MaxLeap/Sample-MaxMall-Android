@@ -9,6 +9,7 @@
 package com.maxleap.ebusiness.models;
 
 import com.maxleap.MLObject;
+import com.maxleap.MLUser;
 
 import java.io.Serializable;
 
@@ -63,8 +64,6 @@ public class Address implements Serializable {
     public static Address from(MLObject object) {
         Address address = new Address();
         address.setId(object.getObjectId());
-        User user = User.from(object.getMLObject("user"));
-        address.setUser(user);
         address.setName(object.getString("name"));
         address.setTel(object.getString("tel"));
         address.setStreet(object.getString("street"));

@@ -57,6 +57,7 @@ public class UserManager {
         mMLUser.setUserName(user.getUsername());
         mMLUser.setPassword(user.getUsername());
         mMLUser.put("tel", user.getUsername());
+        mMLUser.put("nickname", user.getUsername());
         MLUserManager.checkUsernameExistInBackground(user.getUsername(), new ValidateUsernameCallback() {
             @Override
             public void done(MLException e) {
@@ -156,6 +157,7 @@ public class UserManager {
     public void addAddress(Address address, final OperationCallback callback) {
         FFLog.d("start addAddress");
         final MLObject obj = new MLObject("Address");
+        obj.put("user", MLUser.getCurrentUser());
         obj.put("name", address.getName());
         obj.put("street", address.getStreet());
         obj.put("tel", address.getTel());
@@ -214,6 +216,7 @@ public class UserManager {
 
         MLObject obj = new MLObject("Address");
         obj.setObjectId(address.getId());
+        obj.put("user", MLUser.getCurrentUser());
         obj.put("name", address.getName());
         obj.put("street", address.getStreet());
         obj.put("tel", address.getTel());
