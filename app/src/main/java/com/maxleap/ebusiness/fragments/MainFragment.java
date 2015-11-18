@@ -9,6 +9,7 @@
 package com.maxleap.ebusiness.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -31,6 +32,7 @@ import com.maxleap.MLObject;
 import com.maxleap.MLQuery;
 import com.maxleap.MLQueryManager;
 import com.maxleap.ebusiness.R;
+import com.maxleap.ebusiness.activities.SearchActivity;
 import com.maxleap.ebusiness.adapters.BannerAdapter;
 import com.maxleap.ebusiness.adapters.ProductAdapter;
 import com.maxleap.ebusiness.adapters.ProductTypeAdapter;
@@ -80,7 +82,7 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         toolbar.findViewById(R.id.toolbar_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(new Intent(mContext, SearchActivity.class));
+                startActivity(new Intent(mContext, SearchActivity.class));
             }
         });
     }

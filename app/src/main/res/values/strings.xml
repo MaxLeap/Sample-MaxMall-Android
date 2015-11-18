@@ -31,4 +31,10 @@
     <string name="product_price">¥%1$d</string>
     <string name="product_comment_count">%1$d人评价</string>
 
+    <!-- Search Activity -->
+    <string name="activity_search_sort">排序</string>
+    <string name="activity_search_history">历史搜索词</string>
+    <string name="activity_search_clear">清除</string>
+    <string name="activity_search_empty">没有搜索到</string>
+
 </resources>
