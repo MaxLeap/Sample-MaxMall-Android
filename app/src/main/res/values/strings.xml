@@ -27,6 +27,48 @@
     <string name="activity_login_verify">验证并登陆</string>
     <string name="activity_login_notice">未注册过的手机将自动创建为MaxLeap用户</string>
 
+    <!-- Account Info Activity -->
+    <string name="activity_account_info_title">账号信息</string>
+    <string name="activity_account_info_nickname">昵称</string>
+    <string name="activity_account_info_pic">头像</string>
+    <string name="activity_account_info_name">用户名</string>
+    <string name="activity_account_info_address">收货地址</string>
+    <string name="activity_account_info_address_unit">%1$d个</string>
+
+    <string name="dialog_user_photo_title">上传头像</string>
+    <string name="dialog_user_photo_take_pic">拍照</string>
+    <string name="dialog_user_photo_pick_pic">从手机相册选择</string>
+
+    <string name="dialog_username_hint">输入您的用户名</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="dialog_ok">确认</string>
+    <string name="toast_update_user_success">信息更新成功</string>
+
+    <!-- Address Activity -->
+    <string name="activity_address_title">收货地址</string>
+    <string name="activity_address_empty">您还没有收货地址\n点击＋开始添加</string>
+    <string name="address_del_dialog_message">确定删除此收货地址？</string>
+    <string name="address_del_dialog_confirm">确定</string>
+    <string name="address_del_dialog_cancel">取消</string>
+    <string name="toast_address_del_success">删除收货地址成功</string>
+    <string name="toast_address_del_failed">删除收货地址失败</string>
+
+    <!-- Add Address Activity -->
+    <string name="activity_add_address_add">添加地址</string>
+    <string name="activity_add_address_modify">修改地址</string>
+    <string name="activity_add_address_name">联系人</string>
+    <string name="activity_add_address_name_hint">请输入联系人姓名</string>
+    <string name="activity_add_address_tel">联系电话</string>
+    <string name="activity_add_address_tel_hint">请输入联系电话</string>
+    <string name="activity_add_address_address">收货地址</string>
+    <string name="activity_add_address_address_hint">请输入详细地址</string>
+    <string name="activity_add_address_confirm">确定</string>
+    <string name="activity_update_address_empty">%1$s不能为空</string>
+    <string name="activity_update_address_tel_error">电话号码格式错误</string>
+    <string name="activity_add_address_add_success">添加地址成功</string>
+    <string name="activity_add_address_update_success">更新地址成功</string>
+    <string name="activity_add_address_del_success">删除地址成功</string>
+
     <!-- Product Adapter -->
     <string name="product_price">¥%1$.1f</string>
     <string name="product_comment_count">%1$d人评价</string>

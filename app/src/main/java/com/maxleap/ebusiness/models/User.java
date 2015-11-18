@@ -9,8 +9,8 @@
 package com.maxleap.ebusiness.models;
 
 
-import com.maxleap.MLObject;
 import com.maxleap.MLRelation;
+import com.maxleap.MLUser;
 
 public class User {
     private String id;
@@ -59,13 +59,13 @@ public class User {
         this.favorites = favorites;
     }
 
-    public static User from(MLObject object) {
+    public static User from(MLUser mlUser) {
         User user = new User();
-        user.setId(object.getObjectId());
-        user.setUsername(object.getString("username"));
-        user.setIcon(object.getString("icon"));
-        user.setNickname(object.getString("nickname"));
-        user.setFavorites(object.getRelation("favorites"));
+        user.setId(mlUser.getObjectId());
+        user.setUsername(mlUser.getUserName());
+        user.setIcon(mlUser.getString("icon"));
+        user.setNickname(mlUser.getString("nickname"));
+        user.setFavorites(mlUser.getRelation("favorites"));
         return user;
     }
 }

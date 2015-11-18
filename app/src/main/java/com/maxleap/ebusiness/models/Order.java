@@ -3,6 +3,7 @@ package com.maxleap.ebusiness.models;
 import com.maxleap.FindCallback;
 import com.maxleap.MLObject;
 import com.maxleap.MLQueryManager;
+import com.maxleap.MLUser;
 import com.maxleap.ebusiness.utils.FFLog;
 import com.maxleap.exception.MLException;
 
@@ -128,8 +129,6 @@ public class Order {
         final Order order = new Order();
         order.setId(object.getObjectId());
         order.setTotal(object.getInt("total"));
-        User user = User.from(object.getMLObject("user"));
-        order.setUser(user);
         Address address = Address.from(object.getMLObject("address"));
         order.setAddress(address);
         order.setDelivery(object.getString("delivery"));
