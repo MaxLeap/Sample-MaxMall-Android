@@ -46,7 +46,7 @@
 
     <!-- Address Activity -->
     <string name="activity_address_title">收货地址</string>
-    <string name="activity_address_empty">您还没有添加收货地址\n点击＋开始添加</string>
+    <string name="activity_address_empty">您还没有收货地址\n点击＋开始添加</string>
     <string name="address_del_dialog_message">确定删除此收货地址？</string>
     <string name="address_del_dialog_confirm">确定</string>
     <string name="address_del_dialog_cancel">取消</string>
