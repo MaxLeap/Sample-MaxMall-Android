@@ -8,6 +8,8 @@
  */
 package com.maxleap.ebusiness.models;
 
+import com.maxleap.MLObject;
+
 import org.json.JSONObject;
 
 import java.util.List;
@@ -17,16 +19,31 @@ public class Product {
     private String title;
     private List<String> icons;
     private int price;
-    private int original_price;
+    private int originalPrice;
     private String intro;
     private List<String> services;
     private JSONObject info;
-    private JSONObject custom_info1;
-    private JSONObject custom_info2;
-    private JSONObject custom_info3;
+    private JSONObject customInfo1;
+    private JSONObject customInfo2;
+    private JSONObject customInfo3;
     private JSONObject detail;
 
     public Product() {
+    }
+
+    public Product(MLObject object) {
+        this.id = object.getObjectId();
+        this.title = object.getString("title");
+        this.icons = object.getList("icons");
+        this.price = object.getInt("price");
+        this.originalPrice = object.getInt("original_price");
+        this.intro = object.getString("intro");
+        this.services = object.getList("services");
+        this.info = object.getJSONObject("info");
+        this.customInfo1 = object.getJSONObject("custom_info1");
+        this.customInfo2 = object.getJSONObject("custom_info2");
+        this.customInfo3 = object.getJSONObject("custom_info3");
+        this.detail = object.getJSONObject("detail");
     }
 
     public String getTitle() {
@@ -53,14 +70,6 @@ public class Product {
         this.price = price;
     }
 
-    public int getOriginal_price() {
-        return original_price;
-    }
-
-    public void setOriginal_price(int original_price) {
-        this.original_price = original_price;
-    }
-
     public String getIntro() {
         return intro;
     }
@@ -85,28 +94,28 @@ public class Product {
         this.info = info;
     }
 
-    public JSONObject getCustom_info1() {
-        return custom_info1;
+    public JSONObject getCustomInfo1() {
+        return customInfo1;
     }
 
-    public void setCustom_info1(JSONObject custom_info1) {
-        this.custom_info1 = custom_info1;
+    public void setCustomInfo1(JSONObject customInfo1) {
+        this.customInfo1 = customInfo1;
     }
 
-    public JSONObject getCustom_info2() {
-        return custom_info2;
+    public JSONObject getCustomInfo2() {
+        return customInfo2;
     }
 
-    public void setCustom_info2(JSONObject custom_info2) {
-        this.custom_info2 = custom_info2;
+    public void setCustomInfo2(JSONObject customInfo2) {
+        this.customInfo2 = customInfo2;
     }
 
-    public JSONObject getCustom_info3() {
-        return custom_info3;
+    public JSONObject getCustomInfo3() {
+        return customInfo3;
     }
 
-    public void setCustom_info3(JSONObject custom_info3) {
-        this.custom_info3 = custom_info3;
+    public void setCustomInfo3(JSONObject customInfo3) {
+        this.customInfo3 = customInfo3;
     }
 
     public JSONObject getDetail() {
@@ -126,6 +135,15 @@ public class Product {
         this.id = id;
     }
 
+    public int getOriginalPrice() {
+        return originalPrice;
+    }
+
+    public void setOriginalPrice(int originalPrice) {
+        this.originalPrice = originalPrice;
+    }
+
+
     @Override
     public String toString() {
         return "Product{" +
@@ -133,13 +151,13 @@ public class Product {
                 ", title='" + title + '\'' +
                 ", icons=" + icons +
                 ", price=" + price +
-                ", original_price=" + original_price +
+                ", originalPrice=" + originalPrice +
                 ", intro='" + intro + '\'' +
                 ", services=" + services +
                 ", info=" + info +
-                ", custom_info1=" + custom_info1 +
-                ", custom_info2=" + custom_info2 +
-                ", custom_info3=" + custom_info3 +
+                ", customInfo1=" + customInfo1 +
+                ", customInfo2=" + customInfo2 +
+                ", customInfo3=" + customInfo3 +
                 ", detail=" + detail +
                 '}';
     }

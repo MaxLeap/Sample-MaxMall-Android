@@ -190,17 +190,12 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
                     final ArrayList<Product> products = new ArrayList<Product>();
                     for (MLObject object : list) {
-//                        Merchant.includeMarketings(object, new Merchant.MerchantListener() {
-//                            @Override
-//                            public void onFetch(Merchant merchant) {
-//                                merchants.add(merchant);
-//                                if (merchants.size() == list.size()) {
-//                                    mProducts.clear();
-//                                    mProducts.addAll(merchants);
-//                                    mProductAdapter.notifyDataSetChanged();
-//                                }
-//                            }
-//                        });
+                        products.add(new Product(object));
+                    }
+                    if (products.size() > 0) {
+                        mProducts.clear();
+                        mProducts.addAll(products);
+                        mProductAdapter.notifyDataSetChanged();
                     }
                 }
             }
