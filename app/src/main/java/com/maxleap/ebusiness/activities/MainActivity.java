@@ -1,5 +1,6 @@
 package com.maxleap.ebusiness.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
@@ -22,6 +23,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = new Intent(this, ProductDetailActivity.class);
+        startActivity(intent);
         init();
     }
 

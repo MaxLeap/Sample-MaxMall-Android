@@ -8,11 +8,14 @@
  */
 package com.maxleap.ebusiness.models;
 
+import com.maxleap.MLObject;
+
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Product {
+public class Product implements Serializable {
     private String id;
     private String title;
     private List<String> icons;
@@ -27,6 +30,20 @@ public class Product {
     private JSONObject detail;
 
     public Product() {
+    }
+
+    public Product(MLObject object) {
+        this.id = object.getString("objectId");
+        this.title = object.getString("title");
+        this.icons = object.getList("icons");
+        this.price = object.getInt("price");
+        this.original_price = object.getInt("original_price");
+        this.intro = object.getString("intro");
+        this.services = object.getList("services");
+        this.info = object.getJSONObject("info");
+        this.custom_info1 = object.getJSONObject("custom_info1");
+        this.custom_info2 = object.getJSONObject("custom_info2");
+        this.custom_info3 = object.getJSONObject("custom_info3");
     }
 
     public String getTitle() {

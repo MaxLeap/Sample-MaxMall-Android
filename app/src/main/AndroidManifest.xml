@@ -30,6 +30,8 @@
 
         <activity android:name=".activities.LoginActivity" />
 
+        <activity android:name="com.maxleap.ebusiness.activities.ProductDetailActivity"/>
+
     </application>
 
 </manifest>

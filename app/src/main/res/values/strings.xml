@@ -26,5 +26,6 @@
     <string name="activity_login_get_verify_code">获取验证码</string>
     <string name="activity_login_verify">验证并登陆</string>
     <string name="activity_login_notice">未注册过的手机将自动创建为MaxLeap用户</string>
+    <string name="activity_product_detail_title">商品详情</string>
 
 </resources>
