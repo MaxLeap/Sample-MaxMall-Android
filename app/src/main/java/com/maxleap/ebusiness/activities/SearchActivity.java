@@ -8,10 +8,13 @@
  */
 package com.maxleap.ebusiness.activities;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
@@ -36,6 +39,8 @@ import com.maxleap.ebusiness.utils.FFLog;
 import com.maxleap.exception.MLException;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class SearchActivity extends BaseActivity {
@@ -49,6 +54,7 @@ public class SearchActivity extends BaseActivity {
     private EditText mSearchView;
     private TextView mSortView;
     private ProgressBar mProgressBar;
+    private int mSortIndex = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,6 +97,68 @@ public class SearchActivity extends BaseActivity {
                 return false;
             }
         });
+        mSortView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SearchActivity.this,
+                        R.style.AppCompatAlertDialogStyle);
+                CharSequence[] sortA = {getString(R.string.activity_search_sort_price_up)
+                        , getString(R.string.activity_search_sort_price_down)
+                        , getString(R.string.activity_search_sort_sell_down)
+                        , getString(R.string.activity_search_sort_sell_up)};
+
+                builder.setSingleChoiceItems(sortA, mSortIndex, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mSortIndex = which;
+                        dialog.dismiss();
+                        sort(which);
+                        mProductAdapter.notifyDataSetChanged();
+                    }
+                });
+                Dialog dialog = builder.create();
+                dialog.show();
+
+            }
+        });
+    }
+
+    private void sort(int position) {
+        if (mProducts.size() == 1) return;
+        switch (position) {
+            case 0:
+                Collections.sort(mProducts, new Comparator<Product>() {
+                    @Override
+                    public int compare(Product product1, Product product2) {
+                        return product1.getPrice() - product2.getPrice();
+                    }
+                });
+                break;
+            case 1:
+                Collections.sort(mProducts, new Comparator<Product>() {
+                    @Override
+                    public int compare(Product product1, Product product2) {
+                        return product2.getPrice() - product1.getPrice();
+                    }
+                });
+                break;
+            case 2:
+                Collections.sort(mProducts, new Comparator<Product>() {
+                    @Override
+                    public int compare(Product product1, Product product2) {
+                        return product2.getQuantity() - product1.getQuantity();
+                    }
+                });
+                break;
+            case 3:
+                Collections.sort(mProducts, new Comparator<Product>() {
+                    @Override
+                    public int compare(Product product1, Product product2) {
+                        return product1.getQuantity() - product2.getQuantity();
+                    }
+                });
+                break;
+        }
     }
 
     private void initUI() {
@@ -129,6 +197,7 @@ public class SearchActivity extends BaseActivity {
         FFLog.d("start fetchProductData");
         MLQuery query = new MLQuery("Product");
         query.whereContains("title", searchContent);
+        query.addAscendingOrder("price");
         MLQueryManager.findAllInBackground(query, new FindCallback<MLObject>() {
             @Override
             public void done(final List<MLObject> list, MLException e) {

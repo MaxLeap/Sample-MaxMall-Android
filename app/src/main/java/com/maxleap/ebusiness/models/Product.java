@@ -27,6 +27,7 @@ public class Product {
     private JSONObject customInfo2;
     private JSONObject customInfo3;
     private JSONObject detail;
+    private int quantity;
 
     public Product() {
     }
@@ -44,6 +45,7 @@ public class Product {
         this.customInfo2 = object.getJSONObject("custom_info2");
         this.customInfo3 = object.getJSONObject("custom_info3");
         this.detail = object.getJSONObject("detail");
+        this.quantity = object.getInt("quantity");
     }
 
     public String getTitle() {
@@ -143,6 +145,13 @@ public class Product {
         this.originalPrice = originalPrice;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     @Override
     public String toString() {
@@ -159,6 +168,7 @@ public class Product {
                 ", customInfo2=" + customInfo2 +
                 ", customInfo3=" + customInfo3 +
                 ", detail=" + detail +
+                ", quantity=" + quantity +
                 '}';
     }
 }
