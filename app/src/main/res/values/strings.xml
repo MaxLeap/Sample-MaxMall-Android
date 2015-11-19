@@ -102,4 +102,6 @@
     <string name="activity_review_normal">一般（%1$d）</string>
     <string name="activity_review_bad">不满意（%1$d）</string>
 
+    <string name="empty">无数据</string>
+
 </resources>

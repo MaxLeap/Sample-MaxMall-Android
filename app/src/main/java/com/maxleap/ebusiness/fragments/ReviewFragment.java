@@ -21,19 +21,22 @@ import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.adapters.ReviewAdapter;
 import com.maxleap.ebusiness.models.Comment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewFragment extends Fragment {
+
+    public static final String DATALIST = "list";
 
     private RecyclerView mRecyclerView;
     private ReviewAdapter mReviewAdapter;
     private List<Comment> mCommentList;
 
-    public static ReviewFragment newInstance(List<Comment> list) {
+    public static ReviewFragment newInstance(ArrayList<Comment> list) {
         ReviewFragment fragment = new ReviewFragment();
         Bundle bundle = new Bundle();
-        fragment.setArguments(new Bundle());
-
+        bundle.putSerializable(DATALIST, list);
+        fragment.setArguments(bundle);
         return fragment;
     }
 

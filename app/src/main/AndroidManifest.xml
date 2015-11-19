@@ -30,12 +30,10 @@
 
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.SearchActivity" />
-
         <activity android:name=".activities.AccountInfoActivity" />
-
         <activity android:name=".activities.AddressActivity" />
-
         <activity android:name=".activities.AddAddressActivity" />
+        <activity android:name=".activities.ProductsActivity" />
 
         <activity android:name="com.maxleap.ebusiness.activities.ProductDetailActivity"/>
 

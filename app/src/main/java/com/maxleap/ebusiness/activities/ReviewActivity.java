@@ -36,9 +36,9 @@ public class ReviewActivity extends BaseActivity {
     private ViewPager mViewPager;
     private ReviewPagerAdapter mReviewPagerAdapter;
 
-    private List<Comment> mGreats;
-    private List<Comment> mNormals;
-    private List<Comment> mBads;
+    private ArrayList<Comment> mGreats;
+    private ArrayList<Comment> mNormals;
+    private ArrayList<Comment> mBads;
 
 
     @Override
@@ -73,6 +73,7 @@ public class ReviewActivity extends BaseActivity {
                             mGreats.add(comment);
                         }
                     }
+                    initTabAndViewPager();
                 }
             }
         });

@@ -8,6 +8,7 @@
  */
 package com.maxleap.ebusiness.fragments;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.maxleap.MLObject;
 import com.maxleap.MLQuery;
 import com.maxleap.MLQueryManager;
 import com.maxleap.ebusiness.R;
+import com.maxleap.ebusiness.activities.ProductsActivity;
 import com.maxleap.ebusiness.adapters.CategoryAdapter;
 import com.maxleap.ebusiness.databinding.FragmentCategoriesBinding;
 import com.maxleap.ebusiness.models.ProductType;
@@ -58,7 +60,6 @@ public class CategoryFragment extends Fragment implements SwipeRefreshLayout.OnR
         mCategories = new ObservableArrayList<>();
         mHandler = new Handler();
         initViews();
-        fetchData();
         return mBinding.getRoot();
     }
 
@@ -74,14 +75,25 @@ public class CategoryFragment extends Fragment implements SwipeRefreshLayout.OnR
                         .marginResId(R.dimen.item_margin,
                                 R.dimen.item_margin).build()
         );
-        mAdapter = new CategoryAdapter(mCategories);
+
+        if(mCategories == null){
+            mCategories = new ObservableArrayList<>();
+            fetchData();
+        }
+        if(mAdapter == null){
+            mAdapter = new CategoryAdapter(mCategories);
+        }
         mBinding.recyclerview.setAdapter(mAdapter);
 
         mBinding.recyclerview.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),
                 mBinding.recyclerview, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                ProductType type = mCategories.get(position);
+                Intent intent = new Intent(getActivity(), ProductsActivity.class);
+                intent.putExtra(ProductsActivity.INTENT_TITLE, type.getTitle());
+                intent.putExtra(ProductsActivity.INTENT_TYPE_ID, type.getId());
+                startActivity(intent);
             }
         }));
 
@@ -112,8 +124,8 @@ public class CategoryFragment extends Fragment implements SwipeRefreshLayout.OnR
                         if (!category.isRecommend()) {
                             mCategories.add(category);
                         }
-                        mAdapter.notifyDataSetChanged();
                     }
+                    mAdapter.notifyDataSetChanged();
                 }
             }
         });
