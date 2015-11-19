@@ -30,6 +30,7 @@ import com.maxleap.ebusiness.adapters.CategoryAdapter;
 import com.maxleap.ebusiness.databinding.FragmentCategoriesBinding;
 import com.maxleap.ebusiness.models.ProductType;
 import com.maxleap.ebusiness.utils.FFLog;
+import com.maxleap.ebusiness.utils.RecyclerItemClickListener;
 import com.maxleap.ebusiness.widget.HorizontalDividerItemDecoration;
 import com.maxleap.exception.MLException;
 
@@ -75,6 +76,14 @@ public class CategoryFragment extends Fragment implements SwipeRefreshLayout.OnR
         );
         mAdapter = new CategoryAdapter(mCategories);
         mBinding.recyclerview.setAdapter(mAdapter);
+
+        mBinding.recyclerview.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),
+                mBinding.recyclerview, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+            }
+        }));
 
         mBinding.refreshLayout.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
         mBinding.refreshLayout.setOnRefreshListener(this);

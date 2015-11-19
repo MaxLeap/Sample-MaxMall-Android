@@ -37,6 +37,7 @@ import com.maxleap.ebusiness.adapters.BannerAdapter;
 import com.maxleap.ebusiness.adapters.ProductAdapter;
 import com.maxleap.ebusiness.adapters.ProductTypeAdapter;
 import com.maxleap.ebusiness.models.Banner;
+import com.maxleap.ebusiness.models.Comment;
 import com.maxleap.ebusiness.models.Product;
 import com.maxleap.ebusiness.models.ProductType;
 import com.maxleap.ebusiness.utils.FFLog;
@@ -44,7 +45,9 @@ import com.maxleap.ebusiness.widget.Indicator;
 import com.maxleap.exception.MLException;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
         AdapterView.OnItemClickListener {
@@ -57,6 +60,7 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private ArrayList<ProductType> mProductTypes;
     private ProductTypeAdapter mProductTypeAdapter;
     private ArrayList<Product> mProducts;
+    private ArrayList<Comment> mComments;
     private ProductAdapter mProductAdapter;
 
     private Runnable mProgressRunnable = new Runnable() {
@@ -97,12 +101,13 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         if (mProducts == null) {
             mProducts = new ArrayList<>();
+            mComments = new ArrayList<>();
             mHandler.postDelayed(mProgressRunnable, 100);
         }
         if (mProducts.isEmpty()) {
             fetchProductData();
         }
-        mProductAdapter = new ProductAdapter(mContext, mProducts);
+        mProductAdapter = new ProductAdapter(mContext, mProducts, mComments);
         listview.setAdapter(mProductAdapter);
         listview.setOnItemClickListener(this);
     }
@@ -190,14 +195,34 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     mHandler.removeCallbacks(mProgressRunnable);
                     mSwipeRefreshLayout.setRefreshing(false);
 
+                    Set<MLObject> ids = new HashSet<MLObject>();
                     final ArrayList<Product> products = new ArrayList<Product>();
                     for (MLObject object : list) {
-                        products.add(new Product(object));
+                        Product product = new Product(object);
+                        products.add(product);
+                        ids.add(MLObject.createWithoutData("Product", product.getId()));
                     }
                     if (products.size() > 0) {
                         mProducts.clear();
                         mProducts.addAll(products);
-                        mProductAdapter.notifyDataSetChanged();
+
+                        MLQuery<MLObject> commentQuery = MLQuery.getQuery("Comment");
+                        commentQuery.whereContainedIn("product", ids);
+                        commentQuery.include("product");
+                        commentQuery.include("user");
+
+                        MLQueryManager.findAllInBackground(commentQuery, new FindCallback<MLObject>() {
+                            @Override
+                            public void done(List<MLObject> list, MLException e) {
+                                if (e == null) {
+                                    mComments.clear();
+                                    for (MLObject object : list) {
+                                        mComments.add(new Comment(object));
+                                    }
+                                }
+                                mProductAdapter.notifyDataSetChanged();
+                            }
+                        });
                     }
                 }
             }

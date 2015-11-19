@@ -18,10 +18,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.maxleap.ebusiness.R;
+import com.maxleap.ebusiness.adapters.ReviewAdapter;
+import com.maxleap.ebusiness.models.Comment;
+
+import java.util.List;
 
 public class ReviewFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
+    private ReviewAdapter mReviewAdapter;
+    private List<Comment> mCommentList;
+
+    public static ReviewFragment newInstance(List<Comment> list) {
+        ReviewFragment fragment = new ReviewFragment();
+        Bundle bundle = new Bundle();
+        fragment.setArguments(new Bundle());
+
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -36,5 +50,7 @@ public class ReviewFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
 
+        mReviewAdapter = new ReviewAdapter(mCommentList);
+        mRecyclerView.setAdapter(mReviewAdapter);
     }
 }

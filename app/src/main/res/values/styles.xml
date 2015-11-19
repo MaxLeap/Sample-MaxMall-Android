@@ -35,4 +35,11 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="comment_ratingbar_style" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/custom_review_ratingbar</item>
+        <item name="android:minHeight">24dip</item>
+        <item name="android:maxHeight">24dip</item>
+        <item name="android:stepSize">0.1</item>
+        <item name="android:isIndicator">true</item>
+    </style>
 </resources>
