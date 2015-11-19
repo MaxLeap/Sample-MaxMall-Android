@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.activities.AccountInfoActivity;
 import com.maxleap.ebusiness.activities.LoginActivity;
+import com.maxleap.ebusiness.activities.ProductsActivity;
 import com.maxleap.ebusiness.manage.UserManager;
 
 public class MineFragment extends Fragment implements View.OnClickListener {
@@ -60,6 +61,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.mine_frag_like:
+                Intent likeIntent = new Intent(mContext, ProductsActivity.class);
+                likeIntent.putExtra(ProductsActivity.INTENT_TITLE, mContext.getString(R.string.fragment_mine_like));
+                startActivity(likeIntent);
                 break;
             case R.id.mine_frag_order:
                 break;
