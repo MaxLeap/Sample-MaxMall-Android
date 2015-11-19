@@ -62,10 +62,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         mBinding.decreaseQuantity.setOnClickListener(this);
         mBinding.colorLayout.setOnClickListener(this);
         mBinding.versionLayout.setOnClickListener(this);
-
-
         mBinding.fav.setOnClickListener(this);
-
+        mBinding.cart.setOnClickListener(this);
+        mBinding.addToCart.setOnClickListener(this);
 
 
         initViewPager();
@@ -103,6 +102,56 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.color_layout:
+                break;
+            case R.id.version_layout:
+                break;
+            case R.id.increase_quantity:
+                increase();
+                break;
+            case R.id.decrease_quantity:
+                decrease();
+                break;
+            case R.id.review:
+                break;
+            case R.id.spec:
+                break;
+            case R.id.detail:
+                break;
+            case R.id.fav:
+                fav();
+                break;
+            case R.id.cart:
+                break;
+            case R.id.add_to_cart:
+                break;
+            default:
+                break;
+        }
     }
+
+    private void decrease() {
+        int quantity = Integer.parseInt(mBinding.quantity.getText().toString());
+        if (quantity == 0) {
+            mBinding.decreaseQuantity.setEnabled(false);
+        } else {
+            mBinding.quantity.setText(--quantity + "");
+        }
+    }
+
+    private void increase() {
+        int quantity = Integer.parseInt(mBinding.quantity.getText().toString());
+        // check store quantity
+        mBinding.quantity.setText(++quantity + "");
+    }
+
+    private void fav() {
+        boolean isFav = mBinding.fav.isSelected();
+        mBinding.fav.setSelected(!isFav);
+    }
+
+
+
+
 }
