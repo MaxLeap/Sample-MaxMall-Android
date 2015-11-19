@@ -34,6 +34,7 @@ import com.maxleap.MLQueryManager;
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.adapters.ProductAdapter;
 import com.maxleap.ebusiness.adapters.SimpleAdapter;
+import com.maxleap.ebusiness.models.Comment;
 import com.maxleap.ebusiness.models.Product;
 import com.maxleap.ebusiness.utils.FFLog;
 import com.maxleap.exception.MLException;
@@ -41,7 +42,9 @@ import com.maxleap.exception.MLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SearchActivity extends BaseActivity {
     private static final String SP_SEARCH_HISTORY_FILE = "search_history";
@@ -51,6 +54,7 @@ public class SearchActivity extends BaseActivity {
     private LinearLayout mSearchResultLayout;
     private ProductAdapter mProductAdapter;
     private ArrayList<Product> mProducts;
+    private ArrayList<Comment> mComments;
     private EditText mSearchView;
     private TextView mSortView;
     private ProgressBar mProgressBar;
@@ -169,6 +173,7 @@ public class SearchActivity extends BaseActivity {
         mSearchResultLayout.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
         mProducts = new ArrayList<>();
+        mComments = new ArrayList<>();
 
         final ArrayList<String> searchHistory = getSearchHistory();
         if (!searchHistory.isEmpty()) {
@@ -204,15 +209,35 @@ public class SearchActivity extends BaseActivity {
                 FFLog.d("fetchProductData list: " + list);
                 FFLog.d("fetchProductData e: " + e);
                 if (e == null) {
+                    Set<MLObject> ids = new HashSet<MLObject>();
                     final ArrayList<Product> products = new ArrayList<Product>();
                     for (MLObject object : list) {
-                        products.add(new Product(object));
+                        Product product = new Product(object);
+                        products.add(product);
+                        ids.add(MLObject.createWithoutData("Product", product.getId()));
                     }
                     if (products.size() > 0) {
                         mSortView.setVisibility(View.VISIBLE);
                         mProducts.clear();
                         mProducts.addAll(products);
-                        showSearchResult();
+
+                        MLQuery<MLObject> commentQuery = MLQuery.getQuery("Comment");
+                        commentQuery.whereContainedIn("product", ids);
+                        commentQuery.include("product");
+                        commentQuery.include("user");
+
+                        MLQueryManager.findAllInBackground(commentQuery, new FindCallback<MLObject>() {
+                            @Override
+                            public void done(List<MLObject> list, MLException e) {
+                                if (e == null) {
+                                    mComments.clear();
+                                    for (MLObject object : list) {
+                                        mComments.add(new Comment(object));
+                                    }
+                                }
+                                showSearchResult();
+                            }
+                        });
                     }
                 } else {
                     mSortView.setVisibility(View.GONE);
@@ -229,7 +254,7 @@ public class SearchActivity extends BaseActivity {
         mSearchHistoryLayout.setVisibility(View.GONE);
         mSearchResultLayout.setVisibility(View.VISIBLE);
         if (mProductAdapter == null) {
-            mProductAdapter = new ProductAdapter(this, mProducts);
+            mProductAdapter = new ProductAdapter(this, mProducts, mComments);
             ListView listView = (ListView) findViewById(R.id.search_result_list);
             listView.setAdapter(mProductAdapter);
             listView.setEmptyView(findViewById(R.id.search_empty));
