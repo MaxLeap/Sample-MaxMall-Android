@@ -8,9 +8,11 @@
  */
 package com.maxleap.ebusiness.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -84,6 +86,15 @@ public class ProductsActivity extends BaseActivity {
         }
         listView.setAdapter(mProductAdapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Product product = mProducts.get(--position);
+                Intent intent = new Intent(ProductsActivity.this, ProductDetailActivity.class);
+                intent.putExtra(ProductDetailActivity.PRODID, product.getId());
+                startActivity(intent);
+            }
+        });
     }
 
     private void fetchProductData() {

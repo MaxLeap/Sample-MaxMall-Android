@@ -12,10 +12,9 @@ import com.maxleap.MLObject;
 
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class Product implements Serializable {
+public class Product {
     private String id;
     private String title;
     private List<String> icons;

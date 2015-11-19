@@ -82,7 +82,7 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="16dp"
                         android:paddingTop="16dp"
-                        android:text="MisFit智能手表"
+                        android:text="@{product.title}"
                         android:textColor="@color/black"
                         android:textSize="20sp"/>
 

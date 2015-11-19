@@ -16,17 +16,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.maxleap.GetCallback;
+import com.maxleap.MLObject;
+import com.maxleap.MLQuery;
+import com.maxleap.MLQueryManager;
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.adapters.ProductGalleryAdapter;
 import com.maxleap.ebusiness.databinding.ActivityProductDetailBinding;
 import com.maxleap.ebusiness.models.Product;
+import com.maxleap.exception.MLException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDetailActivity extends BaseActivity implements View.OnClickListener {
 
-    public final static String PROD = "product";
+    public final static String PRODID = "id";
 
     private ActivityProductDetailBinding mBinding;
     private ProductGalleryAdapter mAdapter;
@@ -36,8 +41,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_product_detail);
         initViews();
-        Product product = (Product) getIntent().getSerializableExtra(PROD);
-        mBinding.setProduct(product);
+        String id = getIntent().getStringExtra(PRODID);
+        fetchProductData(id);
     }
 
     private void initViews() {
@@ -96,6 +101,18 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onPageScrollStateChanged(int state) {
 
+            }
+        });
+    }
+
+    private void fetchProductData(String id) {
+        MLQuery<MLObject> query = MLQuery.getQuery("Product");
+        query.whereEqualTo("objectId", id);
+        MLQueryManager.getFirstInBackground(query, new GetCallback<MLObject>() {
+            @Override
+            public void done(MLObject object, MLException e) {
+                Product product = new Product(object);
+                mBinding.setProduct(product);
             }
         });
     }

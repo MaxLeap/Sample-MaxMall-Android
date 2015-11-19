@@ -57,7 +57,6 @@ public class CategoryFragment extends Fragment implements SwipeRefreshLayout.OnR
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_categories, container, false);
-        mCategories = new ObservableArrayList<>();
         mHandler = new Handler();
         initViews();
         return mBinding.getRoot();
