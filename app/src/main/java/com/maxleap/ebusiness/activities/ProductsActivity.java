@@ -8,9 +8,11 @@
  */
 package com.maxleap.ebusiness.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -18,6 +20,7 @@ import com.maxleap.FindCallback;
 import com.maxleap.MLObject;
 import com.maxleap.MLQuery;
 import com.maxleap.MLQueryManager;
+import com.maxleap.MLRelation;
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.adapters.ProductAdapter;
 import com.maxleap.ebusiness.manage.UserManager;
@@ -83,6 +86,15 @@ public class ProductsActivity extends BaseActivity {
         }
         listView.setAdapter(mProductAdapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Product product = mProducts.get(--position);
+                Intent intent = new Intent(ProductsActivity.this, ProductDetailActivity.class);
+                intent.putExtra(ProductDetailActivity.PRODID, product.getId());
+                startActivity(intent);
+            }
+        });
     }
 
     private void fetchProductData() {
@@ -96,7 +108,9 @@ public class ProductsActivity extends BaseActivity {
             }
         } else {
             MLObject object = MLObject.createWithoutData("ProductType", productTypeId);
-            query = object.getRelation("Product").getQuery();
+            MLRelation relation = object.getRelation("Product");
+            relation.setTargetClass("Product");
+            query = relation.getQuery();
         }
         if (query == null) {
             FFLog.d("query is null ");

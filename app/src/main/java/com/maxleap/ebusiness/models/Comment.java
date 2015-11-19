@@ -10,17 +10,22 @@ package com.maxleap.ebusiness.models;
 
 import com.maxleap.MLObject;
 
-public class Comment {
+import java.io.Serializable;
+import java.util.Date;
+
+public class Comment implements Serializable {
     private int score;
     private String content;
     private User user;
     private Product product;
+    private Date updateAt;
 
     public Comment(MLObject object) {
         this.score = object.getInt("score");
         this.content = object.getString("content");
         this.user = new User(object.getMLObject("user"));
         this.product = new Product(object.getMLObject("product"));
+        this.updateAt = object.getDate("updateAt");
     }
 
     public int getScore() {
@@ -53,6 +58,14 @@ public class Comment {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Date getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Date updateAt) {
+        this.updateAt = updateAt;
     }
 
     @Override
