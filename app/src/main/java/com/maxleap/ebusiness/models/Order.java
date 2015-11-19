@@ -1,11 +1,6 @@
 package com.maxleap.ebusiness.models;
 
-import com.maxleap.FindCallback;
 import com.maxleap.MLObject;
-import com.maxleap.MLQueryManager;
-import com.maxleap.MLUser;
-import com.maxleap.ebusiness.utils.FFLog;
-import com.maxleap.exception.MLException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,16 +116,18 @@ public class Order {
         this.remarks = remarks;
     }
 
-    public interface OrderListener {
-        void onFetch(Order order);
-    }
-
-    public static void from(MLObject object, final OrderListener listener) {
-        final Order order = new Order();
+    public static Order from(MLObject object) {
+        Order order = new Order();
         order.setId(object.getObjectId());
         order.setTotal(object.getInt("total"));
         Address address = Address.from(object.getMLObject("address"));
         order.setAddress(address);
+        List<MLObject> mlOrderProducts = object.getList("order_products");
+        List<OrderProduct> orderProducts = new ArrayList<>();
+        for (MLObject orderProduct : mlOrderProducts) {
+            orderProducts.add(OrderProduct.from(orderProduct));
+        }
+        order.setOrderProducts(orderProducts);
         order.setDelivery(object.getString("delivery"));
         order.setReceiptTitle(object.getString("receipt_title"));
         order.setReceiptContent(object.getString("receipt_content"));
@@ -138,24 +135,6 @@ public class Order {
         order.setRemarks(object.getString("remarks"));
         order.setPayMethod(object.getString("pay_method"));
         order.setOrderStatus(object.getString("order_status"));
-
-        MLQueryManager.findAllInBackground(object.getRelation("order_products").getQuery(), new FindCallback<MLObject>() {
-            @Override
-            public void done(final List<MLObject> list, MLException e) {
-                FFLog.d("order_products list: " + list);
-                FFLog.d("order_products e: " + e);
-                if (e == null) {
-                    ArrayList<OrderProduct> orderProducts = new ArrayList<>();
-                    for (MLObject object : list) {
-                        orderProducts.add(OrderProduct.from(object));
-                    }
-                    order.setOrderProducts(orderProducts);
-                    if (listener != null) {
-                        listener.onFetch(order);
-                    }
-                }
-            }
-
-        });
+        return order;
     }
 }

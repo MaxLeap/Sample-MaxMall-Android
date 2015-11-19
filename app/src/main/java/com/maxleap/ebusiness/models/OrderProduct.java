@@ -54,6 +54,8 @@ public class OrderProduct {
         orderProduct.setId(object.getObjectId());
         orderProduct.setPrice(object.getInt("price"));
         orderProduct.setQuantity(object.getInt("quantity"));
+        MLObject product = object.getMLObject("product");
+        orderProduct.setProduct(new Product(product));
         return orderProduct;
     }
 
