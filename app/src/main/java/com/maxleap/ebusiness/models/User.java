@@ -9,6 +9,7 @@
 package com.maxleap.ebusiness.models;
 
 
+import com.maxleap.MLObject;
 import com.maxleap.MLRelation;
 import com.maxleap.MLUser;
 
@@ -18,6 +19,17 @@ public class User {
     private String icon;
     private String nickname;
     private MLRelation favorites;
+
+    public User() {
+    }
+
+    public User(MLObject object){
+        this.id= object.getObjectId();
+        this.username = object.getString("username");
+        this.icon = object.getString("icon");
+        this.nickname = object.getString("nickname");
+        this.favorites = object.getRelation("favorites");
+    }
 
     public String getId() {
         return id;

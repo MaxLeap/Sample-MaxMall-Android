@@ -12,6 +12,7 @@ import com.maxleap.MLObject;
 import com.maxleap.MLRelation;
 
 public class ProductType {
+    private String id;
     private String title;
     private String icon;
     private MLRelation products;
@@ -19,6 +20,7 @@ public class ProductType {
     private boolean onSales;
 
     public ProductType(MLObject object) {
+        this.setId(object.getObjectId());
         this.setTitle(object.getString("title"));
         this.setIcon(object.getString("icon"));
         this.setProducts(object.getRelation("products"));
@@ -66,10 +68,19 @@ public class ProductType {
         this.onSales = onSales;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "ProductType{" +
-                "title='" + title + '\'' +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
                 ", icon='" + icon + '\'' +
                 ", products=" + products +
                 ", recommend=" + recommend +

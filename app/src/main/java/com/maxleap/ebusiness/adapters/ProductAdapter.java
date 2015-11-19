@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.maxleap.ebusiness.R;
+import com.maxleap.ebusiness.models.Comment;
 import com.maxleap.ebusiness.models.Product;
 import com.squareup.picasso.Picasso;
 
@@ -24,11 +25,13 @@ import java.util.ArrayList;
 
 public class ProductAdapter extends BaseAdapter {
     private ArrayList<Product> mProducts;
+    private ArrayList<Comment> mComments;
     private Context mContext;
 
-    public ProductAdapter(Context context, ArrayList<Product> products) {
+    public ProductAdapter(Context context, ArrayList<Product> products, ArrayList<Comment> comments) {
         mContext = context;
         mProducts = products;
+        mComments = comments;
     }
 
     @Override
@@ -65,7 +68,14 @@ public class ProductAdapter extends BaseAdapter {
         Picasso.with(mContext).load(item.getIcons().get(0)).placeholder(R.mipmap.def_item).into(holder.imageView);
         holder.titleView.setText(item.getTitle());
         holder.priceView.setText(String.format(mContext.getString(R.string.product_price), item.getPrice() / 100f));
-//        holder.commentCountView.setText(String.format(mContext.getString(R.string.product_comment_count),item.getPrice()));
+
+        int count = 0;
+        for (Comment comment : mComments) {
+            if (item.getId().equals(comment.getProduct().getId())) {
+                count++;
+            }
+        }
+        holder.commentCountView.setText(String.format(mContext.getString(R.string.product_comment_count), count));
 
         return convertView;
     }
