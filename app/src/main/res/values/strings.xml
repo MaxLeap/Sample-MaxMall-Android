@@ -83,4 +83,6 @@
     <string name="activity_search_sort_sell_down">销量从大到小</string>
     <string name="activity_search_sort_sell_up">销量从小到大</string>
 
+    <string name="empty">无数据</string>
+
 </resources>

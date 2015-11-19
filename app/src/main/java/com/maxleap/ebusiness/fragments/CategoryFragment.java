@@ -44,9 +44,7 @@ public class CategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_categories, container, false);
-        mCategories = new ObservableArrayList<>();
         initViews();
-        fetchData();
         return mBinding.getRoot();
     }
 
@@ -62,7 +60,13 @@ public class CategoryFragment extends Fragment {
                         .marginResId(R.dimen.item_margin,
                                 R.dimen.item_margin).build()
         );
-        mAdapter = new CategoryAdapter(mCategories);
+        if(mCategories == null){
+            mCategories = new ObservableArrayList<>();
+            fetchData();
+        }
+        if(mAdapter == null){
+            mAdapter = new CategoryAdapter(mCategories);
+        }
         mBinding.recyclerview.setAdapter(mAdapter);
     }
 
