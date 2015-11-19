@@ -10,6 +10,7 @@ package com.maxleap.ebusiness.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,10 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.maxleap.ebusiness.R;
+import com.maxleap.ebusiness.activities.AccountInfoActivity;
 import com.maxleap.ebusiness.activities.LoginActivity;
+import com.maxleap.ebusiness.manage.UserManager;
 
 public class MineFragment extends Fragment implements View.OnClickListener {
 
+    private final String MAXLEAPMOBILE_WEBSITE = "https://maxleap.cn";
     private Context mContext;
 
     @Override
@@ -47,14 +51,22 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_frag_account:
-                Intent toAccountIntent = new Intent(mContext, LoginActivity.class);
-                startActivity(toAccountIntent);
+                if (UserManager.getInstance().getCurrentUser() != null) {
+                    Intent toAccountIntent = new Intent(mContext, AccountInfoActivity.class);
+                    startActivity(toAccountIntent);
+                } else {
+                    Intent toAccountIntent = new Intent(mContext, LoginActivity.class);
+                    startActivity(toAccountIntent);
+                }
                 break;
             case R.id.mine_frag_like:
                 break;
             case R.id.mine_frag_order:
                 break;
             case R.id.mine_frag_help:
+                Uri uri = Uri.parse(MAXLEAPMOBILE_WEBSITE);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
                 break;
             default:
                 break;
