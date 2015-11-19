@@ -28,4 +28,15 @@
     <string name="activity_login_notice">未注册过的手机将自动创建为MaxLeap用户</string>
     <string name="activity_product_detail_title">商品详情</string>
 
+    <string name="currency_china">￥</string>
+    <string name="activity_detail_color">颜色</string>
+    <string name="activity_detail_version">版本</string>
+    <string name="activity_detail_quantity">数量</string>
+    <string name="activity_detail_review">商品评价</string>
+    <string name="activity_detail_spec">规格参数</string>
+    <string name="activity_detail_info">商品详情</string>
+    <string name="activity_detail_fav">喜欢</string>
+    <string name="activity_detail_cart">购物车</string>
+    <string name="activity_detail_add_to_cart">加入购物车</string>
+
 </resources>

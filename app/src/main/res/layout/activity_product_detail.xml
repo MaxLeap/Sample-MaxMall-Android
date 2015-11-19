@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:bind="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -83,18 +82,20 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="16dp"
                         android:paddingTop="16dp"
+                        android:text="MisFit智能手表"
                         android:textColor="@color/black"
                         android:textSize="20sp"/>
 
                     <TextView
                         android:id="@+id/intro"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
+                        android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:maxLines="2"
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
                         android:paddingTop="16dp"
+                        android:text="领券减100！抢完即至！领券地址:http://www.google.com/vadafa"
                         android:textColor="@color/bg_btn_disable"
                         android:textSize="15sp"/>
 
@@ -105,6 +106,7 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="16dp"
                         android:paddingTop="16dp"
+                        android:text="￥1589"
                         android:textColor="@color/bg_btn"
                         android:textSize="28sp"/>
 
@@ -113,6 +115,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
+                        android:paddingLeft="16dp"
+                        android:text="原价￥1999"
                         android:textColor="@color/bg_btn_disable"
                         android:textSize="15sp"/>
 
@@ -121,7 +125,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
-                        android:text="dasda"
+                        android:paddingLeft="16dp"
+                        android:text="服务： 价格保护\n        此商品支持七天无理由退货"
                         android:textColor="@color/black"
                         android:textSize="15sp"/>
 
@@ -135,6 +140,7 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
+                        android:id="@+id/color_layout"
                         android:layout_width="match_parent"
                         android:layout_height="48dp">
 
@@ -144,7 +150,8 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:paddingLeft="16dp"
-                            android:text="颜色"
+                            android:text="@string/activity_detail_color"
+                            android:textColor="@color/black"
                             android:textSize="15sp"/>
 
                         <TextView
@@ -154,8 +161,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:paddingRight="16dp"
-                            android:text="xxx"
-                            android:textColor="@color/normal_font_color"
+                            android:text="黑色"
+                            android:textColor="@color/normal_hint_color"
                             android:textSize="15sp"/>
 
                     </RelativeLayout>
@@ -164,6 +171,7 @@
                         layout="@layout/view_divider"/>
 
                     <RelativeLayout
+                        android:id="@+id/version_layout"
                         android:layout_width="match_parent"
                         android:layout_height="48dp">
 
@@ -173,7 +181,8 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:paddingLeft="16dp"
-                            android:text="版本"
+                            android:text="@string/activity_detail_version"
+                            android:textColor="@color/black"
                             android:textSize="15sp"/>
 
                         <TextView
@@ -183,8 +192,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:paddingRight="16dp"
-                            android:text="dasd"
-                            android:textColor="@color/normal_font_color"
+                            android:text="高配版本"
+                            android:textColor="@color/normal_hint_color"
                             android:textSize="15sp"/>
 
                     </RelativeLayout>
@@ -202,7 +211,8 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:paddingLeft="16dp"
-                            android:text="颜色"
+                            android:text="@string/activity_detail_quantity"
+                            android:textColor="@color/black"
                             android:textSize="15sp"/>
 
                         <ImageView
@@ -253,7 +263,7 @@
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
                         android:paddingLeft="16dp"
-                        android:text="商品评价"
+                        android:text="@string/activity_detail_review"
                         android:textColor="@color/black"/>
 
                     <include
@@ -265,7 +275,7 @@
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
                         android:paddingLeft="16dp"
-                        android:text="商品评价"
+                        android:text="@string/activity_detail_spec"
                         android:textColor="@color/black"/>
 
                     <include
@@ -277,16 +287,82 @@
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
                         android:paddingLeft="16dp"
-                        android:text="商品详情"
+                        android:text="@string/activity_detail_info"
                         android:textColor="@color/black"/>
 
                 </LinearLayout>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 
-        <include
-            bind:product="@{product}"
-            layout="@layout/view_product_detail_bottom"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/fav"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:drawablePadding="4dp"
+                android:drawableTop="@drawable/btn_fav"
+                android:gravity="center"
+                android:paddingTop="4dp"
+                android:text="@string/activity_detail_fav"
+                android:textColor="@color/black"
+                android:textSize="15sp"/>
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/cart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:clickable="true"
+                    android:drawablePadding="4dp"
+                    android:drawableTop="@drawable/btn_shopping_cart"
+                    android:gravity="center"
+                    android:paddingTop="4dp"
+                    android:text="@string/activity_detail_cart"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"/>
+
+                <Button
+                    android:id="@+id/cart_num"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="24dp"
+                    android:background="@drawable/ic_shop_cart"/>
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/add_to_cart"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:text="@string/activity_detail_add_to_cart"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+
+        </LinearLayout>
 
     </RelativeLayout>
 </layout>

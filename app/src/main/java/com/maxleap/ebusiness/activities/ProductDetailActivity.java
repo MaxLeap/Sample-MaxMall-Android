@@ -24,7 +24,7 @@ import com.maxleap.ebusiness.models.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDetailActivity extends BaseActivity {
+public class ProductDetailActivity extends BaseActivity implements View.OnClickListener {
 
     public final static String PROD = "product";
 
@@ -54,6 +54,19 @@ public class ProductDetailActivity extends BaseActivity {
 
         TextView tv = mBinding.originPrice;
         tv.setPaintFlags(tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        mBinding.review.setOnClickListener(this);
+        mBinding.spec.setOnClickListener(this);
+        mBinding.detail.setOnClickListener(this);
+        mBinding.increaseQuantity.setOnClickListener(this);
+        mBinding.decreaseQuantity.setOnClickListener(this);
+        mBinding.colorLayout.setOnClickListener(this);
+        mBinding.versionLayout.setOnClickListener(this);
+
+
+        mBinding.fav.setOnClickListener(this);
+
+
 
         initViewPager();
     }
@@ -88,5 +101,8 @@ public class ProductDetailActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onClick(View v) {
 
+    }
 }

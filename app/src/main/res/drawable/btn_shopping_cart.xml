@@ -3,5 +3,5 @@
 
     <item android:state_pressed="true" android:drawable="@mipmap/btn_shoppingcart_selected"/>
     <item android:state_selected="true" android:drawable="@mipmap/btn_shoppingcart_selected"/>
-    <item android:drawable="@mipmap/btn_shoppingcart_normal"/>
+    <item android:drawable="@mipmap/btn_shopping_cart_details_normal"/>
 </selector>

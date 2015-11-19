@@ -7,6 +7,7 @@
     <color name="green">#009900</color>
     <color name="blue">#000099</color>
     <color name="orange">#FF9900</color>
+    <color name="red">#FF2500</color>
 
     <!-- common color -->
     <color name="white">#FFFFFF</color>
