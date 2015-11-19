@@ -18,6 +18,7 @@ import com.maxleap.FindCallback;
 import com.maxleap.MLObject;
 import com.maxleap.MLQuery;
 import com.maxleap.MLQueryManager;
+import com.maxleap.MLRelation;
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.adapters.ProductAdapter;
 import com.maxleap.ebusiness.manage.UserManager;
@@ -96,7 +97,9 @@ public class ProductsActivity extends BaseActivity {
             }
         } else {
             MLObject object = MLObject.createWithoutData("ProductType", productTypeId);
-            query = object.getRelation("Product").getQuery();
+            MLRelation relation = object.getRelation("Product");
+            relation.setTargetClass("Product");
+            query = relation.getQuery();
         }
         if (query == null) {
             FFLog.d("query is null ");

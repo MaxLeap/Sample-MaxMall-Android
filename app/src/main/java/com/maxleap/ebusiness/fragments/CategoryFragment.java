@@ -78,6 +78,9 @@ public class CategoryFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         if(mCategories == null){
             mCategories = new ObservableArrayList<>();
+            //fetchData();
+        }
+        if (mCategories.isEmpty()) {
             fetchData();
         }
         if(mAdapter == null){
@@ -111,7 +114,6 @@ public class CategoryFragment extends Fragment implements SwipeRefreshLayout.OnR
         MLQueryManager.findAllInBackground(query, new FindCallback<MLObject>() {
             @Override
             public void done(List<MLObject> list, MLException e) {
-
                 mCategories.clear();
                 mBinding.progressbar.setVisibility(View.GONE);
                 mHandler.removeCallbacks(mRefreshRunnable);
