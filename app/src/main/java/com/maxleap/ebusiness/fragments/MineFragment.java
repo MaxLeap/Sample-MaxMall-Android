@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.activities.AccountInfoActivity;
 import com.maxleap.ebusiness.activities.LoginActivity;
+import com.maxleap.ebusiness.activities.MyOrderActivity;
 import com.maxleap.ebusiness.activities.ProductsActivity;
 import com.maxleap.ebusiness.manage.UserManager;
 
@@ -66,6 +67,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 startActivity(likeIntent);
                 break;
             case R.id.mine_frag_order:
+                Intent orderIntent = new Intent(mContext, MyOrderActivity.class);
+                startActivity(orderIntent);
                 break;
             case R.id.mine_frag_help:
                 Uri uri = Uri.parse(MAXLEAPMOBILE_WEBSITE);
