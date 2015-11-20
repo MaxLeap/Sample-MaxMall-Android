@@ -9,6 +9,7 @@
 package com.maxleap.ebusiness.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.maxleap.ebusiness.R;
+import com.maxleap.ebusiness.activities.CommentActivity;
+import com.maxleap.ebusiness.activities.MyOrderActivity;
 import com.maxleap.ebusiness.models.Order;
 import com.maxleap.ebusiness.models.OrderProduct;
 import com.squareup.picasso.Picasso;
@@ -68,7 +71,7 @@ public class OrderAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Order order = mOrders.get(position);
+        final Order order = mOrders.get(position);
 
         holder.orderNo.setText(String.format(mContext.getString(R.string.activity_my_order_no), order.getId()));
 
@@ -125,7 +128,7 @@ public class OrderAdapter extends BaseAdapter {
             }
             ImageView imageView = (ImageView) productView.findViewById(R.id.item_order_product_icon);
             Picasso.with(mContext).load(orderProduct.getProduct().getIcons().get(0)).into(imageView);
-            ((TextView) productView.findViewById(R.id.item_order_product_info))
+            ((TextView) productView.findViewById(R.id.item_order_product_title))
                     .setText(orderProduct.getProduct().getTitle());
             ((TextView) productView.findViewById(R.id.item_order_product_no))
                     .setText(String.format(mContext.getString(R.string.activity_my_order_product_no)
@@ -136,6 +139,14 @@ public class OrderAdapter extends BaseAdapter {
                 }
             }
         }
+        holder.confirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, CommentActivity.class);
+                intent.putExtra(MyOrderActivity.INTENT_ORDERPRODUCTS_KEY,
+                        order.getOrderProducts());
+            }
+        });
         return convertView;
     }
 

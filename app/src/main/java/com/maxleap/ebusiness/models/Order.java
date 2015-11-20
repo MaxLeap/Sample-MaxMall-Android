@@ -18,7 +18,7 @@ public class Order {
     private String remarks;
     private String payMethod;
     private int orderStatus;
-    private List<OrderProduct> orderProducts;
+    private ArrayList<OrderProduct> orderProducts;
 
     public String getId() {
         return id;
@@ -60,11 +60,11 @@ public class Order {
         this.delivery = delivery;
     }
 
-    public List<OrderProduct> getOrderProducts() {
+    public ArrayList<OrderProduct> getOrderProducts() {
         return orderProducts;
     }
 
-    public void setOrderProducts(List<OrderProduct> orderProducts) {
+    public void setOrderProducts(ArrayList<OrderProduct> orderProducts) {
         this.orderProducts = orderProducts;
     }
 
@@ -123,7 +123,7 @@ public class Order {
         Address address = Address.from(object.getMLObject("address"));
         order.setAddress(address);
         List<MLObject> mlOrderProducts = object.getList("order_products");
-        List<OrderProduct> orderProducts = new ArrayList<>();
+        ArrayList<OrderProduct> orderProducts = new ArrayList<>();
         for (MLObject orderProduct : mlOrderProducts) {
             orderProducts.add(OrderProduct.from(orderProduct));
         }
