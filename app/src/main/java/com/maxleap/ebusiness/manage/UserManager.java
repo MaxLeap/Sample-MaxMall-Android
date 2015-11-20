@@ -295,7 +295,7 @@ public class UserManager {
     /**
      * 更新订单状态, 仅支持订单状态更新, 不支持菜品更新
      *
-     * @param order    订单状态包括: 1 - 订单处理中; 2 - 待发货; 3 - 已发货; 4 - 已收货; 5 - 已评论; 6 - 用户取消订单; 7 - 商户取消订单
+     * @param order    订单状态包括: 1 - 订单处理中（待付款）; 2 - 待发货; 3 - 已发货; 4 - 已收货; 5 - 已评论; 6 - 用户取消订单; 7 - 商户取消订单
      * @param callback
      */
     public void updateOrder(Order order, final OperationCallback callback) {

@@ -87,7 +87,9 @@
     <string name="activity_my_order_no">订单号：</string>
     <string name="activity_my_order_state_cancel">取消订单</string>
     <string name="activity_my_order_state_canceled">订单已取消</string>
-    <string name="activity_my_order_state_done">订单已完成</string>
+    <string name="activity_my_order_state_delivered">商品已发货</string>
+    <string name="activity_my_order_state_done">交易已完成</string>
+    <string name="activity_my_order_state_commented">商品已评论</string>
     <string name="activity_my_order_product_no">共%1$d件</string>
     <string name="activity_my_order_total">总额：¥</string>
     <string name="activity_my_order_order_time">下单时间：</string>

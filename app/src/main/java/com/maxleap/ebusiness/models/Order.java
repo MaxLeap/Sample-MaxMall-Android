@@ -17,7 +17,7 @@ public class Order {
     private String receiptInfo;
     private String remarks;
     private String payMethod;
-    private String orderStatus;
+    private int orderStatus;
     private List<OrderProduct> orderProducts;
 
     public String getId() {
@@ -68,11 +68,11 @@ public class Order {
         this.orderProducts = orderProducts;
     }
 
-    public String getOrderStatus() {
+    public int getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(String orderStatus) {
+    public void setOrderStatus(int orderStatus) {
         this.orderStatus = orderStatus;
     }
 
@@ -134,7 +134,7 @@ public class Order {
         order.setReceiptInfo(object.getString("receipt_info"));
         order.setRemarks(object.getString("remarks"));
         order.setPayMethod(object.getString("pay_method"));
-        order.setOrderStatus(object.getString("order_status"));
+        order.setOrderStatus(object.getInt("order_status"));
         return order;
     }
 }
