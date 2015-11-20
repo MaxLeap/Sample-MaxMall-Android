@@ -192,9 +192,6 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 FFLog.d("fetchProductData list: " + list);
                 FFLog.d("fetchProductData e: " + e);
                 if (e == null) {
-                    mHandler.removeCallbacks(mProgressRunnable);
-                    mSwipeRefreshLayout.setRefreshing(false);
-
                     Set<MLObject> ids = new HashSet<MLObject>();
                     final ArrayList<Product> products = new ArrayList<Product>();
                     for (MLObject object : list) {
@@ -214,6 +211,8 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                         MLQueryManager.findAllInBackground(commentQuery, new FindCallback<MLObject>() {
                             @Override
                             public void done(List<MLObject> list, MLException e) {
+                                mHandler.removeCallbacks(mProgressRunnable);
+                                mSwipeRefreshLayout.setRefreshing(false);
                                 if (e == null) {
                                     mComments.clear();
                                     for (MLObject object : list) {
@@ -224,6 +223,9 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                             }
                         });
                     }
+                }else{
+                    mHandler.removeCallbacks(mProgressRunnable);
+                    mSwipeRefreshLayout.setRefreshing(false);
                 }
             }
 
