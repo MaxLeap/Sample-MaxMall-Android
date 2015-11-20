@@ -21,6 +21,7 @@ import com.maxleap.SaveCallback;
 import com.maxleap.SignUpCallback;
 import com.maxleap.ValidateUsernameCallback;
 import com.maxleap.ebusiness.models.Address;
+import com.maxleap.ebusiness.models.Comment;
 import com.maxleap.ebusiness.models.Order;
 import com.maxleap.ebusiness.models.Product;
 import com.maxleap.ebusiness.models.User;
@@ -359,4 +360,30 @@ public class UserManager {
         });
 
     }
+
+    public void addComment(List<Comment> comments, final OperationCallback callback) {
+        FFLog.d("start addComment");
+        List<MLObject> objects = new ArrayList<>();
+        for (int i = 0; i < comments.size(); i++) {
+            MLObject comment = new MLObject("Comment");
+            comment.put("score", comments.get(i).getScore());
+            comment.put("content", comments.get(i).getContent());
+            MLObject product = MLObject.createWithoutData("product", comments.get(i).getProduct().getId());
+            comment.put("product", product);
+            comment.put("user", MLUser.getCurrentUser());
+            objects.add(comment);
+        }
+        MLDataManager.saveAllInBackground(objects, new SaveCallback() {
+            @Override
+            public void done(MLException e) {
+                FFLog.d("addComment e : " + e);
+                if (e == null) {
+                    callback.success();
+                } else {
+                    callback.failed(e.getMessage());
+                }
+            }
+        });
+    }
+
 }

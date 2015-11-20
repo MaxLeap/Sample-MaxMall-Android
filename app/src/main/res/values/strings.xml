@@ -98,6 +98,14 @@
     <string name="activity_my_order_to_comment">去评价</string>
     <string name="activity_my_order_empty">您还没有任何订单</string>
 
+    <!-- Comment Activity -->
+    <string name="activity_comment_title">评价</string>
+    <string name="activity_comment_confirm">提交评价</string>
+    <string name="activity_comment_product_no">共%1$d件</string>
+    <string name="activity_comment_service">服务态度</string>
+    <string name="activity_comment_hint">平价内容输入区域</string>
+    <string name="activity_comment_success">评论成功</string>
+
     <!-- Product Adapter -->
     <string name="product_price">¥%1$.1f</string>
     <string name="product_comment_count">%1$d人评价</string>
