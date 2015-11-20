@@ -8,6 +8,7 @@
  */
 package com.maxleap.ebusiness.activities;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -23,7 +24,6 @@ import com.maxleap.MLQueryManager;
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.adapters.ProductGalleryAdapter;
 import com.maxleap.ebusiness.databinding.ActivityProductDetailBinding;
-import com.maxleap.ebusiness.models.Product;
 import com.maxleap.exception.MLException;
 
 import java.util.ArrayList;
@@ -111,8 +111,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         MLQueryManager.getFirstInBackground(query, new GetCallback<MLObject>() {
             @Override
             public void done(MLObject object, MLException e) {
-                Product product = new Product(object);
-                mBinding.setProduct(product);
+                //Product product = new Product(object);
+               // mBinding.setProduct(product);
             }
         });
     }
@@ -133,6 +133,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
             case R.id.review:
                 break;
             case R.id.spec:
+                Intent specIntent = new Intent(this, SpecActivity.class);
+                startActivity(specIntent);
                 break;
             case R.id.detail:
                 break;
