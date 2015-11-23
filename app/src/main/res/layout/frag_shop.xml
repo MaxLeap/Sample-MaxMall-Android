@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/view_toolbar" />
+        layout="@layout/view_toolbar_shop" />
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -124,6 +124,8 @@
     <string name="frag_shop_to_main_page">去首页逛逛</string>
     <string name="frag_shop_empty_label">您的购物车空空如也</string>
     <string name="frag_shop_title">购物车</string>
+    <string name="frag_shop_toolbar_edit">编辑</string>
+    <string name="frag_shop_toolbar_edit_done">完成</string>
 
     <!-- dialog string -->
     <string name="dialog_shop_delete_confirm_notice">你确定要删除此商品吗？</string>

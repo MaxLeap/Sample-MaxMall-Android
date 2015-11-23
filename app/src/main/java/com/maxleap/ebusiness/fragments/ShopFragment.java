@@ -18,7 +18,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.maxleap.FindCallback;
 import com.maxleap.MLObject;
@@ -35,13 +37,14 @@ import com.maxleap.exception.MLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShopFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ShopFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private Handler mHandler;
     private Context mContext;
     private ArrayList<OrderProduct> mOrderProducts;
     private OrderProductAdapter mAdapter;
     private View mEmptyView;
+    private TextView mTotalPayView;
     private ListView mListView;
     private MainActivity mainActivity;
 
@@ -65,13 +68,33 @@ public class ShopFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         mainActivity = (MainActivity) getActivity();
         mHandler = new Handler();
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.frag_shop_title);
+        toolbar.findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOrderProducts.size() == 0) return;
+                TextView editView = (TextView) v;
+                if (editView.getText().toString().equals(getString(R.string.frag_shop_toolbar_edit))) {
+                    editView.setText(R.string.frag_shop_toolbar_edit_done);
+                    mAdapter.setInEditMode(true);
+                } else {
+                    editView.setText(R.string.frag_shop_toolbar_edit);
+                    mAdapter.setInEditMode(false);
+                }
+            }
+        });
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mListView = (ListView) view.findViewById(R.id.shop_list);
         View footView = LayoutInflater.from(mContext).inflate(R.layout.view_shop_list_foot, null);
+        mTotalPayView = (TextView) footView.findViewById(R.id.total_pay);
+        footView.findViewById(R.id.pay_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO:
+            }
+        });
         mEmptyView = view.findViewById(R.id.empty);
         mEmptyView.setVisibility(View.GONE);
         mEmptyView.findViewById(R.id.to_main_button).setOnClickListener(new View.OnClickListener() {
@@ -90,9 +113,24 @@ public class ShopFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             fetchShopData();
         }
         if (mAdapter == null) {
-            mAdapter = new OrderProductAdapter(mContext, mOrderProducts);
+            mAdapter = new OrderProductAdapter(mContext, mOrderProducts, new OrderProductAdapter.CountListener() {
+                @Override
+                public void onCountChanged() {
+                    if (mOrderProducts.size() == 0) {
+                        mListView.setVisibility(View.GONE);
+                        mEmptyView.setVisibility(View.VISIBLE);
+                        return;
+                    }
+                    int totalPay = 0;
+                    for (OrderProduct orderProduct : mOrderProducts) {
+                        totalPay += orderProduct.getProduct().getPrice() * orderProduct.getQuantity();
+                    }
+                    mTotalPayView.setText(String.format(getString(R.string.product_price), totalPay));
+                }
+            });
         }
         mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(this);
     }
 
     private void fetchShopData() {
@@ -120,12 +158,15 @@ public class ShopFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     mEmptyView.setVisibility(View.GONE);
                     mListView.setVisibility(View.VISIBLE);
                     mOrderProducts.clear();
+                    int totalPay = 0;
                     for (int i = 0; i < productIds.size(); i++) {
                         OrderProduct orderProduct = new OrderProduct();
                         orderProduct.setQuantity(counts.get(i));
                         orderProduct.setProduct(new Product(list.get(i)));
+                        totalPay += orderProduct.getProduct().getPrice() * orderProduct.getQuantity();
                         mOrderProducts.add(orderProduct);
                     }
+                    mTotalPayView.setText(String.format(getString(R.string.product_price), totalPay));
                     mAdapter.notifyDataSetChanged();
                 } else {
                     mListView.setVisibility(View.GONE);
@@ -149,5 +190,10 @@ public class ShopFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onRefresh() {
         fetchShopData();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //TODO
     }
 }

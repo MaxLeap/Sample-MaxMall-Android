@@ -30,11 +30,13 @@ public class OrderProductAdapter extends BaseAdapter implements View.OnClickList
     private ArrayList<OrderProduct> mOrderProducts;
     private Context mContext;
     private boolean inEditMode;
+    private CountListener mListener;
 
-    public OrderProductAdapter(Context context, ArrayList<OrderProduct> orderProducts) {
+    public OrderProductAdapter(Context context, ArrayList<OrderProduct> orderProducts, CountListener listener) {
         mContext = context;
         mOrderProducts = orderProducts;
         inEditMode = false;
+        mListener = listener;
     }
 
     @Override
@@ -105,6 +107,9 @@ public class OrderProductAdapter extends BaseAdapter implements View.OnClickList
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mOrderProducts.remove(position);
+                        if (mListener != null) {
+                            mListener.onCountChanged();
+                        }
                         notifyDataSetChanged();
                         dialog.dismiss();
                     }
@@ -123,6 +128,9 @@ public class OrderProductAdapter extends BaseAdapter implements View.OnClickList
                 count--;
                 if (count < 0) count = 0;
                 item.setQuantity(count);
+                if (mListener != null) {
+                    mListener.onCountChanged();
+                }
                 notifyDataSetChanged();
                 break;
             case R.id.add_btn:
@@ -130,6 +138,9 @@ public class OrderProductAdapter extends BaseAdapter implements View.OnClickList
                 int count2 = item2.getQuantity();
                 count2++;
                 item2.setQuantity(count2);
+                if (mListener != null) {
+                    mListener.onCountChanged();
+                }
                 notifyDataSetChanged();
                 break;
             default:
@@ -154,5 +165,9 @@ public class OrderProductAdapter extends BaseAdapter implements View.OnClickList
     public void setInEditMode(boolean inEditMode) {
         this.inEditMode = inEditMode;
         notifyDataSetChanged();
+    }
+
+    public interface CountListener {
+        void onCountChanged();
     }
 }
