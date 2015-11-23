@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.adapters.ReviewAdapter;
@@ -29,6 +30,7 @@ public class ReviewFragment extends Fragment {
     public static final String DATALIST = "list";
 
     private RecyclerView mRecyclerView;
+    private TextView mEmptyView;
     private ReviewAdapter mReviewAdapter;
     private List<Comment> mCommentList;
 
@@ -45,6 +47,14 @@ public class ReviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_review, container, false);
         initViews(view);
+        mCommentList = (List<Comment>) getArguments().getSerializable(DATALIST);
+        if (mCommentList == null || mCommentList.size() == 0) {
+            mEmptyView.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+        } else {
+            mReviewAdapter = new ReviewAdapter(mCommentList);
+            mRecyclerView.setAdapter(mReviewAdapter);
+        }
         return view;
     }
 
@@ -53,7 +63,6 @@ public class ReviewFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
 
-        mReviewAdapter = new ReviewAdapter(mCommentList);
-        mRecyclerView.setAdapter(mReviewAdapter);
+        mEmptyView = (TextView) view.findViewById(R.id.empty);
     }
 }

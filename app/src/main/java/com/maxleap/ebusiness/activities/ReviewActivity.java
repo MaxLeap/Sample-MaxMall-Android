@@ -40,6 +40,7 @@ public class ReviewActivity extends BaseActivity {
     private ArrayList<Comment> mNormals;
     private ArrayList<Comment> mBads;
 
+    private String mObjectId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,13 +50,14 @@ public class ReviewActivity extends BaseActivity {
         mGreats = new ArrayList<>();
         mNormals = new ArrayList<>();
         mBads = new ArrayList<>();
+        mObjectId = getIntent().getStringExtra(ProductDetailActivity.PRODID);
         fetchData();
         initViews();
     }
 
     private void fetchData() {
         MLQuery<MLObject> query = MLQuery.getQuery("Comment");
-
+        query.whereEqualTo("product", MLObject.createWithoutData("Product", mObjectId));
         MLQueryManager.findAllInBackground(query, new FindCallback<MLObject>() {
             @Override
             public void done(List<MLObject> list, MLException e) {

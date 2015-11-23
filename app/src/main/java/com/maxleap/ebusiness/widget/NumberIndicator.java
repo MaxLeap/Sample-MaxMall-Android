@@ -13,20 +13,19 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.maxleap.ebusiness.R;
+import com.maxleap.ebusiness.utils.UnitUtil;
 
 public class NumberIndicator extends View {
 
     private Context mContext;
     private Rect mBounds;
     private Paint mPaint;
-    private Path mPath;
     private RectF mRectF;
 
     private int mItemCount;
@@ -80,7 +79,8 @@ public class NumberIndicator extends View {
         // draw background
         mPaint.setColor(mBgColor);
         mRectF = new RectF(0.0f, 0.0f, getWidth(), getHeight());
-        canvas.drawRoundRect(mRectF, pxFromDp(mRadius), pxFromDp(mRadius), mPaint);
+            canvas.drawRoundRect(mRectF, UnitUtil.dpToPx(mContext, (int) mRadius),
+                    UnitUtil.dpToPx(mContext, (int) mRadius), mPaint);
 
         // draw text
         mPaint.setColor(mTextColor);
@@ -93,13 +93,4 @@ public class NumberIndicator extends View {
                 + textHeight / 2, mPaint);
     }
 
-    private float dpFromPx(float px)
-    {
-        return px / this.getContext().getResources().getDisplayMetrics().density;
-    }
-
-    private float pxFromDp(float dp)
-    {
-        return dp * this.getContext().getResources().getDisplayMetrics().density;
-    }
 }

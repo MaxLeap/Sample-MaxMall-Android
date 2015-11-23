@@ -43,6 +43,10 @@ public class MainActivity extends BaseActivity {
                 MineFragment.class, null);
     }
 
+    public void selectTab(int index) {
+        mTabHost.setCurrentTab(index);
+    }
+
     private View getTabView(int imgId, int txtId) {
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.view_home_tab, null);
