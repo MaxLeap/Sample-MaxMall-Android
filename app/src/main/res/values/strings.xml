@@ -118,4 +118,18 @@
 
     <string name="empty">无数据</string>
 
+    <!-- frag shop -->
+    <string name="frag_shop_total_pay_label">总价(不计运费)</string>
+    <string name="frag_shop_to_pay">去结算</string>
+    <string name="frag_shop_to_main_page">去首页逛逛</string>
+    <string name="frag_shop_empty_label">您的购物车空空如也</string>
+    <string name="frag_shop_title">购物车</string>
+    <string name="frag_shop_toolbar_edit">编辑</string>
+    <string name="frag_shop_toolbar_edit_done">完成</string>
+
+    <!-- dialog string -->
+    <string name="dialog_shop_delete_confirm_notice">你确定要删除此商品吗？</string>
+    <string name="dialog_shop_delete_confirm_sure">确定</string>
+    <string name="dialog_shop_delete_confirm_cancel">取消</string>
+
 </resources>
