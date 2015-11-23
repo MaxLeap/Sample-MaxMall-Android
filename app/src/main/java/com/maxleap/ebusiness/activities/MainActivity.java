@@ -21,7 +21,7 @@ public class MainActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         init();
     }
 
@@ -41,6 +41,10 @@ public class MainActivity extends BaseActivity {
                 ShopFragment.class, null);
         mTabHost.addTab(mTabHost.newTabSpec("mineTab").setIndicator(getTabView(R.drawable.btn_mine, R.string.activity_main_tab_mine)),
                 MineFragment.class, null);
+    }
+
+    public void selectTab(int index) {
+        mTabHost.setCurrentTab(index);
     }
 
     private View getTabView(int imgId, int txtId) {
