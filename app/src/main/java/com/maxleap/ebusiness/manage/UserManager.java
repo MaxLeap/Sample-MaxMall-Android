@@ -244,9 +244,9 @@ public class UserManager {
         final MLObject obj = new MLObject("Order");
         obj.put("total", order.getTotal());
         obj.put("delivery", order.getDelivery());
-        obj.put("receipt_title", order.getReceiptTitle());
+        obj.put("receipt_title", order.getReceiptType());
         obj.put("receipt_content", order.getReceiptContent());
-        obj.put("receipt_info", order.getReceiptInfo());
+        obj.put("receipt_info", order.getReceiptHeading());
         obj.put("remarks", order.getRemarks());
         obj.put("pay_method", order.getPayMethod());
         obj.put("order_status", order.getOrderStatus());

@@ -12,9 +12,9 @@ public class Order {
     private Address address;
     private User user;
     private String delivery;
-    private String receiptTitle;
+    private String receiptType;
     private String receiptContent;
-    private String receiptInfo;
+    private String receiptHeading;
     private String remarks;
     private String payMethod;
     private int orderStatus;
@@ -92,20 +92,20 @@ public class Order {
         this.receiptContent = receiptContent;
     }
 
-    public String getReceiptInfo() {
-        return receiptInfo;
+    public String getReceiptHeading() {
+        return receiptHeading;
     }
 
-    public void setReceiptInfo(String receiptInfo) {
-        this.receiptInfo = receiptInfo;
+    public void setReceiptHeading(String receiptHeading) {
+        this.receiptHeading = receiptHeading;
     }
 
-    public String getReceiptTitle() {
-        return receiptTitle;
+    public String getReceiptType() {
+        return receiptType;
     }
 
-    public void setReceiptTitle(String receiptTitle) {
-        this.receiptTitle = receiptTitle;
+    public void setReceiptType(String receiptType) {
+        this.receiptType = receiptType;
     }
 
     public String getRemarks() {
@@ -129,9 +129,9 @@ public class Order {
         }
         order.setOrderProducts(orderProducts);
         order.setDelivery(object.getString("delivery"));
-        order.setReceiptTitle(object.getString("receipt_title"));
+        order.setReceiptType(object.getString("receipt_title"));
         order.setReceiptContent(object.getString("receipt_content"));
-        order.setReceiptInfo(object.getString("receipt_info"));
+        order.setReceiptHeading(object.getString("receipt_info"));
         order.setRemarks(object.getString("remarks"));
         order.setPayMethod(object.getString("pay_method"));
         order.setOrderStatus(object.getInt("order_status"));

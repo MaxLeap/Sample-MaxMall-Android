@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dialog">
+
+    <RelativeLayout
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@android:color/white">
+
+        <TextView
+            android:id="@+id/receipt_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="18dp"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:id="@+id/receipt_btn_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="14dp"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/receipt_cancel"
+                android:layout_width="75dp"
+                android:layout_height="36dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/ripple"
+                android:text="@string/receipt_dialog_cancel"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/receipt_confirm"
+                android:layout_width="75dp"
+                android:layout_height="36dp"
+                android:background="@drawable/ripple"
+                android:text="@string/receipt_dialog_next"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/receipt_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/receipt_btn_area"
+            android:layout_below="@id/receipt_title"
+            android:layout_marginTop="16dp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="1px" />
+
+        <EditText
+            android:id="@+id/receipt_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/receipt_btn_area"
+            android:layout_below="@id/receipt_title"
+            android:layout_marginBottom="76dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="43dp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

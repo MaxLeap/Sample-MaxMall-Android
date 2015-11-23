@@ -42,4 +42,10 @@
         <item name="android:stepSize">0.1</item>
         <item name="android:isIndicator">true</item>
     </style>
+
+    <style name="RadioTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorControlNormal">@color/text_color_gray</item>
+    </style>
 </resources>
