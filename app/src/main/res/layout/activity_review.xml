@@ -17,7 +17,6 @@
         app:tabTextColor="@color/black"
         app:tabSelectedTextColor="@color/orange"
         app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
-        android:elevation="6dp"
         android:layout_width="match_parent"
         android:layout_height="56dp"/>
 

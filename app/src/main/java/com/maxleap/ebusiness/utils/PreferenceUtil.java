@@ -44,6 +44,10 @@ public class PreferenceUtil {
         return getPreferences(context).getBoolean(key, defaultValue);
     }
 
+    public static Set<String> getStringSet(Context context, String key) {
+        return getPreferences(context).getStringSet(key, null);
+    }
+
     public static SharedPreferences.Editor getEditor(Context context) {
         return getPreferences(context).edit();
     }

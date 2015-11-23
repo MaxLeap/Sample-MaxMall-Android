@@ -8,6 +8,8 @@
             name="product"
             type="com.maxleap.ebusiness.models.Product"/>
 
+        <import type="com.maxleap.ebusiness.utils.StringFormatUtil"/>
+
     </data>
 
     <RelativeLayout
@@ -28,6 +30,7 @@
         </android.support.v7.widget.Toolbar>
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/content"
             android:layout_below="@+id/toolbar"
             android:layout_marginBottom="68dp"
             android:layout_width="match_parent"
@@ -78,7 +81,7 @@
                     <TextView
                         android:id="@+id/title"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
+                        android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:paddingLeft="16dp"
                         android:paddingTop="16dp"
@@ -95,7 +98,7 @@
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
                         android:paddingTop="16dp"
-                        android:text="领券减100！抢完即至！领券地址:http://www.google.com/vadafa"
+                        android:text="@{product.intro}"
                         android:textColor="@color/bg_btn_disable"
                         android:textSize="15sp"/>
 
@@ -106,7 +109,7 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="16dp"
                         android:paddingTop="16dp"
-                        android:text="￥1589"
+                        android:text="@{@string/activity_product_detail_unit + product.price}"
                         android:textColor="@color/bg_btn"
                         android:textSize="28sp"/>
 
@@ -116,19 +119,39 @@
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
                         android:paddingLeft="16dp"
-                        android:text="原价￥1999"
+                        android:text="@{@string/activity_product_detail_unit_origin + product.originalPrice}"
                         android:textColor="@color/bg_btn_disable"
                         android:textSize="15sp"/>
 
-                    <TextView
-                        android:id="@+id/service"
+
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="16dp"
-                        android:text="服务： 价格保护\n        此商品支持七天无理由退货"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"/>
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/service_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="16dp"
+                            android:layout_alignParentLeft="true"
+                            android:text="@string/activity_product_detail_services"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"/>
+
+                        <TextView
+                            android:id="@+id/service"
+                            android:layout_toRightOf="@+id/service_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:layout_marginLeft="16dp"
+                            android:text="@{StringFormatUtil.getProductServices(product.services)}"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"/>
+
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -140,28 +163,28 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
-                        android:id="@+id/color_layout"
+                        android:id="@+id/info1_layout"
+                        android:clickable="true"
                         android:layout_width="match_parent"
                         android:layout_height="48dp">
 
                         <TextView
+                            android:id="@+id/info1_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:paddingLeft="16dp"
-                            android:text="@string/activity_detail_color"
                             android:textColor="@color/black"
                             android:textSize="15sp"/>
 
                         <TextView
-                            android:id="@+id/product_color"
+                            android:id="@+id/info1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:paddingRight="16dp"
-                            android:text="黑色"
                             android:textColor="@color/normal_hint_color"
                             android:textSize="15sp"/>
 
@@ -171,28 +194,59 @@
                         layout="@layout/view_divider"/>
 
                     <RelativeLayout
-                        android:id="@+id/version_layout"
+                        android:id="@+id/info2_layout"
+                        android:clickable="true"
                         android:layout_width="match_parent"
                         android:layout_height="48dp">
 
                         <TextView
+                            android:id="@+id/info2_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:paddingLeft="16dp"
-                            android:text="@string/activity_detail_version"
                             android:textColor="@color/black"
                             android:textSize="15sp"/>
 
                         <TextView
-                            android:id="@+id/product_version"
+                            android:id="@+id/info2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:paddingRight="16dp"
-                            android:text="高配版本"
+                            android:textColor="@color/normal_hint_color"
+                            android:textSize="15sp"/>
+
+                    </RelativeLayout>
+
+                    <include
+                        layout="@layout/view_divider"/>
+
+                    <RelativeLayout
+                        android:id="@+id/info3_layout"
+                        android:clickable="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp">
+
+                        <TextView
+                            android:id="@+id/info3_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:paddingLeft="16dp"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"/>
+
+                        <TextView
+                            android:id="@+id/info3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:paddingRight="16dp"
                             android:textColor="@color/normal_hint_color"
                             android:textSize="15sp"/>
 
@@ -295,6 +349,7 @@
         </android.support.v4.widget.NestedScrollView>
 
         <LinearLayout
+            android:id="@+id/bottom"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_alignParentBottom="true"
@@ -363,6 +418,14 @@
 
 
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
 
     </RelativeLayout>
 </layout>

@@ -36,6 +36,8 @@
         <activity android:name=".activities.ProductsActivity" />
         <activity android:name=".activities.ProductDetailActivity"/>
         <activity android:name=".activities.MyOrderActivity"/>
+        <activity android:name=".activities.SpecActivity"/>
+        <activity android:name=".activities.ReviewActivity"/>
 
     </application>
 

@@ -22,10 +22,10 @@ public class Product {
     private int originalPrice;
     private String intro;
     private List<String> services;
-    private JSONObject info;
-    private JSONObject customInfo1;
-    private JSONObject customInfo2;
-    private JSONObject customInfo3;
+    private String info;
+    private String customInfo1;
+    private String customInfo2;
+    private String customInfo3;
     private JSONObject detail;
     private int quantity;
 
@@ -40,10 +40,10 @@ public class Product {
         this.originalPrice = object.getInt("original_price");
         this.intro = object.getString("intro");
         this.services = object.getList("services");
-        this.info = object.getJSONObject("info");
-        this.customInfo1 = object.getJSONObject("custom_info1");
-        this.customInfo2 = object.getJSONObject("custom_info2");
-        this.customInfo3 = object.getJSONObject("custom_info3");
+        this.info = object.getString("info");
+        this.customInfo1 = object.getString("custom_info1");
+        this.customInfo2 = object.getString("custom_info2");
+        this.customInfo3 = object.getString("custom_info3");
         this.detail = object.getJSONObject("detail");
         this.quantity = object.getInt("quantity");
     }
@@ -88,37 +88,38 @@ public class Product {
         this.services = services;
     }
 
-    public JSONObject getInfo() {
+    public String getInfo() {
         return info;
     }
 
-    public void setInfo(JSONObject info) {
+    public void setInfo(String info) {
         this.info = info;
     }
 
-    public JSONObject getCustomInfo1() {
+    public String getCustomInfo1() {
         return customInfo1;
     }
 
-    public void setCustomInfo1(JSONObject customInfo1) {
+    public void setCustomInfo1(String customInfo1) {
         this.customInfo1 = customInfo1;
     }
 
-    public JSONObject getCustomInfo2() {
+    public String getCustomInfo2() {
         return customInfo2;
     }
 
-    public void setCustomInfo2(JSONObject customInfo2) {
+    public void setCustomInfo2(String customInfo2) {
         this.customInfo2 = customInfo2;
     }
 
-    public JSONObject getCustomInfo3() {
+    public String getCustomInfo3() {
         return customInfo3;
     }
 
-    public void setCustomInfo3(JSONObject customInfo3) {
+    public void setCustomInfo3(String customInfo3) {
         this.customInfo3 = customInfo3;
     }
+
 
     public JSONObject getDetail() {
         return detail;
