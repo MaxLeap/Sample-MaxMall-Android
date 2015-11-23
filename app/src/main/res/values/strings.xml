@@ -118,5 +118,9 @@
 
     <string name="empty">无数据</string>
     <string name="activity_spec_title">规格参数</string>
+    <string name="activity_product_detail_services">服务：</string>
+    <string name="activity_product_detail_unit">￥</string>
+    <string name="activity_product_detail_unit_origin">原价：￥</string>
+    <string name="activity_product_detail_choice_title">请选择</string>
 
 </resources>
