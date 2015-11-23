@@ -229,6 +229,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.spec:
                 Intent specIntent = new Intent(this, SpecActivity.class);
+                specIntent.putExtra(SpecActivity.SPEC, mProduct.getInfo());
                 startActivity(specIntent);
                 break;
             case R.id.detail:

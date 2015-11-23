@@ -33,20 +33,7 @@ public class SpecActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spec);
-        mSpecString = "[\n" +
-                "\t{\"key\":\"基本参数\", \"value\" : \"\"},\n" +
-                "\n" +
-                "\t{\"key\":\"品牌\", \"value\" : \"魅族Meizu\"},\n" +
-                "\n" +
-                "\t{\"key\":\"型号\", \"value\" : \"MX4 PRO\"},\n" +
-                "\n" +
-                "\t{\"key\":\"基本参数\", \"value\" : \"\"},\n" +
-                "\n" +
-                "\t{\"key\":\"品牌\", \"value\" : \"魅族Meizu\"},\n" +
-                "\n" +
-                "\t{\"key\":\"型号\", \"value\" : \"MX4 PRO\"}\n" +
-                "\n" +
-                "]";//getIntent().getStringExtra(SPEC);
+        mSpecString = getIntent().getStringExtra(SPEC);
 
         initViews();
 

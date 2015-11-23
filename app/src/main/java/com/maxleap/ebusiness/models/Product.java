@@ -22,7 +22,7 @@ public class Product {
     private int originalPrice;
     private String intro;
     private List<String> services;
-    private JSONObject info;
+    private String info;
     private String customInfo1;
     private String customInfo2;
     private String customInfo3;
@@ -40,7 +40,7 @@ public class Product {
         this.originalPrice = object.getInt("original_price");
         this.intro = object.getString("intro");
         this.services = object.getList("services");
-        this.info = object.getJSONObject("info");
+        this.info = object.getString("info");
         this.customInfo1 = object.getString("custom_info1");
         this.customInfo2 = object.getString("custom_info2");
         this.customInfo3 = object.getString("custom_info3");
@@ -88,11 +88,11 @@ public class Product {
         this.services = services;
     }
 
-    public JSONObject getInfo() {
+    public String getInfo() {
         return info;
     }
 
-    public void setInfo(JSONObject info) {
+    public void setInfo(String info) {
         this.info = info;
     }
 
