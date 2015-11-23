@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="10dp"
-        android:background="#FFFFFF"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -50,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="1dp"
-        android:background="#FFFFFF"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -97,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/activity_login_notice"
-        android:textColor="#88808080"
+        android:textColor="@color/normal_hint_color"
         android:textSize="15sp" />
 
     <Button
@@ -109,7 +109,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/normal_btn_bg"
         android:text="@string/activity_login_verify"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="15sp" />
 
     <RelativeLayout

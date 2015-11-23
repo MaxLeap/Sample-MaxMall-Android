@@ -65,7 +65,7 @@ public class CommentAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_commment, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_comment, parent, false);
             holder = new ViewHolder();
             holder.productIcon = (ImageView) convertView.findViewById(R.id.item_comment_product)
                     .findViewById(R.id.item_order_product_icon);

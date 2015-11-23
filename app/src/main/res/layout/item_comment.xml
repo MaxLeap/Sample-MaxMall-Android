@@ -9,7 +9,7 @@
         android:id="@+id/item_comment_product"
         layout="@layout/item_order_product" />
 
-    <view
+    <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/bg_main" />
@@ -41,7 +41,7 @@
 
     </LinearLayout>
 
-    <view
+    <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/bg_main" />
