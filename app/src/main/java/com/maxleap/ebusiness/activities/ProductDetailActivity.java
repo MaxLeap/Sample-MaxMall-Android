@@ -19,14 +19,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.maxleap.FindCallback;
 import com.maxleap.GetCallback;
 import com.maxleap.MLObject;
 import com.maxleap.MLQuery;
 import com.maxleap.MLQueryManager;
+import com.maxleap.MLRelation;
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.adapters.ProductGalleryAdapter;
 import com.maxleap.ebusiness.databinding.ActivityProductDetailBinding;
+import com.maxleap.ebusiness.manage.OperationCallback;
+import com.maxleap.ebusiness.manage.UserManager;
 import com.maxleap.ebusiness.models.Product;
+import com.maxleap.ebusiness.utils.FFLog;
 import com.maxleap.exception.MLException;
 
 import org.json.JSONArray;
@@ -46,12 +51,18 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     private List<String> mInfo2;
     private List<String> mInfo3;
 
+    private String mObjectId;
+    private Product mProduct;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_product_detail);
         mBinding.progressbar.setVisibility(View.VISIBLE);
         mBinding.content.setVisibility(View.GONE);
+        mBinding.bottom.setVisibility(View.GONE);
+        mObjectId = getIntent().getStringExtra(PRODID);
+        mObjectId = "564beb7622c9f60001da5d03";
         initViews();
         String id = getIntent().getStringExtra(PRODID);
         fetchProductData(id);
@@ -83,6 +94,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         mBinding.info1Layout.setOnClickListener(this);
         mBinding.info2Layout.setOnClickListener(this);
         mBinding.info3Layout.setOnClickListener(this);
+
+        checkFav();
 
         initViewPager();
     }
@@ -116,13 +129,13 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 if (e == null) {
                     mBinding.progressbar.setVisibility(View.GONE);
                     mBinding.content.setVisibility(View.VISIBLE);
-                    Product product = null;
+                    mBinding.bottom.setVisibility(View.VISIBLE);
                     try {
-                        product = new Product(object);
+                        mProduct = new Product(object);
 
-                        mBinding.setProduct(product);
-                        initPicList(product);
-                        initCustomInfo(product);
+                        mBinding.setProduct(mProduct);
+                        initPicList(mProduct);
+                        initCustomInfo(mProduct);
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }
@@ -210,6 +223,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 decrease();
                 break;
             case R.id.review:
+                Intent reviewIntent = new Intent(this, ReviewActivity.class);
+                reviewIntent.putExtra(PRODID, mObjectId);
+                startActivity(reviewIntent);
                 break;
             case R.id.spec:
                 Intent specIntent = new Intent(this, SpecActivity.class);
@@ -245,8 +261,37 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     private void fav() {
+        if (UserManager.getInstance().getCurrentUser() == null) {
+            FFLog.toast(this, "Please login first");
+            return;
+        }
         boolean isFav = mBinding.fav.isSelected();
         mBinding.fav.setSelected(!isFav);
+        if (isFav) {
+            UserManager.getInstance().removeFavorite(mProduct, new OperationCallback() {
+                @Override
+                public void success() {
+
+                }
+
+                @Override
+                public void failed(String error) {
+
+                }
+            });
+        } else {
+            UserManager.getInstance().addFavorite(mProduct, new OperationCallback() {
+                @Override
+                public void success() {
+
+                }
+
+                @Override
+                public void failed(String error) {
+
+                }
+            });
+        }
     }
 
     private void onClickInfo(List<String> list, final TextView textView) {
@@ -265,6 +310,30 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     }
 
 
+    private void checkFav() {
+        if (UserManager.getInstance().getCurrentUser() == null) {
+            mBinding.fav.setSelected(false);
+            return;
+        }
+
+        MLRelation favoritesRelation = UserManager.getInstance().getCurrentUser().getFavorites();
+        if (favoritesRelation != null) {
+            MLQuery<MLObject> query = favoritesRelation.getQuery();
+            MLQueryManager.findAllInBackground(query, new FindCallback<MLObject>() {
+                @Override
+                public void done(List<MLObject> list, MLException e) {
+                    if (e == null) {
+                        for (MLObject object : list) {
+                            if (object.getObjectId().equals(mObjectId)) {
+                                mBinding.fav.setSelected(true);
+                                break;
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
 
 
 }
