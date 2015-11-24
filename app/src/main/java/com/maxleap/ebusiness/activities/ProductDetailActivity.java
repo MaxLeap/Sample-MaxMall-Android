@@ -104,8 +104,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
         mBinding.cartNum.setVisibility(View.GONE);
         CartPreferenceUtil cartPreferenceUtil = CartPreferenceUtil.getComplexPreferences(
-                getApplicationContext(), CartPreferenceUtil.DATA, MODE_PRIVATE
-        );
+                getApplicationContext());
        // CartList cartList = cartPreferenceUtil.getObject(CartPreferenceUtil.KEY, CartList.class);
         List<ProductData> dataList = cartPreferenceUtil.getProductData();
         if (dataList != null && dataList.size() > 0) {
@@ -366,8 +365,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         }
 
         CartPreferenceUtil cartPreferenceUtil = CartPreferenceUtil.getComplexPreferences(
-                getApplicationContext(), CartPreferenceUtil.DATA, MODE_PRIVATE
-        );
+                getApplicationContext());
 
         cartPreferenceUtil.add(productData);
         List<ProductData> list = cartPreferenceUtil.getProductData();
