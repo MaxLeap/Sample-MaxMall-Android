@@ -105,7 +105,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         mBinding.cartNum.setVisibility(View.GONE);
         CartPreferenceUtil cartPreferenceUtil = CartPreferenceUtil.getComplexPreferences(
                 getApplicationContext());
-       // CartList cartList = cartPreferenceUtil.getObject(CartPreferenceUtil.KEY, CartList.class);
+        // CartList cartList = cartPreferenceUtil.getObject(CartPreferenceUtil.KEY, CartList.class);
         List<ProductData> dataList = cartPreferenceUtil.getProductData();
         if (dataList != null && dataList.size() > 0) {
             mBinding.cartNum.setVisibility(View.VISIBLE);
@@ -264,6 +264,10 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 fav();
                 break;
             case R.id.cart:
+                Intent mainIntent = new Intent(this, MainActivity.class);
+                mainIntent.putExtra(MainActivity.INTENT_TAB_INDEX, 2);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(mainIntent);
                 break;
             case R.id.add_to_cart:
                 addToCart();
@@ -380,6 +384,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
         CartPreferenceUtil cartPreferenceUtil = CartPreferenceUtil.getComplexPreferences(
                 getApplicationContext());
+        cartPreferenceUtil.add(productData);
 
         List<ProductData> list = cartPreferenceUtil.getProductData();
         mBinding.cartNum.setVisibility(View.VISIBLE);
