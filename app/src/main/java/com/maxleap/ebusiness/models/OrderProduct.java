@@ -16,6 +16,7 @@ public class OrderProduct {
     private Product product;
     private int price;
     private int quantity;
+    private String customInfo;
 
     public String getId() {
         return id;
@@ -49,6 +50,14 @@ public class OrderProduct {
         this.quantity = quantity;
     }
 
+    public String getCustomInfo() {
+        return customInfo;
+    }
+
+    public void setCustomInfo(String customInfo) {
+        this.customInfo = customInfo;
+    }
+
     public static OrderProduct from(MLObject object) {
         OrderProduct orderProduct = new OrderProduct();
         orderProduct.setId(object.getObjectId());
@@ -58,5 +67,4 @@ public class OrderProduct {
         orderProduct.setProduct(new Product(product));
         return orderProduct;
     }
-
 }

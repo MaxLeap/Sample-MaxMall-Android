@@ -13,9 +13,11 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,6 +33,8 @@ import com.maxleap.ebusiness.databinding.ActivityProductDetailBinding;
 import com.maxleap.ebusiness.manage.OperationCallback;
 import com.maxleap.ebusiness.manage.UserManager;
 import com.maxleap.ebusiness.models.Product;
+import com.maxleap.ebusiness.models.ProductData;
+import com.maxleap.ebusiness.utils.CartPreferenceUtil;
 import com.maxleap.ebusiness.utils.FFLog;
 import com.maxleap.exception.MLException;
 
@@ -62,7 +66,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         mBinding.content.setVisibility(View.GONE);
         mBinding.bottom.setVisibility(View.GONE);
         mObjectId = getIntent().getStringExtra(PRODID);
-        mObjectId = "564beb7622c9f60001da5d03";
         initViews();
         String id = getIntent().getStringExtra(PRODID);
         fetchProductData(id);
@@ -98,6 +101,17 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         checkFav();
 
         initViewPager();
+
+        mBinding.cartNum.setVisibility(View.GONE);
+        CartPreferenceUtil cartPreferenceUtil = CartPreferenceUtil.getComplexPreferences(
+                getApplicationContext());
+       // CartList cartList = cartPreferenceUtil.getObject(CartPreferenceUtil.KEY, CartList.class);
+        List<ProductData> dataList = cartPreferenceUtil.getProductData();
+        if (dataList != null && dataList.size() > 0) {
+            mBinding.cartNum.setVisibility(View.VISIBLE);
+            mBinding.cartNum.setText(dataList.size() + "");
+        }
+
     }
 
     private void initViewPager() {
@@ -240,6 +254,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
             case R.id.cart:
                 break;
             case R.id.add_to_cart:
+                addToCart();
                 break;
             default:
                 break;
@@ -334,6 +349,48 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 }
             });
         }
+    }
+
+    private void addToCart() {
+        if (mProduct == null) {
+            return;
+        }
+        ProductData productData = new ProductData();
+        productData.setPrice(mProduct.getPrice());
+        productData.setCount(Integer.parseInt(mBinding.quantity.getText().toString()));
+        productData.setId(mProduct.getId());
+        String customInfo = buildCustomInfo();
+        if (!TextUtils.isEmpty(customInfo.toString().trim())){
+            productData.setCustomInfo(customInfo);
+        }
+
+        CartPreferenceUtil cartPreferenceUtil = CartPreferenceUtil.getComplexPreferences(
+                getApplicationContext());
+
+        cartPreferenceUtil.add(productData);
+        List<ProductData> list = cartPreferenceUtil.getProductData();
+
+        mBinding.cartNum.setVisibility(View.VISIBLE);
+        mBinding.cartNum.setText(list.size() + "");
+
+    }
+
+    @NonNull
+    private String buildCustomInfo() {
+        StringBuilder customInfo = new StringBuilder();
+        if (mBinding.info1Layout.getVisibility() != View.GONE &&
+                !TextUtils.isEmpty(mBinding.info1.getText().toString())) {
+            customInfo.append(mBinding.info1.getText().toString() + " ");
+        }
+        if (mBinding.info2Layout.getVisibility() != View.GONE &&
+                !TextUtils.isEmpty(mBinding.info2.getText().toString())) {
+            customInfo.append(mBinding.info2.getText().toString() + " ");
+        }
+        if (mBinding.info3Layout.getVisibility() != View.GONE &&
+                !TextUtils.isEmpty(mBinding.info3.getText().toString())) {
+            customInfo.append(mBinding.info3.getText().toString() + " ");
+        }
+        return customInfo.toString();
     }
 
 
