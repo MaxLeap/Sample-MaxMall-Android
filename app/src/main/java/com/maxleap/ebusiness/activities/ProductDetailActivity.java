@@ -32,7 +32,6 @@ import com.maxleap.ebusiness.adapters.ProductGalleryAdapter;
 import com.maxleap.ebusiness.databinding.ActivityProductDetailBinding;
 import com.maxleap.ebusiness.manage.OperationCallback;
 import com.maxleap.ebusiness.manage.UserManager;
-import com.maxleap.ebusiness.models.CartList;
 import com.maxleap.ebusiness.models.Product;
 import com.maxleap.ebusiness.models.ProductData;
 import com.maxleap.ebusiness.utils.CartPreferenceUtil;
@@ -107,11 +106,13 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         CartPreferenceUtil cartPreferenceUtil = CartPreferenceUtil.getComplexPreferences(
                 getApplicationContext(), CartPreferenceUtil.DATA, MODE_PRIVATE
         );
-        CartList cartList = cartPreferenceUtil.getObject(CartPreferenceUtil.KEY, CartList.class);
-        if (cartList != null && cartList.getList().size() > 0) {
+       // CartList cartList = cartPreferenceUtil.getObject(CartPreferenceUtil.KEY, CartList.class);
+        List<ProductData> dataList = cartPreferenceUtil.getProductData();
+        if (dataList != null && dataList.size() > 0) {
             mBinding.cartNum.setVisibility(View.VISIBLE);
-            mBinding.cartNum.setText(cartList.getList().size() + "");
+            mBinding.cartNum.setText(dataList.size() + "");
         }
+
     }
 
     private void initViewPager() {
@@ -367,23 +368,12 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         CartPreferenceUtil cartPreferenceUtil = CartPreferenceUtil.getComplexPreferences(
                 getApplicationContext(), CartPreferenceUtil.DATA, MODE_PRIVATE
         );
-        CartList list = cartPreferenceUtil.getObject(CartPreferenceUtil.KEY, CartList.class);
-        if (list == null) {
-            list = new CartList();
-            List<ProductData> orderProducts = new ArrayList<>();
-            list.setList(orderProducts);
-        }
 
-        // duplicate check
-        if (!list.getList().contains(productData)) {
-            list.getList().add(productData);
-        } else {
-            return;
-        }
+        cartPreferenceUtil.add(productData);
+        List<ProductData> list = cartPreferenceUtil.getProductData();
 
-        cartPreferenceUtil.putObject(CartPreferenceUtil.KEY, list);
         mBinding.cartNum.setVisibility(View.VISIBLE);
-        mBinding.cartNum.setText(list.getList().size() + "");
+        mBinding.cartNum.setText(list.size() + "");
 
     }
 

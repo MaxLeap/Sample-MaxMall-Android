@@ -12,6 +12,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.maxleap.ebusiness.models.ProductData;
+
+import java.util.List;
 
 public class CartPreferenceUtil {
 
@@ -75,5 +78,76 @@ public class CartPreferenceUtil {
     public void drop() {
         editor.clear();
         editor.commit();
+    }
+
+    public List<ProductData> getProductData() {
+        CartList cartList = getObject(KEY, CartList.class);
+        return cartList.getList();
+    }
+
+    public boolean update(ProductData productData) {
+        boolean result = false;
+        CartList cartList = getObject(KEY, CartList.class);
+        if (cartList == null) {
+            result = false;
+        }
+        for (ProductData data : cartList.getList()) {
+            if (data.equals(productData)) {
+                data.setId(productData.getId());
+                data.setCount(productData.getCount());
+                data.setCustomInfo(productData.getCustomInfo());
+                data.setImageUrl(productData.getImageUrl());
+                data.setPrice(productData.getPrice());
+                data.setTitle(productData.getTitle());
+                result = true;
+                break;
+            }
+        }
+        putObject(KEY, cartList);
+        return result;
+    }
+
+    public boolean delete(ProductData productData) {
+        boolean result = false;
+        CartList cartList = getObject(KEY, CartList.class);
+        if (cartList == null) {
+            result = false;
+        }
+
+        for (ProductData data : cartList.getList()) {
+            if (data.equals(productData)) {
+                cartList.getList().remove(data);
+                result = true;
+                break;
+            }
+        }
+        putObject(KEY, cartList);
+        return result;
+    }
+
+    public boolean add(ProductData productData) {
+        CartList cartList = getObject(KEY, CartList.class);
+        if (cartList == null) {
+            return false;
+        }
+        if (!cartList.getList().contains(productData)) {
+            cartList.getList().add(productData);
+            putObject(KEY, cartList);
+            return true;
+        }
+        return false;
+    }
+
+
+    public class CartList {
+        private List<ProductData> list;
+
+        public List<ProductData> getList() {
+            return list;
+        }
+
+        public void setList(List<ProductData> list) {
+            this.list = list;
+        }
     }
 }
