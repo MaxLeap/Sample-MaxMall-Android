@@ -26,25 +26,23 @@ public class CartPreferenceUtil {
     private SharedPreferences.Editor editor;
     private static Gson GSON = new Gson();
 
-    private CartPreferenceUtil(Context context, String namePreferences, int mode) {
+    private CartPreferenceUtil(Context context) {
         this.context = context;
 
-        preferences = context.getSharedPreferences(namePreferences, mode);
+        preferences = context.getSharedPreferences(DATA, Context.MODE_PRIVATE);
         editor = preferences.edit();
     }
 
-    public static CartPreferenceUtil getComplexPreferences(Context context,
-                                                           String namePreferences, int mode) {
+    public static CartPreferenceUtil getComplexPreferences(Context context) {
 
         if (cartPreferenceUtil == null) {
-            cartPreferenceUtil = new CartPreferenceUtil(context,
-                    namePreferences, mode);
+            cartPreferenceUtil = new CartPreferenceUtil(context);
         }
 
         return cartPreferenceUtil;
     }
 
-    public void putObject(String key, Object object) {
+    private void putObject(String key, Object object) {
         if(object == null){
             throw new IllegalArgumentException("object is null");
         }
@@ -57,11 +55,11 @@ public class CartPreferenceUtil {
         commit();
     }
 
-    public void commit() {
+    private void commit() {
         editor.commit();
     }
 
-    public <T> T getObject(String key, Class<T> a) {
+    private <T> T getObject(String key, Class<T> a) {
 
         String gson = preferences.getString(key, null);
         if (gson == null) {
