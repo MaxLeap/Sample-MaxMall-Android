@@ -31,8 +31,11 @@ import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.activities.MainActivity;
 import com.maxleap.ebusiness.activities.ProductDetailActivity;
 import com.maxleap.ebusiness.adapters.OrderProductAdapter;
+import com.maxleap.ebusiness.models.CartList;
 import com.maxleap.ebusiness.models.OrderProduct;
 import com.maxleap.ebusiness.models.Product;
+import com.maxleap.ebusiness.models.ProductData;
+import com.maxleap.ebusiness.utils.CartPreferenceUtil;
 import com.maxleap.ebusiness.utils.FFLog;
 import com.maxleap.exception.MLException;
 
@@ -49,6 +52,7 @@ public class ShopFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private TextView mTotalPayView;
     private ListView mListView;
     private MainActivity mainActivity;
+    private float mTotalPay;
 
     private Runnable mProgressRunnable = new Runnable() {
         @Override
@@ -91,6 +95,7 @@ public class ShopFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         mListView = (ListView) view.findViewById(R.id.shop_list);
         View footView = LayoutInflater.from(mContext).inflate(R.layout.view_shop_list_foot, null);
         mTotalPayView = (TextView) footView.findViewById(R.id.total_pay);
+        mTotalPayView.setText(String.format(getString(R.string.product_price), mTotalPay));
         footView.findViewById(R.id.pay_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +132,8 @@ public class ShopFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     for (OrderProduct orderProduct : mOrderProducts) {
                         totalPay += orderProduct.getProduct().getPrice() * orderProduct.getQuantity();
                     }
-                    mTotalPayView.setText(String.format(getString(R.string.product_price), totalPay / 100f));
+                    mTotalPay = totalPay / 100f;
+                    mTotalPayView.setText(String.format(getString(R.string.product_price), mTotalPay));
                 }
             });
         }
@@ -136,9 +142,10 @@ public class ShopFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     private void fetchShopData() {
-        final List<String> productIds = getProductIds();
-        final List<Integer> counts = getCounts();
-        if (counts == null || productIds == null) {
+        CartPreferenceUtil sp = CartPreferenceUtil.getComplexPreferences(mContext, CartPreferenceUtil.DATA, 0);
+        CartList cartList = sp.getObject(CartPreferenceUtil.KEY, CartList.class);
+        if (cartList == null || cartList.getList() == null || cartList.getList().isEmpty()) {
+            FFLog.d("fetchShopData cartList : " + cartList);
             mHandler.removeCallbacks(mProgressRunnable);
             mSwipeRefreshLayout.setRefreshing(false);
             mListView.setVisibility(View.GONE);
@@ -146,6 +153,12 @@ public class ShopFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             return;
         }
         FFLog.d("start fetchShopData");
+        final List<String> productIds = new ArrayList<>();
+        final List<Integer> counts = new ArrayList<>();
+        for (ProductData data : cartList.getList()) {
+            productIds.add(data.getId());
+            counts.add(data.getCount());
+        }
         MLQuery<MLObject> query = new MLQuery<MLObject>("Product");
         query.whereContainedIn("objectId", productIds);
 
@@ -161,14 +174,15 @@ public class ShopFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     mListView.setVisibility(View.VISIBLE);
                     mOrderProducts.clear();
                     int totalPay = 0;
-                    for (int i = 0; i < productIds.size(); i++) {
+                    for (int i = 0; i < list.size(); i++) {
                         OrderProduct orderProduct = new OrderProduct();
                         orderProduct.setQuantity(counts.get(i));
                         orderProduct.setProduct(new Product(list.get(i)));
                         totalPay += orderProduct.getProduct().getPrice() * orderProduct.getQuantity();
                         mOrderProducts.add(orderProduct);
                     }
-                    mTotalPayView.setText(String.format(getString(R.string.product_price), totalPay));
+                    mTotalPay = totalPay / 100f;
+                    mTotalPayView.setText(String.format(getString(R.string.product_price), mTotalPay));
                     mAdapter.notifyDataSetChanged();
                 } else {
                     mListView.setVisibility(View.GONE);
@@ -177,16 +191,6 @@ public class ShopFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             }
         });
 
-    }
-
-    private List<Integer> getCounts() {
-        //TODO : get data from sp.
-        return null;
-    }
-
-    private List<String> getProductIds() {
-        //TODO : get data from sp.
-        return null;
     }
 
     @Override
