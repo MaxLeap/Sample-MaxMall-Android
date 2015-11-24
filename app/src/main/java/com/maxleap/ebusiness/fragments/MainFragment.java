@@ -32,6 +32,8 @@ import com.maxleap.MLObject;
 import com.maxleap.MLQuery;
 import com.maxleap.MLQueryManager;
 import com.maxleap.ebusiness.R;
+import com.maxleap.ebusiness.activities.ProductDetailActivity;
+import com.maxleap.ebusiness.activities.ProductsActivity;
 import com.maxleap.ebusiness.activities.SearchActivity;
 import com.maxleap.ebusiness.adapters.BannerAdapter;
 import com.maxleap.ebusiness.adapters.ProductAdapter;
@@ -133,9 +135,10 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(mContext, MerchantListActivity.class);
-//                intent.putExtra(MerchantListActivity.MERCHANT_TYPE, mMerchantTypes.get(position));
-//                startActivity(intent);
+                Intent intent = new Intent(mContext, ProductsActivity.class);
+                intent.putExtra(ProductsActivity.INTENT_TITLE, mProductTypes.get(position).getTitle());
+                intent.putExtra(ProductsActivity.INTENT_TYPE_ID, mProductTypes.get(position).getId());
+                startActivity(intent);
             }
         });
     }
@@ -223,7 +226,7 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                             }
                         });
                     }
-                }else{
+                } else {
                     mHandler.removeCallbacks(mProgressRunnable);
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
@@ -293,7 +296,10 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        Intent intent = new Intent(mContext, ProductDetailActivity.class);
+        position--;
+        intent.putExtra(ProductDetailActivity.PRODID,mProducts.get(position).getId());
+        startActivity(intent);
     }
 
     @Override
@@ -306,9 +312,9 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
             FFLog.d("viewPager onSingleTapConfirmed");
-//            Intent intent = new Intent(mContext, MerchantActivity.class);
-//            intent.putExtra(MerchantActivity.MERCHANT_ID, mBanners.get(viewPager.getCurrentItem()).getMerchant().getId());
-//            startActivity(intent);
+            Intent intent = new Intent(mContext, ProductDetailActivity.class);
+            intent.putExtra(ProductDetailActivity.PRODID, mBanners.get(viewPager.getCurrentItem()).getProduct().getId());
+            startActivity(intent);
             return true;
         }
     }

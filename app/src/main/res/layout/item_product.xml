@@ -20,7 +20,6 @@
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@+id/product_image"
         android:maxLines="2"
-        android:text="Misfit Shine 智能手环 无需充电 航空铝合金防水运动睡眠蓝牙"
         android:textColor="@color/normal_font_color"
         android:textSize="16sp" />
 
@@ -31,7 +30,6 @@
         android:layout_alignBottom="@+id/product_image"
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@+id/product_image"
-        android:text="$ 1589"
         android:textColor="@color/bg_btn"
         android:textSize="20sp" />
 
@@ -41,7 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="3324人评价"
         android:textColor="@color/normal_hint_color"
         android:textSize="15sp" />
 

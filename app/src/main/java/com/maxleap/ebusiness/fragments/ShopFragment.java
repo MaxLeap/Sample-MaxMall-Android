@@ -9,6 +9,7 @@
 package com.maxleap.ebusiness.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -28,6 +29,7 @@ import com.maxleap.MLQuery;
 import com.maxleap.MLQueryManager;
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.activities.MainActivity;
+import com.maxleap.ebusiness.activities.ProductDetailActivity;
 import com.maxleap.ebusiness.adapters.OrderProductAdapter;
 import com.maxleap.ebusiness.models.OrderProduct;
 import com.maxleap.ebusiness.models.Product;
@@ -125,7 +127,7 @@ public class ShopFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     for (OrderProduct orderProduct : mOrderProducts) {
                         totalPay += orderProduct.getProduct().getPrice() * orderProduct.getQuantity();
                     }
-                    mTotalPayView.setText(String.format(getString(R.string.product_price), totalPay));
+                    mTotalPayView.setText(String.format(getString(R.string.product_price), totalPay / 100f));
                 }
             });
         }
@@ -194,6 +196,8 @@ public class ShopFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //TODO
+        Intent intent = new Intent(mContext, ProductDetailActivity.class);
+        intent.putExtra(ProductDetailActivity.PRODID, mOrderProducts.get(position).getProduct().getId());
+        startActivity(intent);
     }
 }
