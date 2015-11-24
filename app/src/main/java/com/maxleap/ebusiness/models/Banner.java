@@ -22,7 +22,7 @@ public class Banner {
         this.setStatus(object.getInt("status"));
         this.setPriority(object.getInt("priority"));
         Product product = new Product();
-//        product.setId(object.getMLObject("product_Id").getObjectId());
+        product.setId(object.getMLObject("product_Id").getObjectId());
         this.setProduct(product);
     }
 

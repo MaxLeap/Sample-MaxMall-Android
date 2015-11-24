@@ -11,6 +11,7 @@ package com.maxleap.ebusiness.activities;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -261,7 +262,9 @@ public class SearchActivity extends BaseActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                    Intent intent = new Intent(SearchActivity.this, ProductDetailActivity.class);
+                    intent.putExtra(ProductDetailActivity.PRODID,mProducts.get(position).getId());
+                    startActivity(intent);
                 }
             });
         } else {

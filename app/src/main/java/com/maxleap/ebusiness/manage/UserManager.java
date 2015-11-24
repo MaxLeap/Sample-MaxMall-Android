@@ -343,7 +343,7 @@ public class UserManager {
 
     public void removeFavorite(Product product, final OperationCallback callback) {
         FFLog.d("start addFavorite");
-        MLObject object = MLObject.createWithoutData("Merchant", product.getId());
+        MLObject object = MLObject.createWithoutData("Product", product.getId());
         MLRelation relation = MLUser.getCurrentUser().getRelation("favorites");
         relation.remove(object);
         getCurrentUser().setFavorites(relation);

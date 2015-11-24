@@ -20,33 +20,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.maxleap.ebusiness.R;
-import com.maxleap.ebusiness.models.OrderProduct;
-import com.maxleap.ebusiness.models.Product;
+import com.maxleap.ebusiness.models.ProductData;
+import com.maxleap.ebusiness.utils.CartPreferenceUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class OrderProductAdapter extends BaseAdapter implements View.OnClickListener {
-    private ArrayList<OrderProduct> mOrderProducts;
+public class ShopProductAdapter extends BaseAdapter implements View.OnClickListener {
+    private ArrayList<ProductData> mProductDatas;
     private Context mContext;
     private boolean inEditMode;
     private CountListener mListener;
 
-    public OrderProductAdapter(Context context, ArrayList<OrderProduct> orderProducts, CountListener listener) {
+    public ShopProductAdapter(Context context, ArrayList<ProductData> productDatas, CountListener listener) {
         mContext = context;
-        mOrderProducts = orderProducts;
+        mProductDatas = productDatas;
         inEditMode = false;
         mListener = listener;
     }
 
     @Override
     public int getCount() {
-        return mOrderProducts.size();
+        return mProductDatas.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mOrderProducts.get(position);
+        return mProductDatas.get(position);
     }
 
     @Override
@@ -78,12 +78,11 @@ public class OrderProductAdapter extends BaseAdapter implements View.OnClickList
             holder.deleteBtn.setVisibility(View.GONE);
         }
 
-        OrderProduct orderProduct = mOrderProducts.get(position);
-        Product item = orderProduct.getProduct();
-        Picasso.with(mContext).load(item.getIcons().get(0)).placeholder(R.mipmap.def_item).into(holder.imageView);
-        holder.titleView.setText(item.getTitle());
-        holder.priceView.setText(String.format(mContext.getString(R.string.product_price), item.getPrice() / 100f));
-        holder.countView.setText(String.valueOf(orderProduct.getQuantity()));
+        ProductData productData = mProductDatas.get(position);
+        Picasso.with(mContext).load(productData.getImageUrl()).placeholder(R.mipmap.def_item).into(holder.imageView);
+        holder.titleView.setText(productData.getTitle()+" "+productData.getCustomInfo());
+        holder.priceView.setText(String.format(mContext.getString(R.string.product_price), productData.getPrice() / 100f));
+        holder.countView.setText(String.valueOf(productData.getCount()));
 
         holder.deleteBtn.setTag(position);
         holder.minusBtn.setTag(position);
@@ -106,7 +105,8 @@ public class OrderProductAdapter extends BaseAdapter implements View.OnClickList
                 builder.setPositiveButton(R.string.dialog_shop_delete_confirm_sure, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mOrderProducts.remove(position);
+                        CartPreferenceUtil.getComplexPreferences(mContext).delete(mProductDatas.get(position));
+                        mProductDatas.remove(position);
                         if (mListener != null) {
                             mListener.onCountChanged();
                         }
@@ -123,21 +123,23 @@ public class OrderProductAdapter extends BaseAdapter implements View.OnClickList
                 builder.create().show();
                 break;
             case R.id.minus_btn:
-                OrderProduct item = mOrderProducts.get(position);
-                int count = item.getQuantity();
+                ProductData item = mProductDatas.get(position);
+                int count = item.getCount();
                 count--;
-                if (count < 0) count = 0;
-                item.setQuantity(count);
+                if (count < 1) count = 1;
+                item.setCount(count);
+                CartPreferenceUtil.getComplexPreferences(mContext).update(mProductDatas.get(position));
                 if (mListener != null) {
                     mListener.onCountChanged();
                 }
                 notifyDataSetChanged();
                 break;
             case R.id.add_btn:
-                OrderProduct item2 = mOrderProducts.get(position);
-                int count2 = item2.getQuantity();
+                ProductData item2 = mProductDatas.get(position);
+                int count2 = item2.getCount();
                 count2++;
-                item2.setQuantity(count2);
+                item2.setCount(count2);
+                CartPreferenceUtil.getComplexPreferences(mContext).update(mProductDatas.get(position));
                 if (mListener != null) {
                     mListener.onCountChanged();
                 }

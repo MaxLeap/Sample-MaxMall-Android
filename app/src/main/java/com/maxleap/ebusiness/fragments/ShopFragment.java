@@ -9,51 +9,36 @@
 package com.maxleap.ebusiness.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.maxleap.FindCallback;
-import com.maxleap.MLObject;
-import com.maxleap.MLQuery;
-import com.maxleap.MLQueryManager;
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.activities.MainActivity;
-import com.maxleap.ebusiness.adapters.OrderProductAdapter;
-import com.maxleap.ebusiness.models.OrderProduct;
-import com.maxleap.ebusiness.models.Product;
-import com.maxleap.ebusiness.utils.FFLog;
-import com.maxleap.exception.MLException;
+import com.maxleap.ebusiness.activities.ProductDetailActivity;
+import com.maxleap.ebusiness.adapters.ShopProductAdapter;
+import com.maxleap.ebusiness.models.ProductData;
+import com.maxleap.ebusiness.utils.CartPreferenceUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class ShopFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private Handler mHandler;
+public class ShopFragment extends Fragment implements AdapterView.OnItemClickListener {
     private Context mContext;
-    private ArrayList<OrderProduct> mOrderProducts;
-    private OrderProductAdapter mAdapter;
-    private View mEmptyView;
+    private ArrayList<ProductData> mProductDatas;
+    private ShopProductAdapter mAdapter;
     private TextView mTotalPayView;
-    private ListView mListView;
     private MainActivity mainActivity;
-
-    private Runnable mProgressRunnable = new Runnable() {
-        @Override
-        public void run() {
-            mSwipeRefreshLayout.setRefreshing(true);
-        }
-    };
+    private float mTotalPay;
+    private Button mPayButton;
 
     @Nullable
     @Override
@@ -66,134 +51,93 @@ public class ShopFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private void initUI(View view) {
         mContext = getActivity();
         mainActivity = (MainActivity) getActivity();
-        mHandler = new Handler();
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        final TextView editView = (TextView) toolbar.findViewById(R.id.edit);
+        if (mAdapter != null && mAdapter.isInEditMode()) {
+            editView.setText(R.string.frag_shop_toolbar_edit_done);
+        } else {
+            editView.setText(R.string.frag_shop_toolbar_edit);
+        }
         toolbar.findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOrderProducts.size() == 0) return;
-                TextView editView = (TextView) v;
-                if (editView.getText().toString().equals(getString(R.string.frag_shop_toolbar_edit))) {
-                    editView.setText(R.string.frag_shop_toolbar_edit_done);
-                    mAdapter.setInEditMode(true);
-                } else {
+                if (mAdapter.isInEditMode()) {
                     editView.setText(R.string.frag_shop_toolbar_edit);
                     mAdapter.setInEditMode(false);
+                } else {
+                    editView.setText(R.string.frag_shop_toolbar_edit_done);
+                    mAdapter.setInEditMode(true);
                 }
             }
         });
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mListView = (ListView) view.findViewById(R.id.shop_list);
+        ListView listView = (ListView) view.findViewById(R.id.shop_list);
         View footView = LayoutInflater.from(mContext).inflate(R.layout.view_shop_list_foot, null);
         mTotalPayView = (TextView) footView.findViewById(R.id.total_pay);
-        footView.findViewById(R.id.pay_button).setOnClickListener(new View.OnClickListener() {
+        mTotalPayView.setText(String.format(getString(R.string.product_price), mTotalPay));
+        mPayButton = (Button) footView.findViewById(R.id.pay_button);
+        mPayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO:
             }
         });
-        mEmptyView = view.findViewById(R.id.empty);
-        mEmptyView.setVisibility(View.GONE);
-        mEmptyView.findViewById(R.id.to_main_button).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.to_main_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mainActivity.selectTab(0);
             }
         });
-        mListView.addFooterView(footView);
+        listView.addFooterView(footView);
+        listView.setEmptyView(view.findViewById(R.id.empty));
 
-        if (mOrderProducts == null) {
-            mOrderProducts = new ArrayList<>();
-            mHandler.postDelayed(mProgressRunnable, 100);
+        if (mProductDatas == null) {
+            mProductDatas = new ArrayList<>();
         }
-        if (mOrderProducts.isEmpty()) {
-            fetchShopData();
-        }
+
         if (mAdapter == null) {
-            mAdapter = new OrderProductAdapter(mContext, mOrderProducts, new OrderProductAdapter.CountListener() {
+            mAdapter = new ShopProductAdapter(mContext, mProductDatas, new ShopProductAdapter.CountListener() {
                 @Override
                 public void onCountChanged() {
-                    if (mOrderProducts.size() == 0) {
-                        mListView.setVisibility(View.GONE);
-                        mEmptyView.setVisibility(View.VISIBLE);
+                    if (mProductDatas.size() == 0) {
                         return;
                     }
                     int totalPay = 0;
-                    for (OrderProduct orderProduct : mOrderProducts) {
-                        totalPay += orderProduct.getProduct().getPrice() * orderProduct.getQuantity();
+                    for (ProductData productData : mProductDatas) {
+                        totalPay += productData.getPrice() * productData.getCount();
                     }
-                    mTotalPayView.setText(String.format(getString(R.string.product_price), totalPay));
+                    mTotalPay = totalPay / 100f;
+                    mTotalPayView.setText(String.format(getString(R.string.product_price), mTotalPay));
                 }
             });
         }
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(this);
+
+        fetchShopData();
+        listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(this);
     }
 
     private void fetchShopData() {
-        final List<String> productIds = getProductIds();
-        final List<Integer> counts = getCounts();
-        if (counts == null || productIds == null) {
-            mHandler.removeCallbacks(mProgressRunnable);
-            mSwipeRefreshLayout.setRefreshing(false);
-            mListView.setVisibility(View.GONE);
-            mEmptyView.setVisibility(View.VISIBLE);
+        CartPreferenceUtil sp = CartPreferenceUtil.getComplexPreferences(mContext);
+        ArrayList<ProductData> productDatas = (ArrayList<ProductData>) sp.getProductData();
+        if (productDatas == null || productDatas.isEmpty()) {
             return;
         }
-        FFLog.d("start fetchShopData");
-        MLQuery<MLObject> query = new MLQuery<MLObject>("Product");
-        query.whereContainedIn("objectId", productIds);
-
-        MLQueryManager.findAllInBackground(query, new FindCallback<MLObject>() {
-            @Override
-            public void done(List<MLObject> list, MLException e) {
-                mHandler.removeCallbacks(mProgressRunnable);
-                mSwipeRefreshLayout.setRefreshing(false);
-                FFLog.d("fetchShopData list: " + list);
-                FFLog.d("fetchShopData e: " + e);
-                if (e == null) {
-                    mEmptyView.setVisibility(View.GONE);
-                    mListView.setVisibility(View.VISIBLE);
-                    mOrderProducts.clear();
-                    int totalPay = 0;
-                    for (int i = 0; i < productIds.size(); i++) {
-                        OrderProduct orderProduct = new OrderProduct();
-                        orderProduct.setQuantity(counts.get(i));
-                        orderProduct.setProduct(new Product(list.get(i)));
-                        totalPay += orderProduct.getProduct().getPrice() * orderProduct.getQuantity();
-                        mOrderProducts.add(orderProduct);
-                    }
-                    mTotalPayView.setText(String.format(getString(R.string.product_price), totalPay));
-                    mAdapter.notifyDataSetChanged();
-                } else {
-                    mListView.setVisibility(View.GONE);
-                    mEmptyView.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-    }
-
-    private List<Integer> getCounts() {
-        //TODO : get data from sp.
-        return null;
-    }
-
-    private List<String> getProductIds() {
-        //TODO : get data from sp.
-        return null;
-    }
-
-    @Override
-    public void onRefresh() {
-        fetchShopData();
+        mProductDatas.clear();
+        mProductDatas.addAll(productDatas);
+        int totalPay = 0;
+        for (ProductData data : mProductDatas) {
+            totalPay += data.getPrice() * data.getCount();
+        }
+        mTotalPay = totalPay / 100f;
+        mTotalPayView.setText(String.format(getString(R.string.product_price), mTotalPay));
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //TODO
+        Intent intent = new Intent(mContext, ProductDetailActivity.class);
+        intent.putExtra(ProductDetailActivity.PRODID, mProductDatas.get(position).getId());
+        startActivity(intent);
     }
 }

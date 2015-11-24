@@ -136,7 +136,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
     private void fetchProductData(String id) {
         MLQuery<MLObject> query = MLQuery.getQuery("Product");
-        query.whereEqualTo("objectId", "564beb7622c9f60001da5d03");
+        query.whereEqualTo("objectId", id);
         MLQueryManager.getFirstInBackground(query, new GetCallback<MLObject>() {
             @Override
             public void done(MLObject object, MLException e) {
@@ -359,8 +359,10 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         productData.setPrice(mProduct.getPrice());
         productData.setCount(Integer.parseInt(mBinding.quantity.getText().toString()));
         productData.setId(mProduct.getId());
+        productData.setTitle(mProduct.getTitle());
+        productData.setImageUrl(mProduct.getIcons().get(0));
         String customInfo = buildCustomInfo();
-        if (!TextUtils.isEmpty(customInfo.toString().trim())){
+        if (!TextUtils.isEmpty(customInfo.toString().trim())) {
             productData.setCustomInfo(customInfo);
         }
 
