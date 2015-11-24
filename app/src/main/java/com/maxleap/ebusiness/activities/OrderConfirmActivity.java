@@ -201,7 +201,7 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
             order.setReceiptHeading("");
         }
         order.setPayMethod(payType.getText().toString());
-        order.setOrderStatus(1);
+        order.setOrderStatus(2);
         order.setAddress(address);
     }
 }
