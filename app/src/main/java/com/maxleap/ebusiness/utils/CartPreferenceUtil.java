@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.maxleap.ebusiness.models.ProductData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartPreferenceUtil {
@@ -129,7 +130,9 @@ public class CartPreferenceUtil {
     public boolean add(ProductData productData) {
         CartList cartList = getObject(KEY, CartList.class);
         if (cartList == null) {
-            return false;
+            List<ProductData> list = new ArrayList<>();
+            cartList = new CartList();
+            cartList.setList(list);
         }
         if (!cartList.getList().contains(productData)) {
             cartList.getList().add(productData);

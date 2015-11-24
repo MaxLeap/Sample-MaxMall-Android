@@ -12,7 +12,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.adapters.SpecAdapter;
@@ -24,6 +26,7 @@ public class SpecActivity extends BaseActivity {
 
     public static final String SPEC = "spec";
 
+    private TextView mEmptyView;
     private RecyclerView mRecyclerView;
     private SpecAdapter mSpecAdapter;
 
@@ -34,9 +37,18 @@ public class SpecActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spec);
         mSpecString = getIntent().getStringExtra(SPEC);
-
         initViews();
 
+        initAdapter();
+
+    }
+
+    private void initAdapter() {
+        if (TextUtils.isEmpty(mSpecString)) {
+            mEmptyView.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+            return;
+        }
         try {
             Specs specs = new Specs(mSpecString);
             mSpecAdapter = new SpecAdapter(specs);
@@ -45,7 +57,6 @@ public class SpecActivity extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     private void initViews() {
@@ -53,6 +64,8 @@ public class SpecActivity extends BaseActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        mEmptyView = (TextView) findViewById(R.id.empty);
     }
 
     private void initToolbar() {
