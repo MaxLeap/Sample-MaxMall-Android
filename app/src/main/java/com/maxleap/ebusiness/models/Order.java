@@ -12,13 +12,13 @@ public class Order {
     private Address address;
     private User user;
     private String delivery;
-    private String receiptTitle;
+    private String receiptType;
     private String receiptContent;
-    private String receiptInfo;
+    private String receiptHeading;
     private String remarks;
     private String payMethod;
-    private String orderStatus;
-    private List<OrderProduct> orderProducts;
+    private int orderStatus;
+    private ArrayList<OrderProduct> orderProducts;
 
     public String getId() {
         return id;
@@ -60,19 +60,19 @@ public class Order {
         this.delivery = delivery;
     }
 
-    public List<OrderProduct> getOrderProducts() {
+    public ArrayList<OrderProduct> getOrderProducts() {
         return orderProducts;
     }
 
-    public void setOrderProducts(List<OrderProduct> orderProducts) {
+    public void setOrderProducts(ArrayList<OrderProduct> orderProducts) {
         this.orderProducts = orderProducts;
     }
 
-    public String getOrderStatus() {
+    public int getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(String orderStatus) {
+    public void setOrderStatus(int orderStatus) {
         this.orderStatus = orderStatus;
     }
 
@@ -92,20 +92,20 @@ public class Order {
         this.receiptContent = receiptContent;
     }
 
-    public String getReceiptInfo() {
-        return receiptInfo;
+    public String getReceiptHeading() {
+        return receiptHeading;
     }
 
-    public void setReceiptInfo(String receiptInfo) {
-        this.receiptInfo = receiptInfo;
+    public void setReceiptHeading(String receiptHeading) {
+        this.receiptHeading = receiptHeading;
     }
 
-    public String getReceiptTitle() {
-        return receiptTitle;
+    public String getReceiptType() {
+        return receiptType;
     }
 
-    public void setReceiptTitle(String receiptTitle) {
-        this.receiptTitle = receiptTitle;
+    public void setReceiptType(String receiptType) {
+        this.receiptType = receiptType;
     }
 
     public String getRemarks() {
@@ -123,18 +123,18 @@ public class Order {
         Address address = Address.from(object.getMLObject("address"));
         order.setAddress(address);
         List<MLObject> mlOrderProducts = object.getList("order_products");
-        List<OrderProduct> orderProducts = new ArrayList<>();
+        ArrayList<OrderProduct> orderProducts = new ArrayList<>();
         for (MLObject orderProduct : mlOrderProducts) {
             orderProducts.add(OrderProduct.from(orderProduct));
         }
         order.setOrderProducts(orderProducts);
         order.setDelivery(object.getString("delivery"));
-        order.setReceiptTitle(object.getString("receipt_title"));
+        order.setReceiptType(object.getString("receipt_title"));
         order.setReceiptContent(object.getString("receipt_content"));
-        order.setReceiptInfo(object.getString("receipt_info"));
+        order.setReceiptHeading(object.getString("receipt_info"));
         order.setRemarks(object.getString("remarks"));
         order.setPayMethod(object.getString("pay_method"));
-        order.setOrderStatus(object.getString("order_status"));
+        order.setOrderStatus(object.getInt("order_status"));
         return order;
     }
 }

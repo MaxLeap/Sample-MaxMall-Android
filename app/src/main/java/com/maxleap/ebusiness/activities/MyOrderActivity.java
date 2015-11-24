@@ -32,6 +32,8 @@ import java.util.List;
 
 public class MyOrderActivity extends BaseActivity {
 
+    public static final String INTENT_ORDERPRODUCTS_KEY = "intent_orderproducts_key";
+
     private ListView listView;
     private TextView emptyView;
     private ProgressBar progressBar;
@@ -67,9 +69,9 @@ public class MyOrderActivity extends BaseActivity {
 
     private void initUI() {
         mUser = UserManager.getInstance().getCurrentUser();
-        progressBar = (ProgressBar) findViewById(R.id.address_progress_bar);
-        listView = (ListView) findViewById(R.id.address_list);
-        emptyView = (TextView) findViewById(R.id.address_empty_view);
+        progressBar = (ProgressBar) findViewById(R.id.my_order_progress_bar);
+        listView = (ListView) findViewById(R.id.my_order_list);
+        emptyView = (TextView) findViewById(R.id.my_order_empty_view);
         mOrders = new ArrayList<>();
         mOrderAdapter = new OrderAdapter(this, mOrders);
         listView.setAdapter(mOrderAdapter);

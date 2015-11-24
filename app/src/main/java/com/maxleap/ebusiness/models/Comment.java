@@ -20,6 +20,10 @@ public class Comment implements Serializable {
     private Product product;
     private Date updateAt;
 
+    public Comment() {
+
+    }
+
     public Comment(MLObject object) {
         this.score = object.getInt("score");
         this.content = object.getString("content");

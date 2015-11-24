@@ -21,6 +21,7 @@ import com.maxleap.SaveCallback;
 import com.maxleap.SignUpCallback;
 import com.maxleap.ValidateUsernameCallback;
 import com.maxleap.ebusiness.models.Address;
+import com.maxleap.ebusiness.models.Comment;
 import com.maxleap.ebusiness.models.Order;
 import com.maxleap.ebusiness.models.Product;
 import com.maxleap.ebusiness.models.User;
@@ -243,9 +244,9 @@ public class UserManager {
         final MLObject obj = new MLObject("Order");
         obj.put("total", order.getTotal());
         obj.put("delivery", order.getDelivery());
-        obj.put("receipt_title", order.getReceiptTitle());
+        obj.put("receipt_title", order.getReceiptType());
         obj.put("receipt_content", order.getReceiptContent());
-        obj.put("receipt_info", order.getReceiptInfo());
+        obj.put("receipt_info", order.getReceiptHeading());
         obj.put("remarks", order.getRemarks());
         obj.put("pay_method", order.getPayMethod());
         obj.put("order_status", order.getOrderStatus());
@@ -295,7 +296,7 @@ public class UserManager {
     /**
      * 更新订单状态, 仅支持订单状态更新, 不支持菜品更新
      *
-     * @param order    订单状态包括: 1 - 订单处理中; 2 - 待发货; 3 - 已发货; 4 - 已收货; 5 - 已评论; 6 - 用户取消订单; 7 - 商户取消订单
+     * @param order    订单状态包括: 1 - 订单处理中（待付款）; 2 - 待发货; 3 - 已发货; 4 - 已收货; 5 - 已评论; 6 - 用户取消订单; 7 - 商户取消订单
      * @param callback
      */
     public void updateOrder(Order order, final OperationCallback callback) {
@@ -359,4 +360,30 @@ public class UserManager {
         });
 
     }
+
+    public void addComment(List<Comment> comments, final OperationCallback callback) {
+        FFLog.d("start addComment");
+        List<MLObject> objects = new ArrayList<>();
+        for (int i = 0; i < comments.size(); i++) {
+            MLObject comment = new MLObject("Comment");
+            comment.put("score", comments.get(i).getScore());
+            comment.put("content", comments.get(i).getContent());
+            MLObject product = MLObject.createWithoutData("product", comments.get(i).getProduct().getId());
+            comment.put("product", product);
+            comment.put("user", MLUser.getCurrentUser());
+            objects.add(comment);
+        }
+        MLDataManager.saveAllInBackground(objects, new SaveCallback() {
+            @Override
+            public void done(MLException e) {
+                FFLog.d("addComment e : " + e);
+                if (e == null) {
+                    callback.success();
+                } else {
+                    callback.failed(e.getMessage());
+                }
+            }
+        });
+    }
+
 }
