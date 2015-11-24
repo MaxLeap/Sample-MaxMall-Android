@@ -76,10 +76,11 @@ public class ProductsActivity extends BaseActivity {
         if (mProducts == null) {
             mProducts = new ArrayList<>();
             mComments = new ArrayList<>();
+
+        }
+        if (mProducts.isEmpty()) {
             mProgressBar.setVisibility(View.VISIBLE);
             fetchProductData();
-        } else {
-            mProgressBar.setVisibility(View.GONE);
         }
         if (mProductAdapter == null) {
             mProductAdapter = new ProductAdapter(this, mProducts, mComments);
@@ -89,7 +90,7 @@ public class ProductsActivity extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Product product = mProducts.get(--position);
+                Product product = mProducts.get(position);
                 Intent intent = new Intent(ProductsActivity.this, ProductDetailActivity.class);
                 intent.putExtra(ProductDetailActivity.PRODID, product.getId());
                 startActivity(intent);
@@ -153,6 +154,8 @@ public class ProductsActivity extends BaseActivity {
                             }
                         });
                     }
+                } else {
+                    mProgressBar.setVisibility(View.GONE);
                 }
             }
 
