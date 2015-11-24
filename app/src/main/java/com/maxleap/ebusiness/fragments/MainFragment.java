@@ -100,6 +100,7 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         ListView listview = (ListView) view.findViewById(R.id.frag_main_list_view);
         listview.addHeaderView(getHeadView());
+        listview.addFooterView(LayoutInflater.from(getActivity()).inflate(R.layout.view_footer, null));
 
         if (mProducts == null) {
             mProducts = new ArrayList<>();
@@ -297,9 +298,9 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(mContext, ProductDetailActivity.class);
-        FFLog.d("onItemClick position : "+position);
-        position = position-1;
-        intent.putExtra(ProductDetailActivity.PRODID,mProducts.get(position).getId());
+        FFLog.d("onItemClick position : " + position);
+        position = position - 1;
+        intent.putExtra(ProductDetailActivity.PRODID, mProducts.get(position).getId());
         startActivity(intent);
     }
 
