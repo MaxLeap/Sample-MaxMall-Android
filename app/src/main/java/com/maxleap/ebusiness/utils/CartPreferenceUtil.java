@@ -71,4 +71,9 @@ public class CartPreferenceUtil {
             }
         }
     }
+
+    public void drop() {
+        editor.clear();
+        editor.commit();
+    }
 }
