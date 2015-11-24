@@ -297,7 +297,8 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(mContext, ProductDetailActivity.class);
-        position--;
+        FFLog.d("onItemClick position : "+position);
+        position = position-1;
         intent.putExtra(ProductDetailActivity.PRODID,mProducts.get(position).getId());
         startActivity(intent);
     }
