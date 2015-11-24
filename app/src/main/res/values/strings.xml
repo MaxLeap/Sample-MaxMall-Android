@@ -92,8 +92,8 @@
     <string name="activity_my_order_state_commented">商品已评论</string>
     <string name="activity_my_order_product_no">共%1$d件</string>
     <string name="activity_my_order_product_price">¥%1$d</string>
-    <string name="activity_my_order_total">总额：¥</string>
-    <string name="activity_my_order_order_time">下单时间：</string>
+    <string name="activity_my_order_total">总额：¥%1$d</string>
+    <string name="activity_my_order_order_time">下单时间：%1$s</string>
     <string name="activity_my_order_order_pay">剩余付款时间：%1$s(逾期将自动取消)</string>
     <string name="activity_my_order_to_pay">去支付</string>
     <string name="activity_my_order_to_comment">去评价</string>
@@ -140,6 +140,16 @@
     <string name="receipt_dialog_next">下一步</string>
     <string name="receipt_dialog_confirm">确认</string>
     <string name="activity_order_confirm_no_address">请选择送货地址</string>
+
+    <!-- Order Detail Activity -->
+    <string name="activity_order_detail_title">订单详情</string>
+    <string name="activity_order_detail_receive_user">收货人：</string>
+    <string name="activity_order_detail_receive_address">收货地址：</string>
+    <string name="activity_order_detail_order_time">下单时间：</string>
+    <string name="activity_order_detail_deliver_type">配送方式：</string>
+    <string name="activity_order_detail_receipt_type">发票类型：</string>
+    <string name="activity_order_detail_receipt_content">发票内容：</string>
+    <string name="activity_order_detail_receipt_heading">发票抬头：</string>
 
     <!-- Search Activity -->
     <string name="activity_search_sort">排序</string>

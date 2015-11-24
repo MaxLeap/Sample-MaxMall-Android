@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.maxleap.ebusiness.R;
+import com.maxleap.ebusiness.models.OrderProduct;
 import com.maxleap.ebusiness.models.ProductData;
 import com.squareup.picasso.Picasso;
 
@@ -25,21 +26,21 @@ import java.util.ArrayList;
 public class OrderConfirmAdapter extends BaseAdapter {
 
     private Context mContext;
-    private ArrayList<ProductData> productDatas;
+    private ArrayList<?> productData;
 
-    public OrderConfirmAdapter(Context context, ArrayList<ProductData> productDatas) {
+    public OrderConfirmAdapter(Context context, ArrayList<?> productData) {
         this.mContext = context;
-        this.productDatas = productDatas;
+        this.productData = productData;
     }
 
     @Override
     public int getCount() {
-        return productDatas.size();
+        return productData.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return productDatas.get(position);
+        return productData.get(position);
     }
 
     @Override
@@ -62,14 +63,33 @@ public class OrderConfirmAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        ProductData productData = productDatas.get(position);
+        String url;
+        String title;
+        int count;
+        int price;
+        Object object = this.productData.get(position);
+        if (object instanceof ProductData) {
+            ProductData productData = (ProductData) object;
+            url = productData.getImageUrl();
+            title = productData.getTitle();
+            count = productData.getCount();
+            price = productData.getPrice() * productData.getCount();
+        } else if (object instanceof OrderProduct) {
+            OrderProduct orderProduct = (OrderProduct) object;
+            url = orderProduct.getProduct().getIcons().get(0);
+            title = orderProduct.getProduct().getTitle();
+            count = orderProduct.getQuantity();
+            price = orderProduct.getPrice();
+        } else {
+            return null;
+        }
 
-        Picasso.with(mContext).load(productData.getImageUrl()).into(holder.productIcon);
-        holder.productTitle.setText(productData.getTitle());
+        Picasso.with(mContext).load(url).into(holder.productIcon);
+        holder.productTitle.setText(title);
         holder.productNo.setText(String.format(mContext.getString(R.string.activity_my_order_product_no)
-                , productData.getCount()));
+                , count));
         holder.productPrice.setText(String.format(mContext.getString(R.string.activity_my_order_product_price)
-                , productData.getPrice() * productData.getCount()));
+                , price));
 
         return convertView;
 
