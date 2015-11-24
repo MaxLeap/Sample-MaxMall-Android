@@ -82,6 +82,9 @@ public class CartPreferenceUtil {
 
     public List<ProductData> getProductData() {
         CartList cartList = getObject(KEY, CartList.class);
+        if (cartList == null) {
+            return null;
+        }
         return cartList.getList();
     }
 
@@ -89,7 +92,7 @@ public class CartPreferenceUtil {
         boolean result = false;
         CartList cartList = getObject(KEY, CartList.class);
         if (cartList == null) {
-            result = false;
+            return false;
         }
         for (ProductData data : cartList.getList()) {
             if (data.equals(productData)) {
@@ -111,7 +114,7 @@ public class CartPreferenceUtil {
         boolean result = false;
         CartList cartList = getObject(KEY, CartList.class);
         if (cartList == null) {
-            result = false;
+            return false;
         }
 
         for (ProductData data : cartList.getList()) {
