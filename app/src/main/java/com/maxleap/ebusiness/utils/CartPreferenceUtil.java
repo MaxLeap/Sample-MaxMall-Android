@@ -12,6 +12,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.maxleap.ebusiness.models.ProductData;
+
+import java.util.List;
 
 public class CartPreferenceUtil {
 
@@ -23,25 +26,23 @@ public class CartPreferenceUtil {
     private SharedPreferences.Editor editor;
     private static Gson GSON = new Gson();
 
-    private CartPreferenceUtil(Context context, String namePreferences, int mode) {
+    private CartPreferenceUtil(Context context) {
         this.context = context;
 
-        preferences = context.getSharedPreferences(namePreferences, mode);
+        preferences = context.getSharedPreferences(DATA, Context.MODE_PRIVATE);
         editor = preferences.edit();
     }
 
-    public static CartPreferenceUtil getComplexPreferences(Context context,
-                                                           String namePreferences, int mode) {
+    public static CartPreferenceUtil getComplexPreferences(Context context) {
 
         if (cartPreferenceUtil == null) {
-            cartPreferenceUtil = new CartPreferenceUtil(context,
-                    namePreferences, mode);
+            cartPreferenceUtil = new CartPreferenceUtil(context);
         }
 
         return cartPreferenceUtil;
     }
 
-    public void putObject(String key, Object object) {
+    private void putObject(String key, Object object) {
         if(object == null){
             throw new IllegalArgumentException("object is null");
         }
@@ -54,11 +55,11 @@ public class CartPreferenceUtil {
         commit();
     }
 
-    public void commit() {
+    private void commit() {
         editor.commit();
     }
 
-    public <T> T getObject(String key, Class<T> a) {
+    private <T> T getObject(String key, Class<T> a) {
 
         String gson = preferences.getString(key, null);
         if (gson == null) {
@@ -75,5 +76,79 @@ public class CartPreferenceUtil {
     public void drop() {
         editor.clear();
         editor.commit();
+    }
+
+    public List<ProductData> getProductData() {
+        CartList cartList = getObject(KEY, CartList.class);
+        if (cartList == null) {
+            return null;
+        }
+        return cartList.getList();
+    }
+
+    public boolean update(ProductData productData) {
+        boolean result = false;
+        CartList cartList = getObject(KEY, CartList.class);
+        if (cartList == null) {
+            return false;
+        }
+        for (ProductData data : cartList.getList()) {
+            if (data.equals(productData)) {
+                data.setId(productData.getId());
+                data.setCount(productData.getCount());
+                data.setCustomInfo(productData.getCustomInfo());
+                data.setImageUrl(productData.getImageUrl());
+                data.setPrice(productData.getPrice());
+                data.setTitle(productData.getTitle());
+                result = true;
+                break;
+            }
+        }
+        putObject(KEY, cartList);
+        return result;
+    }
+
+    public boolean delete(ProductData productData) {
+        boolean result = false;
+        CartList cartList = getObject(KEY, CartList.class);
+        if (cartList == null) {
+            return false;
+        }
+
+        for (ProductData data : cartList.getList()) {
+            if (data.equals(productData)) {
+                cartList.getList().remove(data);
+                result = true;
+                break;
+            }
+        }
+        putObject(KEY, cartList);
+        return result;
+    }
+
+    public boolean add(ProductData productData) {
+        CartList cartList = getObject(KEY, CartList.class);
+        if (cartList == null) {
+            return false;
+        }
+        if (!cartList.getList().contains(productData)) {
+            cartList.getList().add(productData);
+            putObject(KEY, cartList);
+            return true;
+        }
+        return false;
+    }
+
+
+    public class CartList {
+        private List<ProductData> list;
+
+        public List<ProductData> getList() {
+            return list;
+        }
+
+        public void setList(List<ProductData> list) {
+            this.list = list;
+        }
     }
 }
