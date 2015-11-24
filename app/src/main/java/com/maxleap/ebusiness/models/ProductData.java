@@ -16,6 +16,7 @@ public class ProductData implements Serializable {
     private String title;
     private int price;
     private int count;
+    private String customInfo;
 
     public String getId() {
         return id;
@@ -57,6 +58,14 @@ public class ProductData implements Serializable {
         this.count = count;
     }
 
+    public String getCustomInfo() {
+        return customInfo;
+    }
+
+    public void setCustomInfo(String customInfo) {
+        this.customInfo = customInfo;
+    }
+
     @Override
     public String toString() {
         return "ProductData{" +
@@ -66,5 +75,24 @@ public class ProductData implements Serializable {
                 ", price=" + price +
                 ", count=" + count +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ProductData that = (ProductData) o;
+
+        if (!id.equals(that.id)) return false;
+        return !(customInfo != null ? !customInfo.equals(that.customInfo) : that.customInfo != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + (customInfo != null ? customInfo.hashCode() : 0);
+        return result;
     }
 }
