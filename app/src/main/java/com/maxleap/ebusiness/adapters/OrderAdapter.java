@@ -26,6 +26,7 @@ import com.maxleap.ebusiness.models.Order;
 import com.maxleap.ebusiness.models.OrderProduct;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class OrderAdapter extends BaseAdapter {
@@ -74,7 +75,7 @@ public class OrderAdapter extends BaseAdapter {
         final Order order = mOrders.get(position);
 
         holder.orderNo.setText(String.format(mContext.getString(R.string.activity_my_order_no), order.getId()));
-
+        holder.remainTime.setVisibility(View.GONE);
         switch (order.getOrderStatus()) {
             case 1:
                 holder.orderState.setText(R.string.activity_my_order_state_cancel);
@@ -117,6 +118,7 @@ public class OrderAdapter extends BaseAdapter {
 
         int size = order.getOrderProducts().size();
         int productsNo = holder.products.getChildCount();
+        int total = 0;
         for (int i = 0; i < size; i++) {
             OrderProduct orderProduct = order.getOrderProducts().get(i);
             View productView;
@@ -138,6 +140,7 @@ public class OrderAdapter extends BaseAdapter {
                     holder.products.getChildAt(i).setVisibility(View.GONE);
                 }
             }
+            total = total + orderProduct.getPrice() * orderProduct.getQuantity();
         }
         holder.confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +150,11 @@ public class OrderAdapter extends BaseAdapter {
                         order.getOrderProducts());
             }
         });
+
+        holder.orderTotal.setText(String.format(mContext.getString(R.string.activity_my_order_total), total));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        holder.createTime.setText(String.format(mContext.getString(R.string.activity_my_order_order_time)
+                , simpleDateFormat.format(order.getCreateTime())));
         return convertView;
     }
 

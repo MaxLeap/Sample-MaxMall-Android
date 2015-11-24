@@ -3,12 +3,14 @@ package com.maxleap.ebusiness.models;
 import com.maxleap.MLObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Order {
 
     private String id;
     private int total;
+    private Date createTime;
     private Address address;
     private User user;
     private String delivery;
@@ -34,6 +36,14 @@ public class Order {
 
     public void setTotal(int total) {
         this.total = total;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Address getAddress() {
@@ -120,6 +130,7 @@ public class Order {
         Order order = new Order();
         order.setId(object.getObjectId());
         order.setTotal(object.getInt("total"));
+        order.setCreateTime(object.getCreatedAt());
         Address address = Address.from(object.getMLObject("address"));
         order.setAddress(address);
         List<MLObject> mlOrderProducts = object.getList("order_products");
