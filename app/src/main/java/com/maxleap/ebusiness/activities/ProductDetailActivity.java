@@ -146,7 +146,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                     mBinding.bottom.setVisibility(View.VISIBLE);
                     try {
                         mProduct = new Product(object);
-
+                        checkParams(mProduct);
                         mBinding.setProduct(mProduct);
                         initPicList(mProduct);
                         initCustomInfo(mProduct);
@@ -157,6 +157,18 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
             }
         });
     }
+
+    private void checkParams(Product product) {
+        if (TextUtils.isEmpty(product.getIntro())) {
+            mBinding.intro.setVisibility(View.GONE);
+        }
+
+        if (product.getServices() == null) {
+            mBinding.service.setVisibility(View.GONE);
+            mBinding.serviceLabel.setVisibility(View.GONE);
+        }
+    }
+
 
     private void initPicList(Product product) {
         List<String> pics = product.getIcons();
@@ -369,9 +381,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         CartPreferenceUtil cartPreferenceUtil = CartPreferenceUtil.getComplexPreferences(
                 getApplicationContext());
 
-        cartPreferenceUtil.add(productData);
         List<ProductData> list = cartPreferenceUtil.getProductData();
-
         mBinding.cartNum.setVisibility(View.VISIBLE);
         mBinding.cartNum.setText(list.size() + "");
 
