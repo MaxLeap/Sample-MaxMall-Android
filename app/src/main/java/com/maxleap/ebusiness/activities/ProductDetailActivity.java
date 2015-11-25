@@ -144,18 +144,32 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                     mBinding.progressbar.setVisibility(View.GONE);
                     mBinding.content.setVisibility(View.VISIBLE);
                     mBinding.bottom.setVisibility(View.VISIBLE);
-                    try {
-                        mProduct = new Product(object);
-                        checkParams(mProduct);
-                        mBinding.setProduct(mProduct);
-                        initPicList(mProduct);
-                        initCustomInfo(mProduct);
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }
+
+                    mProduct = new Product(object);
+                    initProductInfo();
+                    checkParams(mProduct);
+                    mBinding.setProduct(mProduct);
+
                 }
             }
         });
+    }
+
+    private void initProductInfo() {
+        mBinding.price.setText(String.format(getApplicationContext().getString(
+                R.string.activity_product_detail_price, (float) (mProduct.getPrice() / 100)
+        )));
+        mBinding.originPrice.setText(String.format(getApplicationContext().getString(
+                R.string.activity_product_detail_unit_origin,
+                (float) (mProduct.getOriginalPrice() / 100)
+        )));
+
+        initPicList(mProduct);
+        try {
+            initCustomInfo(mProduct);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void checkParams(Product product) {
