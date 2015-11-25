@@ -212,7 +212,7 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
             order.setReceiptHeading("");
         }
         order.setPayMethod(payType.getText().toString());
-        order.setOrderStatus(2);
+        order.setOrderStatus(1);
         order.setAddress(address);
         order.setTotal(total);
         order.setDelivery("商家自配");
@@ -225,6 +225,7 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
             orderProduct.setCustomInfo(productData.get(i).getCustomInfo());
             orderProducts.add(orderProduct);
         }
+        order.setOrderProducts(orderProducts);
 
         mConfirmBtn.setEnabled(false);
         mConfirmBtn.setText(R.string.activity_order_confirm_committing);

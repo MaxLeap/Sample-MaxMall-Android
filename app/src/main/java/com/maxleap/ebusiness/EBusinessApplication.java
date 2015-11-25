@@ -12,6 +12,7 @@ import android.app.Application;
 
 import com.flurry.android.FlurryAgent;
 import com.maxleap.MaxLeap;
+import com.maxleap.TestUtils;
 
 public class EBusinessApplication extends Application {
 
@@ -21,5 +22,9 @@ public class EBusinessApplication extends Application {
 
         MaxLeap.initialize(this, ApiKey.MAXLEAP_APP_ID, ApiKey.MAXLEAP_CLIENT_KEY);
         FlurryAgent.init(this, ApiKey.FLURRY_KEY);
+
+        TestUtils.debug();
+        MaxLeap.setLogLevel(MaxLeap.LOG_LEVEL_VERBOSE);
+        TestUtils.useHttp();
     }
 }
