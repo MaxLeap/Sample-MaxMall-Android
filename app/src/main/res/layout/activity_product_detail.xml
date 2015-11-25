@@ -109,7 +109,6 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="16dp"
                         android:paddingTop="16dp"
-                        android:text="@{@string/activity_product_detail_unit + product.price}"
                         android:textColor="@color/bg_btn"
                         android:textSize="28sp"/>
 
@@ -119,7 +118,6 @@
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
                         android:paddingLeft="16dp"
-                        android:text="@{@string/activity_product_detail_unit_origin + product.originalPrice}"
                         android:textColor="@color/bg_btn_disable"
                         android:textSize="15sp"/>
 

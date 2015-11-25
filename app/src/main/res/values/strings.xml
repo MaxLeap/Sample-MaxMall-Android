@@ -170,9 +170,10 @@
     <string name="empty">无数据</string>
     <string name="activity_spec_title">规格参数</string>
     <string name="activity_product_detail_services">服务：</string>
-    <string name="activity_product_detail_unit">￥</string>
-    <string name="activity_product_detail_unit_origin">原价：￥</string>
+    <string name="activity_product_detail_unit_origin">原价：¥%1$.1f</string>
     <string name="activity_product_detail_choice_title">请选择</string>
+    <string name="activity_product_detail_price">¥%1$.1f</string>
+
 
     <!-- frag shop -->
     <string name="frag_shop_total_pay_label">总价(不计运费)</string>
