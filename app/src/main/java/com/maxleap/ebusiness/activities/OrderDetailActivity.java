@@ -16,13 +16,21 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.maxleap.GetCallback;
+import com.maxleap.MLObject;
+import com.maxleap.MLQuery;
+import com.maxleap.MLQueryManager;
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.adapters.OrderConfirmAdapter;
 import com.maxleap.ebusiness.models.Order;
+import com.maxleap.ebusiness.utils.FFLog;
+import com.maxleap.exception.MLException;
 
 import java.text.SimpleDateFormat;
 
 public class OrderDetailActivity extends BaseActivity {
+
+    public static final String INTENT_ORDER_ID_KEY = "intent_order_id_key";
 
     private ListView productLV;
     private TextView orderNo;
@@ -65,16 +73,40 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     private void initUI() {
-        order = (Order) getIntent().getSerializableExtra("");
 
         confirmBtn = (Button) findViewById(R.id.order_detail_confirm);
         confirmBtn.setOnClickListener(onClickListener);
         productLV = (ListView) findViewById(R.id.order_detail_products);
         View headView = LayoutInflater.from(this).inflate(R.layout.order_detail_head, null, false);
         orderNo = (TextView) headView.findViewById(R.id.order_detail_no);
-        orderNo.setText(String.format(getString(R.string.activity_my_order_no), order.getId()));
 
         orderState = (TextView) headView.findViewById(R.id.order_detail_state);
+
+        productLV.addHeaderView(headView);
+        View footView = LayoutInflater.from(this).inflate(R.layout.order_detail_foot, null, false);
+        orderTotal = (TextView) footView.findViewById(R.id.order_detail_total);
+
+        receiveUser = (TextView) footView.findViewById(R.id.order_detail_receive_user);
+
+        receiveAddress = (TextView) footView.findViewById(R.id.order_detail_receive_address);
+
+        createTime = (TextView) footView.findViewById(R.id.order_detail_time);
+
+        deliverType = (TextView) footView.findViewById(R.id.order_detail_deliver_type);
+
+        receiptHeading = (TextView) footView.findViewById(R.id.order_detail_receipt_heading);
+
+        receiptType = (TextView) footView.findViewById(R.id.order_detail_receipt_type);
+
+        receiptContent = (TextView) footView.findViewById(R.id.order_detail_receipt_content);
+
+        productLV.addFooterView(footView);
+        fetchOrderData();
+    }
+
+    private void initData() {
+        orderNo.setText(String.format(getString(R.string.activity_my_order_no), order.getId()));
+
         switch (order.getOrderStatus()) {
             case 1:
             case 2:
@@ -99,55 +131,64 @@ public class OrderDetailActivity extends BaseActivity {
                 orderState.setTextColor(getResources().getColor(R.color.text_color_black));
                 break;
         }
-        productLV.addHeaderView(headView);
-        View footView = LayoutInflater.from(this).inflate(R.layout.order_detail_foot, null, false);
-        orderTotal = (TextView) footView.findViewById(R.id.order_detail_total);
+
         int total = 0;
         for (int i = 0; i < order.getOrderProducts().size(); i++) {
             total = total + order.getOrderProducts().get(i).getQuantity() * order.getOrderProducts().get(i).getPrice();
         }
         orderTotal.setText(String.format(getString(R.string.activity_my_order_total), total));
 
-        receiveUser = (TextView) footView.findViewById(R.id.order_detail_receive_user);
         receiveUser.setText(String.format(
                 getString(R.string.activity_order_detail_receive_user),
                 order.getAddress().getName()));
 
-        receiveAddress = (TextView) footView.findViewById(R.id.order_detail_receive_address);
         receiveAddress.setText(String.format(
                 getString(R.string.activity_order_detail_receive_address),
                 order.getAddress().getStreet()));
 
-        createTime = (TextView) footView.findViewById(R.id.order_detail_time);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         createTime.setText(String.format(
                 getString(R.string.activity_order_detail_order_time),
                 simpleDateFormat.format(order.getCreateTime())));
 
-        deliverType = (TextView) footView.findViewById(R.id.order_detail_deliver_type);
         deliverType.setText(String.format(
                 getString(R.string.activity_order_detail_deliver_type),
                 order.getDelivery()));
 
-        receiptHeading = (TextView) footView.findViewById(R.id.order_detail_receipt_heading);
         receiptHeading.setText(String.format(
                 getString(R.string.activity_order_detail_receipt_heading),
                 order.getReceiptHeading()));
 
-        receiptType = (TextView) footView.findViewById(R.id.order_detail_receipt_type);
         receiptType.setText(String.format(
                 getString(R.string.activity_order_detail_receipt_type),
                 order.getReceiptType()));
 
-        receiptContent = (TextView) footView.findViewById(R.id.order_detail_receipt_content);
         receiptContent.setText(String.format(
                 getString(R.string.activity_order_detail_receipt_content),
                 order.getReceiptContent()));
 
-        productLV.addFooterView(footView);
-
         OrderConfirmAdapter adapter = new OrderConfirmAdapter(this, order.getOrderProducts());
         productLV.setAdapter(adapter);
+    }
+
+    private void fetchOrderData() {
+        String id = getIntent().getStringExtra(INTENT_ORDER_ID_KEY);
+        MLQuery query = new MLQuery("Order");
+        query.include("Address");
+        query.include("OrderProduct");
+        query.include("Product");
+
+        MLQueryManager.getInBackground(query, id, new GetCallback<MLObject>() {
+            @Override
+            public void done(MLObject object, MLException e) {
+                if (e == null) {
+                    order = Order.from(object);
+                    initData();
+                } else {
+                    FFLog.toast(OrderDetailActivity.this, e.getMessage());
+                }
+            }
+        });
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
