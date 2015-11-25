@@ -59,6 +59,9 @@ public class ProductData implements Serializable {
     }
 
     public String getCustomInfo() {
+        if (customInfo == null) {
+            return "";
+        }
         return customInfo;
     }
 
