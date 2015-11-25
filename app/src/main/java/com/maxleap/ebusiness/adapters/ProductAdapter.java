@@ -65,7 +65,12 @@ public class ProductAdapter extends BaseAdapter {
         }
 
         Product item = mProducts.get(position);
-        Picasso.with(mContext).load(item.getIcons().get(0)).placeholder(R.mipmap.def_item).into(holder.imageView);
+        if(item.getIcons() != null && !item.getIcons().isEmpty()){
+            Picasso.with(mContext).load(item.getIcons().get(0)).placeholder(R.mipmap.def_item).into(holder.imageView);
+        }else{
+            holder.imageView.setImageResource(R.mipmap.def_item);
+        }
+
         holder.titleView.setText(item.getTitle());
         holder.priceView.setText(String.format(mContext.getString(R.string.product_price), item.getPrice() / 100f));
 
