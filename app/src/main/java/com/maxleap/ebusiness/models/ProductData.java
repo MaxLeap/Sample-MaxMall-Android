@@ -11,6 +11,8 @@ package com.maxleap.ebusiness.models;
 import java.io.Serializable;
 
 public class ProductData implements Serializable {
+
+    // product id, not order product id
     private String id;
     private String imageUrl;
     private String title;

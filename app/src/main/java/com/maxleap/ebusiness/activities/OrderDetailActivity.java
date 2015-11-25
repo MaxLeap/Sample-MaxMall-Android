@@ -8,8 +8,10 @@
  */
 package com.maxleap.ebusiness.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +27,11 @@ import com.maxleap.MLQuery;
 import com.maxleap.MLQueryManager;
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.adapters.OrderConfirmAdapter;
+import com.maxleap.ebusiness.manage.OperationCallback;
+import com.maxleap.ebusiness.manage.UserManager;
 import com.maxleap.ebusiness.models.Order;
+import com.maxleap.ebusiness.models.OrderProduct;
+import com.maxleap.ebusiness.models.ProductData;
 import com.maxleap.ebusiness.utils.FFLog;
 import com.maxleap.exception.MLException;
 
@@ -33,9 +39,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDetailActivity extends BaseActivity {
+public class OrderDetailActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String INTENT_ORDER_ID_KEY = "intent_order_id_key";
+    public static final int REQUEST_COMMENT_CODE = 10;
 
     private ListView productLV;
     private TextView orderNo;
@@ -45,6 +52,7 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView receiveAddress;
     private TextView createTime;
     private TextView deliverType;
+    private TextView remarks;
     private TextView receiptHeading;
     private TextView receiptType;
     private TextView receiptContent;
@@ -84,7 +92,7 @@ public class OrderDetailActivity extends BaseActivity {
         progressBar = (ProgressBar) findViewById(R.id.order_detail_progress);
         confirmArea = (FrameLayout) findViewById(R.id.order_detail_confirm_area);
         confirmBtn = (Button) findViewById(R.id.order_detail_confirm);
-        confirmBtn.setOnClickListener(onClickListener);
+        confirmBtn.setOnClickListener(this);
         productLV = (ListView) findViewById(R.id.order_detail_products);
         View headView = LayoutInflater.from(this).inflate(R.layout.order_detail_head, null, false);
         orderNo = (TextView) headView.findViewById(R.id.order_detail_no);
@@ -103,6 +111,8 @@ public class OrderDetailActivity extends BaseActivity {
 
         deliverType = (TextView) footView.findViewById(R.id.order_detail_deliver_type);
 
+        remarks = (TextView) footView.findViewById(R.id.order_detail_remarks);
+
         receiptHeading = (TextView) footView.findViewById(R.id.order_detail_receipt_heading);
 
         receiptType = (TextView) footView.findViewById(R.id.order_detail_receipt_type);
@@ -118,21 +128,32 @@ public class OrderDetailActivity extends BaseActivity {
 
         switch (order.getOrderStatus()) {
             case 1:
-            case 2:
                 orderState.setText(R.string.activity_my_order_state_cancel);
+                orderState.setTextColor(getResources().getColor(R.color.text_color_orange));
+                confirmBtn.setText(R.string.activity_my_order_to_pay);
+                confirmArea.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                orderState.setText(R.string.activity_my_order_state_deliver);
                 orderState.setTextColor(getResources().getColor(R.color.text_color_black));
+                confirmArea.setVisibility(View.GONE);
                 break;
             case 3:
                 orderState.setText(R.string.activity_my_order_state_delivered);
                 orderState.setTextColor(getResources().getColor(R.color.text_color_black));
+                confirmBtn.setText(R.string.activity_my_order_to_confirm);
+                confirmArea.setVisibility(View.VISIBLE);
                 break;
             case 4:
                 orderState.setText(R.string.activity_my_order_state_done);
                 orderState.setTextColor(getResources().getColor(R.color.text_color_black));
+                confirmBtn.setText(R.string.activity_my_order_to_comment);
+                confirmArea.setVisibility(View.VISIBLE);
                 break;
             case 5:
                 orderState.setText(R.string.activity_my_order_state_commented);
                 orderState.setTextColor(getResources().getColor(R.color.text_color_black));
+                confirmArea.setVisibility(View.GONE);
                 break;
             case 6:
             case 7:
@@ -149,7 +170,7 @@ public class OrderDetailActivity extends BaseActivity {
 
         receiveUser.setText(String.format(
                 getString(R.string.activity_order_detail_receive_user),
-                order.getAddress().getName()));
+                order.getAddress().getName() + " " + order.getAddress().getTel()));
 
         receiveAddress.setText(String.format(
                 getString(R.string.activity_order_detail_receive_address),
@@ -164,17 +185,25 @@ public class OrderDetailActivity extends BaseActivity {
                 getString(R.string.activity_order_detail_deliver_type),
                 order.getDelivery()));
 
+        remarks.setText(String.format(
+                getString(R.string.activity_order_detail_remarks),
+                TextUtils.isEmpty(order.getRemarks()) ?
+                        getString(R.string.activity_order_detail_no_string) : order.getRemarks()));
+
         receiptHeading.setText(String.format(
                 getString(R.string.activity_order_detail_receipt_heading),
-                order.getReceiptHeading()));
+                TextUtils.isEmpty(order.getReceiptHeading()) ?
+                        getString(R.string.activity_order_detail_no_string) : order.getReceiptHeading()));
 
         receiptType.setText(String.format(
                 getString(R.string.activity_order_detail_receipt_type),
-                order.getReceiptType()));
+                TextUtils.isEmpty(order.getReceiptType()) ?
+                        getString(R.string.activity_order_detail_no_string) : order.getReceiptType()));
 
         receiptContent.setText(String.format(
                 getString(R.string.activity_order_detail_receipt_content),
-                order.getReceiptContent()));
+                TextUtils.isEmpty(order.getReceiptContent()) ?
+                        getString(R.string.activity_order_detail_no_string) : order.getReceiptContent()));
 
         OrderConfirmAdapter adapter = new OrderConfirmAdapter(this, order.getOrderProducts());
         productLV.setAdapter(adapter);
@@ -206,10 +235,10 @@ public class OrderDetailActivity extends BaseActivity {
                             if (e == null) {
                                 object.put("order_products", list);
                                 order = Order.from(object);
-                                initData();
                                 progressBar.setVisibility(View.GONE);
                                 confirmArea.setVisibility(View.VISIBLE);
                                 productLV.setVisibility(View.VISIBLE);
+                                initData();
                             } else {
                                 FFLog.toast(OrderDetailActivity.this, e.getMessage());
                                 progressBar.setVisibility(View.GONE);
@@ -224,11 +253,66 @@ public class OrderDetailActivity extends BaseActivity {
         });
     }
 
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.order_detail_confirm:
+                String confirmText = confirmBtn.getText().toString();
+                if (confirmText.equals(getString(R.string.activity_my_order_to_pay))) {
+                    updateState(2);
+                } else if (confirmText.equals(getString(R.string.activity_my_order_to_confirm))) {
+                    updateState(4);
+                } else if (confirmText.equals(getString(R.string.activity_my_order_to_comment))) {
+                    ArrayList<ProductData> products = new ArrayList<>();
+                    for (OrderProduct orderProduct : order.getOrderProducts()) {
+                        ProductData productData = new ProductData();
+                        productData.setId(orderProduct.getProduct().getId());
+                        productData.setPrice(orderProduct.getPrice());
+                        productData.setCount(orderProduct.getQuantity());
+                        productData.setTitle(orderProduct.getProduct().getTitle());
+                        productData.setCustomInfo(orderProduct.getCustomInfo());
+                        productData.setImageUrl(orderProduct.getProduct().getIcons().get(0));
+                        products.add(productData);
+                    }
+                    Intent intent = new Intent(OrderDetailActivity.this, CommentActivity.class);
+                    intent.putExtra(CommentActivity.INTENT_ORDER_ID_KEY, order.getId());
+                    intent.putExtra(CommentActivity.INTENT_PRODUCT_DATA_KEY, products);
+                    startActivityForResult(intent, REQUEST_COMMENT_CODE);
+                }
+                break;
+            case R.id.order_detail_state:
+                if (orderState.getText().toString().
+                        equals(getString(R.string.activity_my_order_state_cancel))) {
+                    updateState(6);
+                }
+                break;
+            default:
+                break;
         }
-    };
+    }
 
+    private void updateState(int state) {
+        final int originalState = order.getOrderStatus();
+        order.setOrderStatus(state);
+        UserManager.getInstance().updateOrder(order, new OperationCallback() {
+            @Override
+            public void success() {
+                initData();
+            }
+
+            @Override
+            public void failed(String error) {
+                order.setOrderStatus(originalState);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_COMMENT_CODE && resultCode == RESULT_OK) {
+            order.setOrderStatus(5);
+            initData();
+        }
+    }
 }

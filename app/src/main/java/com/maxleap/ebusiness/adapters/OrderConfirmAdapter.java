@@ -9,6 +9,7 @@
 package com.maxleap.ebusiness.adapters;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,13 +72,15 @@ public class OrderConfirmAdapter extends BaseAdapter {
         if (object instanceof ProductData) {
             ProductData productData = (ProductData) object;
             url = productData.getImageUrl();
-            title = productData.getTitle() + " " + productData.getCustomInfo();
+            String customInfo = TextUtils.isEmpty(productData.getCustomInfo()) ? "" : productData.getCustomInfo();
+            title = productData.getTitle() + " " + customInfo;
             count = productData.getCount();
             price = productData.getPrice() * productData.getCount();
         } else if (object instanceof OrderProduct) {
             OrderProduct orderProduct = (OrderProduct) object;
             url = orderProduct.getProduct().getIcons().get(0);
-            title = orderProduct.getProduct().getTitle() + orderProduct.getCustomInfo();
+            String customInfo = TextUtils.isEmpty(orderProduct.getCustomInfo()) ? "" : orderProduct.getCustomInfo();
+            title = orderProduct.getProduct().getTitle() + " " + customInfo;
             count = orderProduct.getQuantity();
             price = orderProduct.getPrice();
         } else {

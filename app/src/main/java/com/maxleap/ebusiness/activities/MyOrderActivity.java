@@ -32,8 +32,6 @@ import java.util.List;
 
 public class MyOrderActivity extends BaseActivity {
 
-    public static final String INTENT_ORDERPRODUCTS_KEY = "intent_orderproducts_key";
-
     private ListView listView;
     private TextView emptyView;
     private ProgressBar progressBar;

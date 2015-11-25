@@ -34,12 +34,15 @@
         <activity android:name=".activities.AddressActivity" />
         <activity android:name=".activities.AddAddressActivity" />
         <activity android:name=".activities.ProductsActivity" />
-        <activity android:name=".activities.ProductDetailActivity"/>
-        <activity android:name=".activities.MyOrderActivity"/>
-        <activity android:name=".activities.OrderConfirmActivity"/>
-        <activity android:name=".activities.OrderDetailActivity"/>
-        <activity android:name=".activities.SpecActivity"/>
-        <activity android:name=".activities.ReviewActivity"/>
+        <activity android:name=".activities.ProductDetailActivity" />
+        <activity android:name=".activities.MyOrderActivity" />
+        <activity android:name=".activities.OrderConfirmActivity" />
+        <activity android:name=".activities.OrderDetailActivity" />
+        <activity
+            android:name=".activities.CommentActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activities.SpecActivity" />
+        <activity android:name=".activities.ReviewActivity" />
 
     </application>
 

@@ -294,8 +294,7 @@ public class UserManager {
             callback.failed("address id must be set");
         }
 
-        MLObject obj = new MLObject("Order");
-        obj.setObjectId(order.getId());
+        MLObject obj = MLObject.createWithoutData("Order", order.getId());
 
         obj.put("order_status", order.getOrderStatus());
 

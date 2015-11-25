@@ -84,9 +84,10 @@
 
     <!-- My Order Activity -->
     <string name="activity_my_order_title">我的订单</string>
-    <string name="activity_my_order_no">订单号：</string>
+    <string name="activity_my_order_no">订单号：%1$s</string>
     <string name="activity_my_order_state_cancel">取消订单</string>
     <string name="activity_my_order_state_canceled">订单已取消</string>
+    <string name="activity_my_order_state_deliver">商品待发货</string>
     <string name="activity_my_order_state_delivered">商品已发货</string>
     <string name="activity_my_order_state_done">交易已完成</string>
     <string name="activity_my_order_state_commented">商品已评论</string>
@@ -96,6 +97,7 @@
     <string name="activity_my_order_order_time">下单时间：%1$s</string>
     <string name="activity_my_order_order_pay">剩余付款时间：%1$s(逾期将自动取消)</string>
     <string name="activity_my_order_to_pay">去支付</string>
+    <string name="activity_my_order_to_confirm">确认送达</string>
     <string name="activity_my_order_to_comment">去评价</string>
     <string name="activity_my_order_empty">您还没有任何订单</string>
 
@@ -104,8 +106,9 @@
     <string name="activity_comment_confirm">提交评价</string>
     <string name="activity_comment_product_no">共%1$d件</string>
     <string name="activity_comment_service">服务态度</string>
-    <string name="activity_comment_hint">平价内容输入区域</string>
+    <string name="activity_comment_hint">评价内容输入区域</string>
     <string name="activity_comment_success">评论成功</string>
+    <string name="activity_comment_failed">请评论完所有商品！</string>
 
     <!-- Product Adapter -->
     <string name="product_price">¥%1$.1f</string>
@@ -124,7 +127,7 @@
     <string name="activity_order_confirm_total">总计：</string>
     <string name="activity_order_confirm_total_price">¥%1$.1f</string>
     <string name="activity_order_confirm_commit">提交订单</string>
-    <string name="activity_order_confirm_committing">提交中...</string>
+    <string name="activity_order_confirm_committing">处理中...</string>
     <string name="remarks_dialog_title">备注</string>
     <string name="remarks_dialog_hint">输入备注信息</string>
     <string name="receipt_dialog_type_title">发票类型</string>
@@ -145,13 +148,15 @@
 
     <!-- Order Detail Activity -->
     <string name="activity_order_detail_title">订单详情</string>
-    <string name="activity_order_detail_receive_user">收货人：</string>
-    <string name="activity_order_detail_receive_address">收货地址：</string>
-    <string name="activity_order_detail_order_time">下单时间：</string>
-    <string name="activity_order_detail_deliver_type">配送方式：</string>
-    <string name="activity_order_detail_receipt_type">发票类型：</string>
-    <string name="activity_order_detail_receipt_content">发票内容：</string>
-    <string name="activity_order_detail_receipt_heading">发票抬头：</string>
+    <string name="activity_order_detail_receive_user">收货人：%1$s</string>
+    <string name="activity_order_detail_receive_address">收货地址：%1$s</string>
+    <string name="activity_order_detail_order_time">下单时间：%1$s</string>
+    <string name="activity_order_detail_deliver_type">配送方式：%1$s</string>
+    <string name="activity_order_detail_remarks">备注：%1$s</string>
+    <string name="activity_order_detail_receipt_type">发票类型：%1$s</string>
+    <string name="activity_order_detail_receipt_content">发票内容：%1$s</string>
+    <string name="activity_order_detail_receipt_heading">发票抬头：%1$s</string>
+    <string name="activity_order_detail_no_string">无</string>
 
     <!-- Search Activity -->
     <string name="activity_search_sort">排序</string>

@@ -21,7 +21,8 @@ import com.maxleap.ebusiness.adapters.CommentAdapter;
 import com.maxleap.ebusiness.manage.OperationCallback;
 import com.maxleap.ebusiness.manage.UserManager;
 import com.maxleap.ebusiness.models.Comment;
-import com.maxleap.ebusiness.models.OrderProduct;
+import com.maxleap.ebusiness.models.Order;
+import com.maxleap.ebusiness.models.ProductData;
 import com.maxleap.ebusiness.utils.FFLog;
 
 import java.util.ArrayList;
@@ -29,11 +30,15 @@ import java.util.List;
 
 public class CommentActivity extends BaseActivity {
 
+    public static final String INTENT_PRODUCT_DATA_KEY = "intent_product_data_key";
+    public static final String INTENT_ORDER_ID_KEY = "intent_order_id_key";
+
     private ListView listView;
     private FrameLayout productArea;
     private Button confirmBtn;
     private ProgressBar progressBar;
-    private ArrayList<OrderProduct> mProducts;
+    private ArrayList<ProductData> mProducts;
+    private String orderId;
     private CommentAdapter mProductAdapter;
 
     @Override
@@ -69,27 +74,50 @@ public class CommentActivity extends BaseActivity {
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirmBtn.setEnabled(false);
-                progressBar.setVisibility(View.VISIBLE);
                 List<Comment> comments = mProductAdapter.getContents();
-                if (comments == null) return;
+                if (comments == null) {
+                    FFLog.toast(CommentActivity.this, R.string.activity_comment_failed);
+                    return;
+                }
+                confirmBtn.setEnabled(false);
+                confirmBtn.setText("");
+                progressBar.setVisibility(View.VISIBLE);
                 UserManager.getInstance().addComment(comments, new OperationCallback() {
                     @Override
                     public void success() {
-                        FFLog.toast(CommentActivity.this, R.string.activity_comment_success);
-                        finish();
+                        Order order = new Order();
+                        order.setId(orderId);
+                        order.setOrderStatus(5);
+                        UserManager.getInstance().updateOrder(order, new OperationCallback() {
+                            @Override
+                            public void success() {
+                                FFLog.toast(CommentActivity.this, R.string.activity_comment_success);
+                                setResult(RESULT_OK);
+                                finish();
+                            }
+
+                            @Override
+                            public void failed(String error) {
+                                FFLog.toast(CommentActivity.this, error);
+                                confirmBtn.setEnabled(true);
+                                confirmBtn.setText(R.string.activity_comment_confirm);
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        });
                     }
 
                     @Override
                     public void failed(String error) {
                         FFLog.toast(CommentActivity.this, error);
                         confirmBtn.setEnabled(true);
+                        confirmBtn.setText(R.string.activity_comment_confirm);
                         progressBar.setVisibility(View.GONE);
                     }
                 });
             }
         });
-        mProducts = getIntent().getParcelableExtra(MyOrderActivity.INTENT_ORDERPRODUCTS_KEY);
+        orderId = getIntent().getStringExtra(INTENT_ORDER_ID_KEY);
+        mProducts = (ArrayList<ProductData>) getIntent().getSerializableExtra(INTENT_PRODUCT_DATA_KEY);
         mProductAdapter = new CommentAdapter(this, mProducts);
         listView.setAdapter(mProductAdapter);
     }
