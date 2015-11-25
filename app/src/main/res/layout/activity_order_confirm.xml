@@ -37,7 +37,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/normal_btn_bg"
+            android:background="@drawable/btn_order_confirm"
             android:gravity="center"
             android:text="@string/activity_order_confirm_commit"
             android:textColor="@color/white"

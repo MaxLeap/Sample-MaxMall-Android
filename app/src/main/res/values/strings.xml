@@ -91,8 +91,8 @@
     <string name="activity_my_order_state_done">交易已完成</string>
     <string name="activity_my_order_state_commented">商品已评论</string>
     <string name="activity_my_order_product_no">共%1$d件</string>
-    <string name="activity_my_order_product_price">¥%1$d</string>
-    <string name="activity_my_order_total">总额：¥%1$d</string>
+    <string name="activity_my_order_product_price">¥%1$.1f</string>
+    <string name="activity_my_order_total">总额：¥%1$.1f</string>
     <string name="activity_my_order_order_time">下单时间：%1$s</string>
     <string name="activity_my_order_order_pay">剩余付款时间：%1$s(逾期将自动取消)</string>
     <string name="activity_my_order_to_pay">去支付</string>
@@ -122,8 +122,9 @@
     <string name="activity_order_confirm_receipt_hint">不需要发票</string>
     <string name="activity_order_confirm_list">商品列表</string>
     <string name="activity_order_confirm_total">总计：</string>
-    <string name="activity_order_confirm_total_price">¥%1$d</string>
+    <string name="activity_order_confirm_total_price">¥%1$.1f</string>
     <string name="activity_order_confirm_commit">提交订单</string>
+    <string name="activity_order_confirm_committing">提交中...</string>
     <string name="remarks_dialog_title">备注</string>
     <string name="remarks_dialog_hint">输入备注信息</string>
     <string name="receipt_dialog_type_title">发票类型</string>
@@ -135,6 +136,7 @@
     <string name="receipt_dialog_content3">电脑配件</string>
     <string name="receipt_dialog_content4">耗材</string>
     <string name="receipt_dialog_heading_title">发票抬头</string>
+    <string name="receipt_dialog_heading_hint">输入发票抬头</string>
     <string name="receipt_dialog_cancel">取消</string>
     <string name="receipt_dialog_forward">上一步</string>
     <string name="receipt_dialog_next">下一步</string>

@@ -21,9 +21,14 @@ import android.widget.TextView;
 
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.adapters.OrderConfirmAdapter;
+import com.maxleap.ebusiness.manage.OperationCallback;
+import com.maxleap.ebusiness.manage.UserManager;
 import com.maxleap.ebusiness.models.Address;
 import com.maxleap.ebusiness.models.Order;
+import com.maxleap.ebusiness.models.OrderProduct;
+import com.maxleap.ebusiness.models.Product;
 import com.maxleap.ebusiness.models.ProductData;
+import com.maxleap.ebusiness.utils.CartPreferenceUtil;
 import com.maxleap.ebusiness.utils.DialogUtil;
 import com.maxleap.ebusiness.utils.FFLog;
 import com.maxleap.ebusiness.widget.ReceiptDialog;
@@ -43,13 +48,14 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
     private TextView remark;
     private TextView receiptInfo;
     private ListView productLV;
-    private TextView mTotal;
+    private TextView mTotalPrice;
     private Button mConfirmBtn;
     private ReceiptDialog receiptDialog;
 
     private String selectedType;
     private String selectedContent;
     private String headingText;
+    private int total;
 
 
     @Override
@@ -78,7 +84,12 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initUI() {
-        productData = (ArrayList<ProductData>) getIntent().getSerializableExtra("");
+
+        CartPreferenceUtil sp = CartPreferenceUtil.getComplexPreferences(this);
+        productData = (ArrayList<ProductData>) sp.getProductData();
+        if (productData == null || productData.isEmpty()) {
+            return;
+        }
 
         productLV = (ListView) findViewById(R.id.order_confirm_product);
         View headView = LayoutInflater.from(this).inflate(R.layout.item_order_confirm_head, null, false);
@@ -95,8 +106,8 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
         findViewById(R.id.order_confirm_remarks_rl).setOnClickListener(this);
         receiptInfo = (TextView) headView.findViewById(R.id.order_confirm_receipt);
         findViewById(R.id.order_confirm_receipt_rl).setOnClickListener(this);
-        mTotal = (TextView) headView.findViewById(R.id.order_confirm_price_total);
 
+        mTotalPrice = (TextView) findViewById(R.id.order_confirm_price_total);
         mConfirmBtn = (Button) findViewById(R.id.order_confirm_btn);
         mConfirmBtn.setOnClickListener(this);
 
@@ -104,12 +115,12 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initFoodPrice() {
-        int total = 0;
+        total = 0;
         for (int i = 0; i < productData.size(); i++) {
             total = total + productData.get(i).getPrice() * productData.get(i).getCount();
         }
-        mTotal.setText(String.format(getString(R.string.activity_order_confirm_total_price)
-                , total));
+        mTotalPrice.setText(String.format(getString(R.string.activity_order_confirm_total_price)
+                , total / 100f));
     }
 
     @Override
@@ -131,7 +142,7 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
                 intent.putExtra(AddressActivity.INTENT_CHOOSE_KEY, true);
                 startActivityForResult(intent, ADDRESS_REQUEST_CODE);
                 break;
-            case R.id.order_confirm_pay_type:
+            case R.id.order_confirm_pay_type_area:
                 FFLog.toast(OrderConfirmActivity.this,
                         R.string.activity_order_confirm_pay_no_choice);
                 break;
@@ -171,7 +182,7 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
                         }
                     });
                 }
-                receiptDialog.showRecipt();
+                receiptDialog.showReceipt();
                 break;
             case R.id.order_confirm_btn:
                 v.setEnabled(false);
@@ -188,7 +199,7 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
             mConfirmBtn.setEnabled(true);
             return;
         }
-        Order order = new Order();
+        final Order order = new Order();
         String remarkText = remark.getText().toString().equals(getString(R.string.activity_order_confirm_remarks_hint)) ? "" : remark.getText().toString();
         order.setRemarks(remarkText);
         if (!TextUtils.isEmpty(headingText)) {
@@ -203,5 +214,36 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
         order.setPayMethod(payType.getText().toString());
         order.setOrderStatus(2);
         order.setAddress(address);
+        order.setTotal(total);
+        order.setDelivery("商家自配");
+        ArrayList<OrderProduct> orderProducts = new ArrayList<>();
+        for (int i = 0; i < productData.size(); i++) {
+            OrderProduct orderProduct = new OrderProduct();
+            orderProduct.setPrice(productData.get(i).getPrice());
+            orderProduct.setProduct(new Product(productData.get(i).getId()));
+            orderProduct.setQuantity(productData.get(i).getCount());
+            orderProduct.setCustomInfo(productData.get(i).getCustomInfo());
+            orderProducts.add(orderProduct);
+        }
+
+        mConfirmBtn.setEnabled(false);
+        mConfirmBtn.setText(R.string.activity_order_confirm_committing);
+        UserManager.getInstance().addOrder(order, new OperationCallback() {
+            @Override
+            public void success() {
+                Intent intent = new Intent(OrderConfirmActivity.this, OrderDetailActivity.class);
+                intent.putExtra(OrderDetailActivity.INTENT_ORDER_ID_KEY, order.getId());
+                startActivity(intent);
+                CartPreferenceUtil.getComplexPreferences(OrderConfirmActivity.this).drop();
+                finish();
+            }
+
+            @Override
+            public void failed(String error) {
+                FFLog.toast(OrderConfirmActivity.this, error);
+                mConfirmBtn.setEnabled(true);
+                mConfirmBtn.setText(R.string.activity_order_confirm_commit);
+            }
+        });
     }
 }

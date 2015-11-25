@@ -66,6 +66,8 @@ public class ReceiptInfoAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if (mListener != null) {
                     mListener.onSelect(position);
+                    mDefaultValue = mData[position];
+                    notifyDataSetChanged();
                 }
             }
         });
@@ -74,6 +76,8 @@ public class ReceiptInfoAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if (mListener != null) {
                     mListener.onSelect(position);
+                    mDefaultValue = mData[position];
+                    notifyDataSetChanged();
                 }
             }
         });
