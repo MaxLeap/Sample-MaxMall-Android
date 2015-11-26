@@ -132,8 +132,8 @@ public class ShopFragment extends Fragment implements AdapterView.OnItemClickLis
     private void fetchShopData() {
         CartPreferenceUtil sp = CartPreferenceUtil.getComplexPreferences(mContext);
         ArrayList<ProductData> productDatas = (ArrayList<ProductData>) sp.getProductData();
-        if (productDatas == null || productDatas.isEmpty()) {
-            return;
+        if (productDatas == null) {
+            productDatas = new ArrayList<>();
         }
         mProductDatas.clear();
         mProductDatas.addAll(productDatas);
