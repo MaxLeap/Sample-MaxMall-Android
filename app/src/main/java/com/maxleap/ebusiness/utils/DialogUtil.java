@@ -98,4 +98,10 @@ public class DialogUtil {
         dialog.show();
     }
 
+    public static Dialog createProgressDialog(Context context) {
+        final Dialog dialog = new BaseDialog(context, R.style.CustomizeDialog);
+        dialog.setContentView(R.layout.dialog_progress);
+        return dialog;
+    }
+
 }
