@@ -13,11 +13,29 @@ android {
         versionName "1.0"
     }
 
+    signingConfigs {
+        release {
+            storeFile file("ebusiness.jks")
+            storePassword "maxleapmobile"
+            keyAlias "ebusiness"
+            keyPassword "maxleapmobile"
+        }
+    }
+
     buildTypes {
         release {
             buildConfigField("boolean", "LOG_DEBUG", "false")
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        applicationVariants.all { variant ->
+            def apk = variant.outputs[0].outputFile;
+            def versionName = android.defaultConfig.versionName;
+            def newName = apk.name.replace(".apk", "-v" + versionName + ".apk");
+            newName = newName.replace("app", "ebusiness");
+            variant.outputs[0].outputFile = new File(apk.parentFile, newName);
         }
 
         debug {
@@ -34,6 +52,7 @@ android {
 
     lintOptions {
         abortOnError false
+        ignoreWarnings true
     }
 }
 
