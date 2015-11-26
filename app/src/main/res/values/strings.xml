@@ -100,6 +100,7 @@
     <string name="activity_my_order_to_confirm">确认送达</string>
     <string name="activity_my_order_to_comment">去评价</string>
     <string name="activity_my_order_empty">您还没有任何订单</string>
+    <string name="dialog_order_handling">处理中...</string>
 
     <!-- Comment Activity -->
     <string name="activity_comment_title">评价</string>

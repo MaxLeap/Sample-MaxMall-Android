@@ -8,6 +8,7 @@
  */
 package com.maxleap.ebusiness.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -32,6 +33,7 @@ import com.maxleap.ebusiness.manage.UserManager;
 import com.maxleap.ebusiness.models.Order;
 import com.maxleap.ebusiness.models.OrderProduct;
 import com.maxleap.ebusiness.models.ProductData;
+import com.maxleap.ebusiness.utils.DialogUtil;
 import com.maxleap.ebusiness.utils.FFLog;
 import com.maxleap.exception.MLException;
 
@@ -59,6 +61,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     private ProgressBar progressBar;
     private FrameLayout confirmArea;
     private Button confirmBtn;
+    private Dialog dialog;
 
     private Order order;
 
@@ -88,7 +91,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initUI() {
-
+        dialog = DialogUtil.createProgressDialog(this);
         progressBar = (ProgressBar) findViewById(R.id.order_detail_progress);
         confirmArea = (FrameLayout) findViewById(R.id.order_detail_confirm_area);
         confirmBtn = (Button) findViewById(R.id.order_detail_confirm);
@@ -294,14 +297,17 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     private void updateState(int state) {
         final int originalState = order.getOrderStatus();
         order.setOrderStatus(state);
+        dialog.show();
         UserManager.getInstance().updateOrder(order, new OperationCallback() {
             @Override
             public void success() {
+                dialog.dismiss();
                 initData();
             }
 
             @Override
             public void failed(String error) {
+                dialog.dismiss();
                 order.setOrderStatus(originalState);
             }
         });
