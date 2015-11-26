@@ -23,8 +23,8 @@ public class EBusinessApplication extends Application {
         MaxLeap.initialize(this, ApiKey.MAXLEAP_APP_ID, ApiKey.MAXLEAP_CLIENT_KEY);
         FlurryAgent.init(this, ApiKey.FLURRY_KEY);
 
-        TestUtils.debug();
-        MaxLeap.setLogLevel(MaxLeap.LOG_LEVEL_VERBOSE);
-        TestUtils.useHttp();
+//        TestUtils.debug();
+//        MaxLeap.setLogLevel(MaxLeap.LOG_LEVEL_VERBOSE);
+//        TestUtils.useHttp();
     }
 }
