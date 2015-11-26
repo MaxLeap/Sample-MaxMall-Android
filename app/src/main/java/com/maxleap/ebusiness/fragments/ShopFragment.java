@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.maxleap.ebusiness.R;
+import com.maxleap.ebusiness.activities.LoginActivity;
 import com.maxleap.ebusiness.activities.MainActivity;
 import com.maxleap.ebusiness.activities.OrderConfirmActivity;
 import com.maxleap.ebusiness.activities.ProductDetailActivity;
@@ -88,7 +89,8 @@ public class ShopFragment extends Fragment implements AdapterView.OnItemClickLis
             @Override
             public void onClick(View v) {
                 if (UserManager.getInstance().getCurrentUser() == null) {
-
+                    Intent toAccountIntent = new Intent(mContext, LoginActivity.class);
+                    startActivity(toAccountIntent);
                 } else {
                     Intent intent = new Intent(mContext, OrderConfirmActivity.class);
                     startActivity(intent);
