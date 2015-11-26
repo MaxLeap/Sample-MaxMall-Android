@@ -35,6 +35,9 @@ import java.util.List;
 public class MyOrderActivity extends BaseActivity {
 
     public static final int REQUEST_COMMENT_CODE = 10;
+    public static final int REQUEST_DETAIL_CODE = 11;
+
+    public static final String INTENT_ORDER_STATE_KEY = "intent_order_state_key";
 
     private ListView listView;
     private TextView emptyView;
@@ -165,11 +168,20 @@ public class MyOrderActivity extends BaseActivity {
         startActivityForResult(intent, REQUEST_COMMENT_CODE);
     }
 
+    public void toDetail(Intent intent, int orderPosition) {
+        position = orderPosition;
+        startActivityForResult(intent, REQUEST_DETAIL_CODE);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_COMMENT_CODE && resultCode == RESULT_OK) {
             mOrders.get(position).setOrderStatus(5);
+            mOrderAdapter.notifyDataSetChanged();
+        } else if (requestCode == REQUEST_DETAIL_CODE && resultCode == RESULT_OK) {
+            int state = data.getIntExtra(INTENT_ORDER_STATE_KEY, 0);
+            mOrders.get(position).setOrderStatus(state);
             mOrderAdapter.notifyDataSetChanged();
         }
     }

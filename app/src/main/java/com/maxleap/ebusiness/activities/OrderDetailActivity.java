@@ -85,9 +85,22 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (order != null) {
+                    Intent intent = new Intent().putExtra(OrderDetailActivity.INTENT_ORDER_ID_KEY, order.getOrderStatus());
+                    setResult(RESULT_OK, intent);
+                }
                 finish();
             }
         });
+    }
+
+    @Override
+    public void finish() {
+        if (order != null) {
+            Intent intent = new Intent().putExtra(MyOrderActivity.INTENT_ORDER_STATE_KEY, order.getOrderStatus());
+            setResult(RESULT_OK, intent);
+        }
+        super.finish();
     }
 
     private void initUI() {

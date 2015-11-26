@@ -43,8 +43,8 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
     private Address address;
 
     private TextView inputAdd;
-    private RelativeLayout payTypeRL;
-    private TextView payType;
+    private RelativeLayout deliverTypeRL;
+    private TextView deliverType;
     private TextView remark;
     private TextView receiptInfo;
     private ListView productLV;
@@ -99,9 +99,9 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
 
         inputAdd = (TextView) headView.findViewById(R.id.order_confirm_input_address);
         inputAdd.setOnClickListener(this);
-        payTypeRL = (RelativeLayout) headView.findViewById(R.id.order_confirm_pay_type_area);
-        payTypeRL.setOnClickListener(this);
-        payType = (TextView) headView.findViewById(R.id.order_confirm_pay_type);
+        deliverTypeRL = (RelativeLayout) headView.findViewById(R.id.order_confirm_pay_type_area);
+        deliverTypeRL.setOnClickListener(this);
+        deliverType = (TextView) headView.findViewById(R.id.order_confirm_pay_type);
         remark = (TextView) headView.findViewById(R.id.order_confirm_remarks);
         findViewById(R.id.order_confirm_remarks_rl).setOnClickListener(this);
         receiptInfo = (TextView) headView.findViewById(R.id.order_confirm_receipt);
@@ -211,11 +211,11 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
             order.setReceiptContent("");
             order.setReceiptHeading("");
         }
-        order.setPayMethod(payType.getText().toString());
+        order.setPayMethod("在线支付");
         order.setOrderStatus(1);
         order.setAddress(address);
         order.setTotal(total);
-        order.setDelivery("商家自配");
+        order.setDelivery(deliverType.getText().toString());
         ArrayList<OrderProduct> orderProducts = new ArrayList<>();
         for (int i = 0; i < productData.size(); i++) {
             OrderProduct orderProduct = new OrderProduct();
