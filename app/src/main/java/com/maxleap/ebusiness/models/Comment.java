@@ -29,7 +29,7 @@ public class Comment implements Serializable {
         this.content = object.getString("content");
         this.user = new User(object.getMLObject("user"));
         this.product = new Product(object.getMLObject("product"));
-        this.updateAt = object.getDate("updateAt");
+        this.updateAt = object.getUpdatedAt();
     }
 
     public int getScore() {
