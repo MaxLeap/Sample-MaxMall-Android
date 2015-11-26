@@ -61,12 +61,8 @@ public class OrderProduct {
     public static OrderProduct from(MLObject object) {
         OrderProduct orderProduct = new OrderProduct();
         orderProduct.setId(object.getObjectId());
-        try {
-            orderProduct.setPrice(object.getInt("price"));
-            orderProduct.setQuantity(object.getInt("quantity"));
-        } catch (Exception e) {
-            return orderProduct;
-        }
+        orderProduct.setPrice(object.getInt("price"));
+        orderProduct.setQuantity(object.getInt("quantity"));
         MLObject product = object.getMLObject("product");
         orderProduct.setProduct(new Product(product));
         return orderProduct;

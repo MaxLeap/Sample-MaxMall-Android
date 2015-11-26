@@ -39,26 +39,18 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class OrderAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<Order> mOrders;
-    private Map<String, OrderProduct> orderProductMap;
     private Dialog dialog;
 
     public OrderAdapter(Context context, List<Order> orders) {
         mContext = context;
         mOrders = orders;
-        orderProductMap = new HashMap<>();
         dialog = DialogUtil.createProgressDialog(context);
-    }
-
-    public void putOrderProduct(OrderProduct orderProduct) {
-        orderProductMap.put(orderProduct.getId(), orderProduct);
     }
 
     @Override
@@ -119,7 +111,7 @@ public class OrderAdapter extends BaseAdapter {
                 holder.orderState.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        updateState(order, 2);
+                        updateState(order, 6);
                     }
                 });
                 holder.confirmBtn.setText(R.string.activity_my_order_to_pay);
@@ -159,7 +151,7 @@ public class OrderAdapter extends BaseAdapter {
         int productsNo = holder.products.getChildCount();
         int total = 0;
         for (int i = 0; i < size; i++) {
-            OrderProduct orderProduct = orderProductMap.get(order.getOrderProducts().get(i).getId());
+            OrderProduct orderProduct = order.getOrderProducts().get(i);
             View productView;
             if (i < productsNo) {
                 productView = holder.products.getChildAt(i);
@@ -194,7 +186,7 @@ public class OrderAdapter extends BaseAdapter {
                 } else if (confirmText.equals(mContext.getString(R.string.activity_my_order_to_comment))) {
                     ArrayList<ProductData> products = new ArrayList<>();
                     for (int i = 0; i < order.getOrderProducts().size(); i++) {
-                        OrderProduct orderProduct = orderProductMap.get(order.getOrderProducts().get(i).getId());
+                        OrderProduct orderProduct = order.getOrderProducts().get(i);
                         ProductData productData = new ProductData();
                         productData.setId(orderProduct.getProduct().getId());
                         productData.setPrice(orderProduct.getPrice());

@@ -24,7 +24,6 @@ import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.adapters.OrderAdapter;
 import com.maxleap.ebusiness.manage.UserManager;
 import com.maxleap.ebusiness.models.Order;
-import com.maxleap.ebusiness.models.OrderProduct;
 import com.maxleap.ebusiness.models.User;
 import com.maxleap.ebusiness.utils.FFLog;
 import com.maxleap.exception.MLException;
@@ -89,68 +88,19 @@ public class MyOrderActivity extends BaseActivity {
         MLObject user = MLObject.createWithoutData("_User", mUser.getId());
         query.whereEqualTo("user", user);
         query.include("address");
-//        query.include("order_products");
-//        query.include("order_products.product");
-//        MLQueryManager.findAllInBackground(query, new FindCallback<MLObject>() {
-//            @Override
-//            public void done(List<MLObject> list, MLException e) {
-//                FFLog.d("fetchOrderData list: " + list);
-//                FFLog.d("fetchOrderData e: " + e);
-//                if (e == null) {
-//                    for (MLObject object : list) {
-//                        mOrders.add(Order.from(object));
-//                    }
-//                    listView.setEmptyView(emptyView);
-//                    mOrderAdapter.notifyDataSetChanged();
-//                    progressBar.setVisibility(View.GONE);
-//                } else {
-//                    if (e.getCode() == MLException.OBJECT_NOT_FOUND) {
-//                        listView.setEmptyView(emptyView);
-//                    } else {
-//                        FFLog.toast(MyOrderActivity.this, e.getMessage());
-//                    }
-//                    progressBar.setVisibility(View.GONE);
-//                }
-//            }
-//
-//        });
+        query.include("order_products.product");
         MLQueryManager.findAllInBackground(query, new FindCallback<MLObject>() {
             @Override
             public void done(List<MLObject> list, MLException e) {
+                FFLog.d("fetchOrderData list: " + list);
+                FFLog.d("fetchOrderData e: " + e);
                 if (e == null) {
                     for (MLObject object : list) {
                         mOrders.add(Order.from(object));
                     }
-                    List<String> ids = new ArrayList<>();
-                    for (MLObject object : list) {
-                        List<MLObject> orderProducts = object.getList("order_products");
-                        for (MLObject orderProduct : orderProducts) {
-                            ids.add(orderProduct.getObjectId());
-                        }
-                    }
-                    MLQuery<MLObject> orderQuery = new MLQuery("OrderProduct");
-                    orderQuery.include("product");
-                    orderQuery.whereContainedIn("objectId", ids);
-                    MLQueryManager.findAllInBackground(orderQuery, new FindCallback<MLObject>() {
-                        @Override
-                        public void done(List<MLObject> list, MLException e) {
-                            if (e == null) {
-                                for (MLObject object : list) {
-                                    mOrderAdapter.putOrderProduct(OrderProduct.from(object));
-                                }
-                                listView.setEmptyView(emptyView);
-                                mOrderAdapter.notifyDataSetChanged();
-                                progressBar.setVisibility(View.GONE);
-                            } else {
-                                if (e.getCode() == MLException.OBJECT_NOT_FOUND) {
-                                    listView.setEmptyView(emptyView);
-                                } else {
-                                    FFLog.toast(MyOrderActivity.this, e.getMessage());
-                                }
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        }
-                    });
+                    listView.setEmptyView(emptyView);
+                    mOrderAdapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
                 } else {
                     if (e.getCode() == MLException.OBJECT_NOT_FOUND) {
                         listView.setEmptyView(emptyView);
@@ -160,6 +110,7 @@ public class MyOrderActivity extends BaseActivity {
                     progressBar.setVisibility(View.GONE);
                 }
             }
+
         });
     }
 
