@@ -9,6 +9,7 @@
 package com.maxleap.ebusiness.adapters;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,7 @@ public class OrderConfirmAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_address, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_order_product, parent, false);
             holder = new ViewHolder();
             holder.productIcon = (ImageView) convertView.findViewById(R.id.item_order_product_icon);
             holder.productTitle = (TextView) convertView.findViewById(R.id.item_order_product_title);
@@ -71,25 +72,28 @@ public class OrderConfirmAdapter extends BaseAdapter {
         if (object instanceof ProductData) {
             ProductData productData = (ProductData) object;
             url = productData.getImageUrl();
-            title = productData.getTitle();
+            String customInfo = TextUtils.isEmpty(productData.getCustomInfo()) ? "" : productData.getCustomInfo();
+            title = productData.getTitle() + " " + customInfo;
             count = productData.getCount();
             price = productData.getPrice() * productData.getCount();
         } else if (object instanceof OrderProduct) {
             OrderProduct orderProduct = (OrderProduct) object;
             url = orderProduct.getProduct().getIcons().get(0);
-            title = orderProduct.getProduct().getTitle();
+            String customInfo = TextUtils.isEmpty(orderProduct.getCustomInfo()) ? "" : orderProduct.getCustomInfo();
+            title = orderProduct.getProduct().getTitle() + " " + customInfo;
             count = orderProduct.getQuantity();
             price = orderProduct.getPrice();
         } else {
             return null;
         }
 
-        Picasso.with(mContext).load(url).into(holder.productIcon);
+        Picasso.with(mContext).load(url).placeholder(R.mipmap.def_item).into(holder.productIcon);
         holder.productTitle.setText(title);
         holder.productNo.setText(String.format(mContext.getString(R.string.activity_my_order_product_no)
                 , count));
+        holder.productPrice.setVisibility(View.VISIBLE);
         holder.productPrice.setText(String.format(mContext.getString(R.string.activity_my_order_product_price)
-                , price));
+                , price / 100f));
 
         return convertView;
 

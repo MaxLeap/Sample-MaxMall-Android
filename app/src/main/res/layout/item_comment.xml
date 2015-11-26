@@ -30,6 +30,7 @@
             android:textSize="15sp" />
 
         <RatingBar
+            android:layout_gravity="center_vertical"
             android:id="@+id/item_comment_rate"
             style="@style/comment_ratingbar_style"
             android:layout_width="wrap_content"
@@ -50,7 +51,6 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="162dp"
-        android:layout_marginTop="16dp"
         android:background="@android:color/white">
 
         <EditText
@@ -73,7 +73,7 @@
             android:layout_gravity="bottom|right"
             android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
-            android:textColor="@color/normal_font_color"
+            android:textColor="@color/normal_hint_color"
             android:textSize="15sp" />
 
     </FrameLayout>

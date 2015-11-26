@@ -146,7 +146,7 @@ public class OrderAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, CommentActivity.class);
-                intent.putExtra(MyOrderActivity.INTENT_ORDERPRODUCTS_KEY,
+                intent.putExtra(CommentActivity.INTENT_PRODUCT_DATA_KEY,
                         order.getOrderProducts());
             }
         });

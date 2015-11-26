@@ -24,8 +24,10 @@ import android.widget.TextView;
 
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.activities.MainActivity;
+import com.maxleap.ebusiness.activities.OrderConfirmActivity;
 import com.maxleap.ebusiness.activities.ProductDetailActivity;
 import com.maxleap.ebusiness.adapters.ShopProductAdapter;
+import com.maxleap.ebusiness.manage.UserManager;
 import com.maxleap.ebusiness.models.ProductData;
 import com.maxleap.ebusiness.utils.CartPreferenceUtil;
 
@@ -46,6 +48,12 @@ public class ShopFragment extends Fragment implements AdapterView.OnItemClickLis
         View view = inflater.inflate(R.layout.frag_shop, container, false);
         initUI(view);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchShopData();
     }
 
     private void initUI(View view) {
@@ -79,7 +87,12 @@ public class ShopFragment extends Fragment implements AdapterView.OnItemClickLis
         mPayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO:
+                if (UserManager.getInstance().getCurrentUser() == null) {
+
+                } else {
+                    Intent intent = new Intent(mContext, OrderConfirmActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         view.findViewById(R.id.to_main_button).setOnClickListener(new View.OnClickListener() {
@@ -112,7 +125,6 @@ public class ShopFragment extends Fragment implements AdapterView.OnItemClickLis
             });
         }
 
-        fetchShopData();
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(this);
     }
