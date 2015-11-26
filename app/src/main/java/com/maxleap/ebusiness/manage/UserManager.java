@@ -155,7 +155,7 @@ public class UserManager {
      * @param address
      * @param callback
      */
-    public void addAddress(Address address, final OperationCallback callback) {
+    public void addAddress(final Address address, final OperationCallback callback) {
         FFLog.d("start addAddress");
         final MLObject obj = new MLObject("Address");
         obj.put("user", MLUser.getCurrentUser());
@@ -168,6 +168,7 @@ public class UserManager {
             public void done(MLException e) {
                 FFLog.d("addAddress e : " + e);
                 if (e == null) {
+                    address.setId(obj.getObjectId());
                     callback.success();
                 } else {
                     callback.failed(e.getMessage());

@@ -94,7 +94,7 @@ public class OrderAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final Order order = mOrders.get(position);
+        final Order order = mOrders.get(mOrders.size() - 1 - position);
 
         CustomClickableSpan customClickableSpan = new CustomClickableSpan() {
             @Override
