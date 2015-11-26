@@ -108,13 +108,15 @@ public class ProductsActivity extends BaseActivity {
                 query = user.getFavorites().getQuery();
             }
         } else {
+            FFLog.d("productTypeId : "+productTypeId);
             MLObject object = MLObject.createWithoutData("ProductType", productTypeId);
-            MLRelation relation = object.getRelation("Product");
+            MLRelation relation = object.getRelation("products");
             relation.setTargetClass("Product");
             query = relation.getQuery();
         }
         if (query == null) {
             FFLog.d("query is null ");
+            mProgressBar.setVisibility(View.GONE);
             return;
         }
 
