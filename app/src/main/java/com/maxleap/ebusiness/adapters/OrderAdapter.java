@@ -11,7 +11,10 @@ package com.maxleap.ebusiness.adapters;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +27,14 @@ import android.widget.TextView;
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.activities.CommentActivity;
 import com.maxleap.ebusiness.activities.MyOrderActivity;
+import com.maxleap.ebusiness.activities.OrderDetailActivity;
 import com.maxleap.ebusiness.manage.OperationCallback;
 import com.maxleap.ebusiness.manage.UserManager;
 import com.maxleap.ebusiness.models.Order;
 import com.maxleap.ebusiness.models.OrderProduct;
 import com.maxleap.ebusiness.models.ProductData;
 import com.maxleap.ebusiness.utils.DialogUtil;
+import com.maxleap.ebusiness.widget.CustomClickableSpan;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -91,7 +96,20 @@ public class OrderAdapter extends BaseAdapter {
 
         final Order order = mOrders.get(position);
 
-        holder.orderNo.setText(String.format(mContext.getString(R.string.activity_my_order_no), order.getId()));
+        CustomClickableSpan customClickableSpan = new CustomClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                Intent intent = new Intent(mContext, OrderDetailActivity.class);
+                intent.putExtra(OrderDetailActivity.INTENT_ORDER_ID_KEY, order.getId());
+                ((MyOrderActivity) mContext).toDetail(intent, position);
+            }
+        };
+        SpannableString ss = new SpannableString(String.format(mContext.getString(R.string.activity_my_order_no), order.getId()));
+        ss.setSpan(customClickableSpan, mContext.getString(R.string.activity_my_order_no).length() - 4,
+                ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.orderNo.setText(ss);
+        holder.orderNo.setMovementMethod(LinkMovementMethod.getInstance());
+
         holder.remainTime.setVisibility(View.GONE);
         holder.orderState.setOnClickListener(null);
         switch (order.getOrderStatus()) {
@@ -147,7 +165,8 @@ public class OrderAdapter extends BaseAdapter {
                 productView = holder.products.getChildAt(i);
                 productView.setVisibility(View.VISIBLE);
             } else {
-                productView = LayoutInflater.from(mContext).inflate(R.layout.item_order_product, holder.products, true);
+                productView = LayoutInflater.from(mContext).inflate(R.layout.item_order_product, null);
+                holder.products.addView(productView);
             }
             ImageView imageView = (ImageView) productView.findViewById(R.id.item_order_product_icon);
             Picasso.with(mContext).load(orderProduct.getProduct().getIcons().get(0)).into(imageView);

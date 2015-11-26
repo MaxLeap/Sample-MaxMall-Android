@@ -53,18 +53,16 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_frag_account:
-                if (UserManager.getInstance().getCurrentUser() != null) {
-                    Intent toAccountIntent = new Intent(mContext, AccountInfoActivity.class);
-                    startActivity(toAccountIntent);
+                if (UserManager.getInstance().getCurrentUser() == null) {
+                    toLogin();
                 } else {
-                    Intent toAccountIntent = new Intent(mContext, LoginActivity.class);
+                    Intent toAccountIntent = new Intent(mContext, AccountInfoActivity.class);
                     startActivity(toAccountIntent);
                 }
                 break;
             case R.id.mine_frag_like:
                 if (UserManager.getInstance().getCurrentUser() == null) {
-                    Intent toAccountIntent = new Intent(mContext, LoginActivity.class);
-                    startActivity(toAccountIntent);
+                    toLogin();
                 } else {
                     Intent likeIntent = new Intent(mContext, ProductsActivity.class);
                     likeIntent.putExtra(ProductsActivity.INTENT_TITLE, mContext.getString(R.string.fragment_mine_like));
@@ -73,8 +71,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.mine_frag_order:
                 if (UserManager.getInstance().getCurrentUser() == null) {
-                    Intent toAccountIntent = new Intent(mContext, LoginActivity.class);
-                    startActivity(toAccountIntent);
+                    toLogin();
                 } else {
                     Intent orderIntent = new Intent(mContext, MyOrderActivity.class);
                     startActivity(orderIntent);
@@ -88,6 +85,11 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             default:
                 break;
         }
+    }
+
+    private void toLogin() {
+        Intent toAccountIntent = new Intent(mContext, LoginActivity.class);
+        startActivity(toAccountIntent);
     }
 
 }

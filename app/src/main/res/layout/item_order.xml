@@ -16,6 +16,7 @@
             android:layout_height="48dp"
             android:layout_marginLeft="16dp"
             android:gravity="center_vertical"
+            android:maxLength="20"
             android:textColor="@color/text_color_gray"
             android:textSize="15sp" />
 
