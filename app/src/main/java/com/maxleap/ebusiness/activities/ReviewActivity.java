@@ -58,6 +58,8 @@ public class ReviewActivity extends BaseActivity {
     private void fetchData() {
         MLQuery<MLObject> query = MLQuery.getQuery("Comment");
         query.whereEqualTo("product", MLObject.createWithoutData("Product", mObjectId));
+        query.include("user");
+        query.include("product");
         MLQueryManager.findAllInBackground(query, new FindCallback<MLObject>() {
             @Override
             public void done(List<MLObject> list, MLException e) {
