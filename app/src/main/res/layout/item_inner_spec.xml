@@ -22,6 +22,9 @@
         android:layout_alignParentRight="true"
         android:gravity="center_vertical"
         android:paddingRight="16dp"
+        android:singleLine="true"
+        android:maxWidth="200dp"
+        android:ellipsize="end"
         android:textColor="@color/normal_hint_color"
         android:textSize="15sp"/>
 
