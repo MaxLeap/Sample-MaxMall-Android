@@ -10,6 +10,7 @@ package com.maxleap.ebusiness.adapters;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,8 @@ import android.widget.TextView;
 
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.models.Comment;
-import com.maxleap.ebusiness.models.OrderProduct;
+import com.maxleap.ebusiness.models.Product;
+import com.maxleap.ebusiness.models.ProductData;
 import com.maxleap.ebusiness.utils.FFLog;
 import com.squareup.picasso.Picasso;
 
@@ -34,12 +36,12 @@ public class CommentAdapter extends BaseAdapter {
     private static final int MAX_COMMENT_LENGTH = 140;
 
     private Context mContext;
-    private List<OrderProduct> mProducts;
+    private List<ProductData> mProducts;
     private int[] ratings;
     private String[] contents;
     private List<Comment> comments;
 
-    public CommentAdapter(Context context, List<OrderProduct> products) {
+    public CommentAdapter(Context context, List<ProductData> products) {
         mContext = context;
         mProducts = products;
         ratings = new int[products.size()];
@@ -81,12 +83,13 @@ public class CommentAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        OrderProduct orderProduct = mProducts.get(position);
+        ProductData productData = mProducts.get(position);
 
-        Picasso.with(mContext).load(orderProduct.getProduct().getIcons().get(0)).into(holder.productIcon);
-        holder.productTitle.setText(orderProduct.getProduct().getTitle());
+        Picasso.with(mContext).load(productData.getImageUrl()).into(holder.productIcon);
+        String customInfo = TextUtils.isEmpty(productData.getCustomInfo()) ? "" : productData.getCustomInfo();
+        holder.productTitle.setText(productData.getTitle() + " " + customInfo);
         holder.productNo.setText(String.format(mContext.getString(R.string.activity_my_order_product_no)
-                , orderProduct.getQuantity()));
+                , productData.getCount()));
         holder.ratingBar.setRating(ratings[position]);
         holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -132,12 +135,12 @@ public class CommentAdapter extends BaseAdapter {
         }
         comments.clear();
         for (int i = 0; i < mProducts.size(); i++) {
-            if (ratings[i] == 0 || contents[i] == null) {
+            if (ratings[i] == 0 || TextUtils.isEmpty(contents[i])) {
                 return null;
             }
             Comment comment = new Comment();
             comment.setScore(ratings[i]);
-            comment.setProduct(mProducts.get(i).getProduct());
+            comment.setProduct(new Product(mProducts.get(i).getId()));
             comment.setContent(contents[i]);
             comments.add(comment);
         }

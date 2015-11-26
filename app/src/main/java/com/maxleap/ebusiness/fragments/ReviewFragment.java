@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.adapters.ReviewAdapter;
 import com.maxleap.ebusiness.models.Comment;
+import com.maxleap.ebusiness.widget.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,14 @@ public class ReviewFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.review_recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
+                        .color(R.color.bg_main)
+                        .size(1)
+                        .marginResId(R.dimen.item_margin,
+                                R.dimen.item_margin).build()
+        );
 
         mEmptyView = (TextView) view.findViewById(R.id.empty);
+        mEmptyView.setVisibility(View.GONE);
     }
 }

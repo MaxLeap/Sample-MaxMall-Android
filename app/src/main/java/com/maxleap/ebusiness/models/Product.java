@@ -32,6 +32,10 @@ public class Product {
     public Product() {
     }
 
+    public Product(String id) {
+        this.id = id;
+    }
+
     public Product(MLObject object) {
         this.id = object.getObjectId();
         this.title = object.getString("title");

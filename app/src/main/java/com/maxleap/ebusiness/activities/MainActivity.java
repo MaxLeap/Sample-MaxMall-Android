@@ -14,14 +14,14 @@ import com.maxleap.ebusiness.fragments.MineFragment;
 import com.maxleap.ebusiness.fragments.ShopFragment;
 
 public class MainActivity extends BaseActivity {
-
+    public static final String INTENT_TAB_INDEX = "index";
     private FragmentTabHost mTabHost;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         init();
     }
 
@@ -41,6 +41,7 @@ public class MainActivity extends BaseActivity {
                 ShopFragment.class, null);
         mTabHost.addTab(mTabHost.newTabSpec("mineTab").setIndicator(getTabView(R.drawable.btn_mine, R.string.activity_main_tab_mine)),
                 MineFragment.class, null);
+        selectTab(getIntent().getIntExtra(INTENT_TAB_INDEX, 0));
     }
 
     public void selectTab(int index) {

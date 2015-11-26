@@ -12,7 +12,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,8 +25,8 @@ public class ReceiptDialog implements View.OnClickListener {
     private Dialog dialog;
     private ListView listView;
     private TextView dialogTitle;
-    private Button cancelBtn;
-    private Button confirm;
+    private TextView cancelBtn;
+    private TextView confirm;
     private EditText headingInput;
     private ChooseListener chooseListener;
     private ReceiptInfoAdapter receiptInfoAdapter;
@@ -48,9 +47,9 @@ public class ReceiptDialog implements View.OnClickListener {
         dialog.setContentView(R.layout.dialog_receipt);
         listView = (ListView) dialog.findViewById(R.id.receipt_list);
         dialogTitle = (TextView) dialog.findViewById(R.id.receipt_title);
-        cancelBtn = (Button) dialog.findViewById(R.id.receipt_cancel);
+        cancelBtn = (TextView) dialog.findViewById(R.id.receipt_cancel);
         cancelBtn.setOnClickListener(this);
-        confirm = (Button) dialog.findViewById(R.id.receipt_confirm);
+        confirm = (TextView) dialog.findViewById(R.id.receipt_confirm);
         confirm.setOnClickListener(this);
         headingInput = (EditText) dialog.findViewById(R.id.receipt_heading);
         receiptTypes = new String[]{mContext.getString(R.string.receipt_dialog_type1),
@@ -69,7 +68,7 @@ public class ReceiptDialog implements View.OnClickListener {
         void onInputHeading(String heading);
     }
 
-    public void showRecipt() {
+    public void showReceipt() {
         if (TextUtils.isEmpty(headingText)) {
             selectedType = null;
             selectedContent = null;
@@ -80,6 +79,11 @@ public class ReceiptDialog implements View.OnClickListener {
         } else {
             receiptInfoAdapter.setData(receiptTypes, typeSelectListener, selectedType);
         }
+        dialogTitle.setText(R.string.receipt_dialog_type_title);
+        cancelBtn.setText(R.string.receipt_dialog_cancel);
+        confirm.setText(R.string.receipt_dialog_next);
+        listView.setVisibility(View.VISIBLE);
+        headingInput.setVisibility(View.GONE);
         dialog.show();
     }
 
@@ -106,8 +110,14 @@ public class ReceiptDialog implements View.OnClickListener {
                     dialog.dismiss();
                 } else if (title.equals(mContext.getString(R.string.receipt_dialog_content_title))) {
                     receiptInfoAdapter.setData(receiptTypes, typeSelectListener, selectedType);
+                    dialogTitle.setText(R.string.receipt_dialog_type_title);
+                    cancelBtn.setText(R.string.receipt_dialog_cancel);
                 } else if (title.equals(mContext.getString(R.string.receipt_dialog_heading_title))) {
                     receiptInfoAdapter.setData(receiptContents, contentSelectListener, selectedContent);
+                    dialogTitle.setText(R.string.receipt_dialog_content_title);
+                    confirm.setText(R.string.receipt_dialog_next);
+                    listView.setVisibility(View.VISIBLE);
+                    headingInput.setVisibility(View.GONE);
                 }
                 break;
             case R.id.receipt_confirm:
@@ -118,6 +128,8 @@ public class ReceiptDialog implements View.OnClickListener {
                         return;
                     }
                     receiptInfoAdapter.setData(receiptContents, contentSelectListener, selectedContent);
+                    dialogTitle.setText(R.string.receipt_dialog_content_title);
+                    cancelBtn.setText(R.string.receipt_dialog_forward);
                 } else if (title.equals(mContext.getString(R.string.receipt_dialog_content_title))) {
                     if (chooseListener != null && selectedContent != null) {
                         chooseListener.onChooseContent(selectedContent);
@@ -126,9 +138,14 @@ public class ReceiptDialog implements View.OnClickListener {
                     }
                     listView.setVisibility(View.GONE);
                     headingInput.setVisibility(View.VISIBLE);
+                    headingInput.setFocusable(true);
+                    headingInput.setFocusableInTouchMode(true);
+                    headingInput.requestFocus();
                     if (!TextUtils.isEmpty(headingText)) {
                         headingInput.setText(headingText);
                     }
+                    dialogTitle.setText(R.string.receipt_dialog_heading_title);
+                    confirm.setText(R.string.receipt_dialog_confirm);
                 } else if (title.equals(mContext.getString(R.string.receipt_dialog_heading_title))) {
                     if (chooseListener != null && !TextUtils.isEmpty(headingInput.getText())) {
                         chooseListener.onInputHeading(headingInput.getText().toString());

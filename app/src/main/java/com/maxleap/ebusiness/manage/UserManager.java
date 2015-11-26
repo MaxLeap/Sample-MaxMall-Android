@@ -260,34 +260,24 @@ public class UserManager {
         // relation: food
         final List<MLObject> orderProducts = new ArrayList<>();
         for (int i = 0; i < order.getOrderProducts().size(); i++) {
-            final MLObject orderProduct = new MLObject("product");
+            final MLObject orderProduct = new MLObject("OrderProduct");
             MLObject product = MLObject.createWithoutData("Product", order.getOrderProducts().get(i)
                     .getProduct().getId());
             orderProduct.put("product", product);
             orderProduct.put("price", order.getOrderProducts().get(i).getPrice());
-            orderProduct.put("quantity", order.getOrderProducts().get(i).getPrice());
+            orderProduct.put("quantity", order.getOrderProducts().get(i).getQuantity());
             orderProducts.add(orderProduct);
         }
-        MLDataManager.saveAllInBackground(orderProducts, new SaveCallback() {
+        obj.put("order_products", orderProducts);
+        MLDataManager.saveInBackground(obj, new SaveCallback() {
             @Override
             public void done(MLException e) {
                 if (e == null) {
-                    for (int j = 0; j < order.getOrderProducts().size(); j++) {
-                        obj.getRelation("foods").add(orderProducts.get(j));
-                    }
-                    MLDataManager.saveInBackground(obj, new SaveCallback() {
-                        @Override
-                        public void done(MLException e) {
-                            if (e == null) {
-                                FFLog.d("add order success");
-                                callback.success();
-                            } else {
-                                callback.failed("=====order=====" + e.getMessage());
-                            }
-                        }
-                    });
+                    FFLog.d("add order success");
+                    order.setId(obj.getObjectId());
+                    callback.success();
                 } else {
-                    callback.failed("=====food=====" + e.getMessage());
+                    callback.failed("=====order=====" + e.getMessage());
                 }
             }
         });
@@ -304,8 +294,7 @@ public class UserManager {
             callback.failed("address id must be set");
         }
 
-        MLObject obj = new MLObject("Order");
-        obj.setObjectId(order.getId());
+        MLObject obj = MLObject.createWithoutData("Order", order.getId());
 
         obj.put("order_status", order.getOrderStatus());
 

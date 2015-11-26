@@ -20,7 +20,9 @@
             android:name="ml_channel"
             android:value="${ml_channel}" />
 
-        <activity android:name=".activities.MainActivity">
+        <activity
+            android:name=".activities.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,18 +30,46 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.SearchActivity" />
-        <activity android:name=".activities.AccountInfoActivity" />
-        <activity android:name=".activities.AddressActivity" />
-        <activity android:name=".activities.AddAddressActivity" />
-        <activity android:name=".activities.ProductsActivity" />
-        <activity android:name=".activities.ProductDetailActivity"/>
-        <activity android:name=".activities.MyOrderActivity"/>
-        <activity android:name=".activities.OrderConfirmActivity"/>
-        <activity android:name=".activities.OrderDetailActivity"/>
-        <activity android:name=".activities.SpecActivity"/>
-        <activity android:name=".activities.ReviewActivity"/>
+        <activity
+            android:name=".activities.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AccountInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AddressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AddAddressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ProductsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ProductDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MyOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.OrderConfirmActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.OrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.CommentActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.SpecActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ReviewActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

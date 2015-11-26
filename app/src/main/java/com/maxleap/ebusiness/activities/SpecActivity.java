@@ -66,6 +66,7 @@ public class SpecActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mEmptyView = (TextView) findViewById(R.id.empty);
+        mEmptyView.setVisibility(View.GONE);
     }
 
     private void initToolbar() {

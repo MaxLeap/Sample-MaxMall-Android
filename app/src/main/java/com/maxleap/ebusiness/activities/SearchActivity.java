@@ -173,12 +173,12 @@ public class SearchActivity extends BaseActivity {
         mSearchHistoryLayout.setVisibility(View.GONE);
         mSearchResultLayout.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
+        mSortView.setVisibility(View.GONE);
         mProducts = new ArrayList<>();
         mComments = new ArrayList<>();
 
         final ArrayList<String> searchHistory = getSearchHistory();
         if (!searchHistory.isEmpty()) {
-            mSortView.setVisibility(View.GONE);
             mSearchHistoryLayout.setVisibility(View.VISIBLE);
             ListView listView = (ListView) findViewById(R.id.search_history_list);
             listView.setAdapter(new SimpleAdapter(this, searchHistory));
