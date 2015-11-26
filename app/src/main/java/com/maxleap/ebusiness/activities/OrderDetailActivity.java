@@ -21,7 +21,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.maxleap.FindCallback;
 import com.maxleap.GetCallback;
 import com.maxleap.MLObject;
 import com.maxleap.MLQuery;
@@ -39,7 +38,6 @@ import com.maxleap.exception.MLException;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class OrderDetailActivity extends BaseActivity implements View.OnClickListener {
 
@@ -232,35 +230,17 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         String id = getIntent().getStringExtra(INTENT_ORDER_ID_KEY);
         MLQuery query = new MLQuery("Order");
         query.include("address");
+        query.include("order_products.product");
 
         MLQueryManager.getInBackground(query, id, new GetCallback<MLObject>() {
             @Override
             public void done(final MLObject object, MLException e) {
                 if (e == null) {
-                    List<MLObject> orderProducts = object.getList("order_products");
-                    List<String> ids = new ArrayList<>();
-                    for (MLObject orderProduct : orderProducts) {
-                        ids.add(orderProduct.getObjectId());
-                    }
-                    MLQuery<MLObject> orderQuery = new MLQuery("OrderProduct");
-                    orderQuery.include("product");
-                    orderQuery.whereContainedIn("objectId", ids);
-                    MLQueryManager.findAllInBackground(orderQuery, new FindCallback<MLObject>() {
-                        @Override
-                        public void done(List<MLObject> list, MLException e) {
-                            if (e == null) {
-                                object.put("order_products", list);
-                                order = Order.from(object);
-                                progressBar.setVisibility(View.GONE);
-                                confirmArea.setVisibility(View.VISIBLE);
-                                productLV.setVisibility(View.VISIBLE);
-                                initData();
-                            } else {
-                                FFLog.toast(OrderDetailActivity.this, e.getMessage());
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        }
-                    });
+                    order = Order.from(object);
+                    progressBar.setVisibility(View.GONE);
+                    confirmArea.setVisibility(View.VISIBLE);
+                    productLV.setVisibility(View.VISIBLE);
+                    initData();
                 } else {
                     FFLog.toast(OrderDetailActivity.this, e.getMessage());
                     progressBar.setVisibility(View.GONE);
