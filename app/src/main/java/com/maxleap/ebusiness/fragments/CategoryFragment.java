@@ -48,7 +48,7 @@ public class CategoryFragment extends Fragment implements SwipeRefreshLayout.OnR
     private Runnable mRefreshRunnable = new Runnable() {
         @Override
         public void run() {
-            mBinding.refreshLayout.setRefreshing(false);
+            mBinding.refreshLayout.setRefreshing(true);
         }
     };
 
@@ -66,7 +66,6 @@ public class CategoryFragment extends Fragment implements SwipeRefreshLayout.OnR
         Toolbar toolbar = mBinding.toolbar;
         toolbar.setTitle(R.string.activity_categories_title);
 
-        mBinding.progressbar.setVisibility(View.VISIBLE);
         mBinding.recyclerview.setHasFixedSize(true);
         mBinding.recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
         mBinding.recyclerview.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
@@ -78,15 +77,15 @@ public class CategoryFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         if(mCategories == null){
             mCategories = new ObservableArrayList<>();
+            mHandler.postDelayed(mRefreshRunnable, 100);
         }
         if (mCategories.isEmpty()) {
             fetchData();
         }
         if (mAdapter == null) {
             mAdapter = new CategoryAdapter(mCategories);
-        } else {
-            mBinding.progressbar.setVisibility(View.GONE);
         }
+
         mBinding.recyclerview.setAdapter(mAdapter);
 
         mBinding.recyclerview.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),
@@ -116,7 +115,6 @@ public class CategoryFragment extends Fragment implements SwipeRefreshLayout.OnR
             @Override
             public void done(List<MLObject> list, MLException e) {
                 mCategories.clear();
-                mBinding.progressbar.setVisibility(View.GONE);
                 mHandler.removeCallbacks(mRefreshRunnable);
                 mBinding.refreshLayout.setRefreshing(false);
 
