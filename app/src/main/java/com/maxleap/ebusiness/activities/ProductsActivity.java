@@ -42,6 +42,7 @@ public class ProductsActivity extends BaseActivity {
     private ArrayList<Comment> mComments;
     private ProductAdapter mProductAdapter;
     private ProgressBar mProgressBar;
+    private ListView mListView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,8 +72,8 @@ public class ProductsActivity extends BaseActivity {
 
     private void initUI() {
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-        ListView listView = (ListView) findViewById(R.id.products_list);
-        listView.setEmptyView(findViewById(R.id.empty));
+        mListView = (ListView) findViewById(R.id.products_list);
+        findViewById(R.id.empty).setVisibility(View.GONE);
         if (mProducts == null) {
             mProducts = new ArrayList<>();
             mComments = new ArrayList<>();
@@ -85,9 +86,9 @@ public class ProductsActivity extends BaseActivity {
         if (mProductAdapter == null) {
             mProductAdapter = new ProductAdapter(this, mProducts, mComments);
         }
-        listView.setAdapter(mProductAdapter);
+        mListView.setAdapter(mProductAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Product product = mProducts.get(position);
@@ -108,7 +109,7 @@ public class ProductsActivity extends BaseActivity {
                 query = user.getFavorites().getQuery();
             }
         } else {
-            FFLog.d("productTypeId : "+productTypeId);
+            FFLog.d("productTypeId : " + productTypeId);
             MLObject object = MLObject.createWithoutData("ProductType", productTypeId);
             MLRelation relation = object.getRelation("products");
             relation.setTargetClass("Product");
@@ -152,11 +153,13 @@ public class ProductsActivity extends BaseActivity {
                                         mComments.add(new Comment(object));
                                     }
                                 }
+                                mListView.setEmptyView(findViewById(R.id.empty));
                                 mProductAdapter.notifyDataSetChanged();
                             }
                         });
                     }
                 } else {
+                    mListView.setEmptyView(findViewById(R.id.empty));
                     mProgressBar.setVisibility(View.GONE);
                 }
             }
