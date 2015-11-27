@@ -398,7 +398,10 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
         CartPreferenceUtil cartPreferenceUtil = CartPreferenceUtil.getComplexPreferences(
                 getApplicationContext());
-        cartPreferenceUtil.add(productData);
+        if (!cartPreferenceUtil.add(productData)) {
+            FFLog.toast(getApplicationContext(),
+                    getString(R.string.activity_product_detail_already_in_cart));
+        }
 
         List<ProductData> list = cartPreferenceUtil.getProductData();
         mBinding.cartNum.setVisibility(View.VISIBLE);

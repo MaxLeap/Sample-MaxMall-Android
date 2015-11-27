@@ -181,6 +181,7 @@
     <string name="activity_product_detail_unit_origin">原价：¥%1$.1f</string>
     <string name="activity_product_detail_choice_title">请选择</string>
     <string name="activity_product_detail_price">¥%1$.1f</string>
+    <string name="activity_product_detail_already_in_cart">已经添加到购物车</string>
 
 
     <!-- frag shop -->
