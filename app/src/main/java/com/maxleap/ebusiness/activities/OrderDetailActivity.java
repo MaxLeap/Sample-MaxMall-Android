@@ -112,6 +112,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         orderNo = (TextView) headView.findViewById(R.id.order_detail_no);
 
         orderState = (TextView) headView.findViewById(R.id.order_detail_state);
+        orderState.setOnClickListener(this);
 
         productLV.addHeaderView(headView);
         View footView = LayoutInflater.from(this).inflate(R.layout.order_detail_foot, null, false);
@@ -173,6 +174,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
             case 7:
                 orderState.setText(R.string.activity_my_order_state_canceled);
                 orderState.setTextColor(getResources().getColor(R.color.text_color_black));
+                confirmArea.setVisibility(View.GONE);
                 break;
         }
 
