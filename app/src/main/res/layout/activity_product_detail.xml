@@ -404,6 +404,7 @@
                     android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="24dp"
+                    android:textColor="@color/white"
                     android:background="@drawable/ic_shop_cart"/>
 
 
