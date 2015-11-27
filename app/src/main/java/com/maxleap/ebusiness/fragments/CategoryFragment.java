@@ -66,6 +66,7 @@ public class CategoryFragment extends Fragment implements SwipeRefreshLayout.OnR
         Toolbar toolbar = mBinding.toolbar;
         toolbar.setTitle(R.string.activity_categories_title);
 
+        mBinding.progressbar.setVisibility(View.VISIBLE);
         mBinding.recyclerview.setHasFixedSize(true);
         mBinding.recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
         mBinding.recyclerview.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
@@ -77,13 +78,14 @@ public class CategoryFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         if(mCategories == null){
             mCategories = new ObservableArrayList<>();
-            //fetchData();
         }
         if (mCategories.isEmpty()) {
             fetchData();
         }
-        if(mAdapter == null){
+        if (mAdapter == null) {
             mAdapter = new CategoryAdapter(mCategories);
+        } else {
+            mBinding.progressbar.setVisibility(View.GONE);
         }
         mBinding.recyclerview.setAdapter(mAdapter);
 
