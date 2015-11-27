@@ -118,6 +118,7 @@ public class ProductsActivity extends BaseActivity {
         if (query == null) {
             FFLog.d("query is null ");
             mProgressBar.setVisibility(View.GONE);
+            mListView.setEmptyView(findViewById(R.id.empty));
             return;
         }
 
