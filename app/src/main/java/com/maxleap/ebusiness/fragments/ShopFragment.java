@@ -42,6 +42,7 @@ public class ShopFragment extends Fragment implements AdapterView.OnItemClickLis
     private MainActivity mainActivity;
     private float mTotalPay;
     private Button mPayButton;
+    private TextView mEditView;
 
     @Nullable
     @Override
@@ -61,20 +62,20 @@ public class ShopFragment extends Fragment implements AdapterView.OnItemClickLis
         mContext = getActivity();
         mainActivity = (MainActivity) getActivity();
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        final TextView editView = (TextView) toolbar.findViewById(R.id.edit);
+        mEditView = (TextView) toolbar.findViewById(R.id.edit);
         if (mAdapter != null && mAdapter.isInEditMode()) {
-            editView.setText(R.string.frag_shop_toolbar_edit_done);
+            mEditView.setText(R.string.frag_shop_toolbar_edit_done);
         } else {
-            editView.setText(R.string.frag_shop_toolbar_edit);
+            mEditView.setText(R.string.frag_shop_toolbar_edit);
         }
         toolbar.findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mAdapter.isInEditMode()) {
-                    editView.setText(R.string.frag_shop_toolbar_edit);
+                    mEditView.setText(R.string.frag_shop_toolbar_edit);
                     mAdapter.setInEditMode(false);
                 } else {
-                    editView.setText(R.string.frag_shop_toolbar_edit_done);
+                    mEditView.setText(R.string.frag_shop_toolbar_edit_done);
                     mAdapter.setInEditMode(true);
                 }
             }
@@ -115,7 +116,10 @@ public class ShopFragment extends Fragment implements AdapterView.OnItemClickLis
                 @Override
                 public void onCountChanged() {
                     if (mProductDatas.size() == 0) {
+                        mEditView.setVisibility(View.GONE);
                         return;
+                    }else{
+                        mEditView.setVisibility(View.VISIBLE);
                     }
                     int totalPay = 0;
                     for (ProductData productData : mProductDatas) {
@@ -145,6 +149,11 @@ public class ShopFragment extends Fragment implements AdapterView.OnItemClickLis
         }
         mTotalPay = totalPay / 100f;
         mTotalPayView.setText(String.format(getString(R.string.product_price), mTotalPay));
+        if (mProductDatas.size() == 0) {
+            mEditView.setVisibility(View.GONE);
+        }else{
+            mEditView.setVisibility(View.VISIBLE);
+        }
         mAdapter.notifyDataSetChanged();
     }
 
