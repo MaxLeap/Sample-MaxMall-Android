@@ -258,7 +258,7 @@ public class UserManager {
         MLObject address = MLObject.createWithoutData("Address", order.getAddress().getId());
         obj.put("address", address);
 
-        // relation: food
+        // ArrayList<Point>
         final List<MLObject> orderProducts = new ArrayList<>();
         for (int i = 0; i < order.getOrderProducts().size(); i++) {
             final MLObject orderProduct = new MLObject("OrderProduct");
