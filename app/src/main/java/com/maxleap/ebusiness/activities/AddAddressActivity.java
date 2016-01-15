@@ -38,7 +38,7 @@ public class AddAddressActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.adtivity_add_address);
+        setContentView(R.layout.activity_add_address);
         init();
     }
 
@@ -113,7 +113,7 @@ public class AddAddressActivity extends BaseActivity {
             @Override
             public void failed(String error) {
                 FFLog.toast(AddAddressActivity.this, error);
-                confirmBtn.setText(R.string.activity_login_verify);
+                confirmBtn.setText(R.string.activity_add_address_confirm);
                 progressRL.setVisibility(View.GONE);
                 confirmBtn.setEnabled(false);
             }
