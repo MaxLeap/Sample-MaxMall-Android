@@ -12,6 +12,7 @@ import android.text.TextUtils;
 
 import com.maxleap.DeleteCallback;
 import com.maxleap.LogInCallback;
+import com.maxleap.MLAnonymousUtils;
 import com.maxleap.MLDataManager;
 import com.maxleap.MLObject;
 import com.maxleap.MLRelation;
@@ -63,13 +64,13 @@ public class UserManager {
             @Override
             public void done(MLException e) {
                 if (e == null) {
-                    MLUserManager.logInInBackground(user.getUsername(), user.getUsername(), new LogInCallback<MLUser>() {
+                    MLUserManager.logInInBackground(user.getUsername(), user.getUsername(), new LogInCallback() {
                         @Override
                         public void done(MLUser MLUser, MLException e) {
                             if (e == null) {
                                 callback.success();
                             } else {
-                                if (e.getCode() == MLException.NOT_FIND_USER) {
+                                if (e.getCode() == MLException.OBJECT_NOT_FOUND) {
                                 } else {
                                     callback.failed(e.getMessage());
                                 }
@@ -102,7 +103,7 @@ public class UserManager {
     public User getCurrentUser() {
         if (currentUser == null) {
             MLUser mLUser = MLUser.getCurrentUser();
-            if (mLUser == null) return null;
+            if (mLUser == null || MLAnonymousUtils.isLinked(mLUser)) return null;
 
             currentUser = new User();
             currentUser.setId(mLUser.getObjectId());

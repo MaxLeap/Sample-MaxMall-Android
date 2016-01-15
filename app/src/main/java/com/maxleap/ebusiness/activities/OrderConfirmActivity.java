@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.maxleap.MLAnalytics;
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.adapters.OrderConfirmAdapter;
 import com.maxleap.ebusiness.manage.OperationCallback;
@@ -34,6 +35,8 @@ import com.maxleap.ebusiness.utils.FFLog;
 import com.maxleap.ebusiness.widget.ReceiptDialog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OrderConfirmActivity extends BaseActivity implements View.OnClickListener {
 
@@ -236,6 +239,16 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
                 intent.putExtra(OrderDetailActivity.INTENT_ORDER_ID_KEY, order.getId());
                 startActivity(intent);
                 CartPreferenceUtil.getComplexPreferences(OrderConfirmActivity.this).drop();
+
+                for (int i = 0; i < productData.size(); i++) {
+                    Map<String, String> dimensions = new HashMap<>();
+                    dimensions.put("username", UserManager.getInstance().getCurrentUser().getUsername());
+                    dimensions.put("id", productData.get(i).getId());
+                    dimensions.put("title", productData.get(i).getTitle());
+                    dimensions.put("no", String.valueOf(productData.get(i).getCount()));
+                    MLAnalytics.logEvent("OrderConfirmEvent", 1, dimensions);
+                }
+
                 finish();
             }
 

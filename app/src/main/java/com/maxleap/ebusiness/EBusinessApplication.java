@@ -20,11 +20,11 @@ public class EBusinessApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        MaxLeap.initialize(this, ApiKey.MAXLEAP_APP_ID, ApiKey.MAXLEAP_CLIENT_KEY);
+        MaxLeap.initialize(this, ApiKey.MAXLEAP_APP_ID, ApiKey.MAXLEAP_CLIENT_KEY, MaxLeap.REGION_CN);
         FlurryAgent.init(this, ApiKey.FLURRY_KEY);
 
-//        TestUtils.debug();
-//        MaxLeap.setLogLevel(MaxLeap.LOG_LEVEL_VERBOSE);
-//        TestUtils.useHttp();
+        TestUtils.debug();
+        MaxLeap.setLogLevel(MaxLeap.LOG_LEVEL_VERBOSE);
+        TestUtils.useHttp();
     }
 }

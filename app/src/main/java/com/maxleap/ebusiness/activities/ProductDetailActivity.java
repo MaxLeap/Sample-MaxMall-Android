@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.maxleap.FindCallback;
 import com.maxleap.GetCallback;
+import com.maxleap.MLAnalytics;
 import com.maxleap.MLObject;
 import com.maxleap.MLQuery;
 import com.maxleap.MLQueryManager;
@@ -43,7 +44,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProductDetailActivity extends BaseActivity implements View.OnClickListener {
 
@@ -150,6 +153,10 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                     checkParams(mProduct);
                     mBinding.setProduct(mProduct);
 
+                    Map<String, String> dimensions = new HashMap<>();
+                    dimensions.put("id", mProduct.getId());
+                    dimensions.put("title", mProduct.getTitle());
+                    MLAnalytics.logEvent("ViewProductDetailEvent", 1, dimensions);
                 }
             }
         });
@@ -157,12 +164,11 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
     private void initProductInfo() {
         mBinding.price.setText(String.format(getApplicationContext().getString(
-                R.string.activity_product_detail_price, (float) (mProduct.getPrice() / 100)
-        )));
+                        R.string.activity_product_detail_price), (float) (mProduct.getPrice() / 100)
+        ));
         mBinding.originPrice.setText(String.format(getApplicationContext().getString(
-                R.string.activity_product_detail_unit_origin,
-                (float) (mProduct.getOriginalPrice() / 100)
-        )));
+                        R.string.activity_product_detail_unit_origin), (float) (mProduct.getOriginalPrice() / 100)
+        ));
 
         initPicList(mProduct);
         try {

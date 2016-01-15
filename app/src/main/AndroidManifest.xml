@@ -7,6 +7,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!--LPNS-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
     <application
         android:name="com.maxleap.ebusiness.EBusinessApplication"
@@ -70,6 +76,45 @@
         <activity
             android:name=".activities.ReviewActivity"
             android:screenOrientation="portrait" />
+
+        <!--Push 类型-->
+        <meta-data
+            android:name="ml_push"
+            android:value="lpns" />
+
+        <!--用于接收 Push 信息-->
+        <receiver
+            android:name="com.maxleap.MLPushBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.maxleap.push.intent.RECEIVE" />
+                <action android:name="com.maxleap.push.intent.OPEN" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.maxleap.MLPushService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
+            android:name="com.maxleap.MLBootReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.maxleap.MLHeartBeatReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.maxleap.push.intent.HEARTBEAT" />
+                <action android:name="com.maxleap.push.intent.RECONNECT" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
+import com.maxleap.MLAnalytics;
 import com.maxleap.ebusiness.R;
 import com.maxleap.ebusiness.manage.OperationCallback;
 import com.maxleap.ebusiness.manage.UserManager;
@@ -27,6 +28,8 @@ import com.maxleap.ebusiness.models.User;
 import com.maxleap.ebusiness.utils.FFLog;
 import com.maxleap.ebusiness.utils.NoUtilCheck;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class LoginActivity extends BaseActivity {
@@ -138,6 +141,9 @@ public class LoginActivity extends BaseActivity {
                 UserManager.getInstance().login(user, new OperationCallback() {
                     @Override
                     public void success() {
+                        Map<String, String> dimensions = new HashMap<>();
+                        dimensions.put("username", loginTel.getText().toString());
+                        MLAnalytics.logEvent("RegisterOrLoginEvent", 1, dimensions);
                         finish();
                     }
 
