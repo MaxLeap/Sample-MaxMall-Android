@@ -6,20 +6,11 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.maxleap.ebusiness"
+        applicationId "com.maxleap.mall"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-    }
-
-    signingConfigs {
-        release {
-            storeFile file("ebusiness.jks")
-            storePassword "maxleapmobile"
-            keyAlias "ebusiness"
-            keyPassword "maxleapmobile"
-        }
     }
 
     buildTypes {
@@ -27,26 +18,20 @@ android {
             buildConfigField("boolean", "LOG_DEBUG", "false")
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            manifestPlaceholders = [ml_channel: "google_play", ml_region: "cn", ml_appid: APP_ID, ml_apikey: API_KEY]
         }
 
         applicationVariants.all { variant ->
             def apk = variant.outputs[0].outputFile;
             def versionName = android.defaultConfig.versionName;
             def newName = apk.name.replace(".apk", "-v" + versionName + ".apk");
-            newName = newName.replace("app", "ebusiness");
+            newName = newName.replace("app", "mall");
             variant.outputs[0].outputFile = new File(apk.parentFile, newName);
         }
 
         debug {
             buildConfigField("boolean", "LOG_DEBUG", "true")
-        }
-    }
-
-    productFlavors {
-        google {
-            applicationId "com.maxleapmobile.ebusiness"
-            manifestPlaceholders = [ml_channel: "google"]
+            manifestPlaceholders = [ml_channel: "google_play", ml_region: "cn", ml_appid: APP_ID, ml_apikey: API_KEY]
         }
     }
 
@@ -62,11 +47,7 @@ ext {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
     compile "com.android.support:recyclerview-v7:${supportLibVersion}"
     compile "com.android.support:design:${supportLibVersion}"
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.google.code.gson:gson:1.7.2'
-    compile files('libs/maxleap-sdk-core-v0.9.3.jar')
 }

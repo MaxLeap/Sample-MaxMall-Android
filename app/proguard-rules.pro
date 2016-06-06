@@ -18,13 +18,6 @@
 
 -dontwarn com.maxleap.**
 -keep class com.maxleap.** { *; }
-
--dontwarn com.flurry.**
--keep class com.flurry.** { *; }
-
--dontwarn net.hockeyapp.android.**
--keep class net.hockeyapp.android.** { *; }
-
 -keep class android.support.v7.widget.LinearLayoutManager { *; }
 
 # picasso

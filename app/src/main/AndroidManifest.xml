@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.maxleap.ebusiness">
+    package="com.maxleap.mall">
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
     <application
-        android:name="com.maxleap.ebusiness.EBusinessApplication"
+        android:name=".MallApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -25,9 +25,19 @@
         <meta-data
             android:name="ml_channel"
             android:value="${ml_channel}" />
+        <meta-data
+            android:name="ml_region"
+            android:value="${ml_region}" />
+        <meta-data
+            android:name="com.maxleap.APPLICATION_ID"
+            android:value="${ml_appid}" />
+        <meta-data
+            android:name="com.maxleap.CLIENT_KEY"
+            android:value="${ml_apikey}" />
+
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.maxleap.mall.activities.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,44 +47,44 @@
         </activity>
 
         <activity
-            android:name=".activities.LoginActivity"
+            android:name="com.maxleap.mall.activities.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.SearchActivity"
+            android:name="com.maxleap.mall.activities.SearchActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.AccountInfoActivity"
+            android:name="com.maxleap.mall.activities.AccountInfoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.AddressActivity"
+            android:name="com.maxleap.mall.activities.AddressActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.AddAddressActivity"
+            android:name="com.maxleap.mall.activities.AddAddressActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.ProductsActivity"
+            android:name="com.maxleap.mall.activities.ProductsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.ProductDetailActivity"
+            android:name="com.maxleap.mall.activities.ProductDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.MyOrderActivity"
+            android:name="com.maxleap.mall.activities.MyOrderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.OrderConfirmActivity"
+            android:name="com.maxleap.mall.activities.OrderConfirmActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.OrderDetailActivity"
+            android:name="com.maxleap.mall.activities.OrderDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.CommentActivity"
+            android:name="com.maxleap.mall.activities.CommentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activities.SpecActivity"
+            android:name="com.maxleap.mall.activities.SpecActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.ReviewActivity"
+            android:name="com.maxleap.mall.activities.ReviewActivity"
             android:screenOrientation="portrait" />
 
         <!--Push 类型-->

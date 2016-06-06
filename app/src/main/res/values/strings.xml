@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">eBusiness</string>
+    <string name="app_name">MaxLeapMall</string>
 
     <!--  Main Activity-->
     <string name="activity_main_tab_home">首页</string>
