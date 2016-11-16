@@ -21,7 +21,7 @@ android {
             buildConfigField("boolean", "LOG_DEBUG", "false")
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            manifestPlaceholders = [ml_channel: "google_play", ml_region: "cn", ml_appid: APP_ID, ml_apikey: API_KEY]
+            manifestPlaceholders = [ml_channel: "google_play", ml_region: "cn", ml_appid: APP_ID, ml_apikey: CLIENT_KEY]
         }
 
         applicationVariants.all { variant ->
@@ -34,7 +34,7 @@ android {
 
         debug {
             buildConfigField("boolean", "LOG_DEBUG", "true")
-            manifestPlaceholders = [ml_channel: "google_play", ml_region: "cn", ml_appid: APP_ID, ml_apikey: API_KEY]
+            manifestPlaceholders = [ml_channel: "google_play", ml_region: "cn", ml_appid: APP_ID, ml_apikey: CLIENT_KEY]
         }
     }
 
