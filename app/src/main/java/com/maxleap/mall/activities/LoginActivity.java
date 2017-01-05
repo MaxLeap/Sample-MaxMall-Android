@@ -25,7 +25,6 @@ import com.maxleap.mall.manage.OperationCallback;
 import com.maxleap.mall.manage.UserManager;
 import com.maxleap.mall.models.User;
 import com.maxleap.mall.utils.FFLog;
-import com.maxleap.mall.utils.NoUtilCheck;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -72,12 +71,11 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                checkBtnState();
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                checkBtnState();
             }
         });
 
@@ -90,12 +88,12 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                checkBtnState();
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                checkBtnState();
+
             }
         });
 
@@ -108,24 +106,13 @@ public class LoginActivity extends BaseActivity {
                 UserManager.getInstance().getSmsCode(loginTel.getText().toString(), new OperationCallback() {
                     @Override
                     public void success() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressRL.setVisibility(View.GONE);
-                            }
-                        });
+                        progressRL.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void failed(final String error) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressRL.setVisibility(View.GONE);
-                                FFLog.toast(LoginActivity.this, error);
-                            }
-                        });
-
+                        progressRL.setVisibility(View.GONE);
+                        FFLog.toast(LoginActivity.this, error);
                     }
                 });
             }
@@ -182,7 +169,7 @@ public class LoginActivity extends BaseActivity {
     private void checkBtnState() {
         int telNoLength = loginTel.getText().length();
         int verifyNoLength = loginVerifyCode.getText().length();
-        if (telNoLength == 11 && NoUtilCheck.isMobileNo(loginTel.getText().toString())) {
+        if (telNoLength == 11) {
             if (getCodeBtn.getText().equals(getString(R.string.activity_login_get_verify_code))) {
                 getCodeBtn.setEnabled(true);
             } else {

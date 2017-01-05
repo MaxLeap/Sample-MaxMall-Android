@@ -23,7 +23,6 @@ import com.maxleap.mall.manage.OperationCallback;
 import com.maxleap.mall.manage.UserManager;
 import com.maxleap.mall.models.Address;
 import com.maxleap.mall.utils.FFLog;
-import com.maxleap.mall.utils.NoUtilCheck;
 
 public class AddAddressActivity extends BaseActivity {
 
@@ -147,7 +146,7 @@ public class AddAddressActivity extends BaseActivity {
                     getString(R.string.activity_add_address_address)));
             return true;
         }
-        if (!NoUtilCheck.isMobileNo(tel)) {
+        if (tel.length() != 11) {
             FFLog.toast(this, R.string.activity_update_address_tel_error);
             return true;
         }
