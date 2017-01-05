@@ -19,6 +19,8 @@ public class MallApplication extends Application {
         super.onCreate();
 
         MaxLeap.initialize(this);
-        MaxLeap.setLogLevel(MaxLeap.LOG_LEVEL_ERROR);
+        MaxLeap.setLogLevel(MaxLeap.LOG_LEVEL_VERBOSE);
+
+        MaxLeap.checkSDKConnection();
     }
 }

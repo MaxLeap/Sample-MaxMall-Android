@@ -32,9 +32,8 @@
             android:name="com.maxleap.APPLICATION_ID"
             android:value="${ml_appid}" />
         <meta-data
-            android:name="com.maxleap.CLIENT_KEY"
+            android:name="com.maxleap.REST_API_KEY"
             android:value="${ml_apikey}" />
-
 
         <activity
             android:name="com.maxleap.mall.activities.MainActivity"

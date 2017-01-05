@@ -21,7 +21,7 @@ android {
             buildConfigField("boolean", "LOG_DEBUG", "false")
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            manifestPlaceholders = [ml_channel: "google_play", ml_region: "cn", ml_appid: APP_ID, ml_apikey: CLIENT_KEY]
+            manifestPlaceholders = [ml_channel: "google_play", ml_region: "CN", ml_appid: APP_ID, ml_apikey: API_KEY]
         }
 
         applicationVariants.all { variant ->
@@ -34,7 +34,7 @@ android {
 
         debug {
             buildConfigField("boolean", "LOG_DEBUG", "true")
-            manifestPlaceholders = [ml_channel: "google_play", ml_region: "cn", ml_appid: APP_ID, ml_apikey: CLIENT_KEY]
+            manifestPlaceholders = [ml_channel: "google_play", ml_region: "CN", ml_appid: APP_ID, ml_apikey: API_KEY]
         }
     }
 
@@ -50,8 +50,6 @@ ext {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:${supportLibVersion}"
-    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
     compile "com.android.support:design:${supportLibVersion}"
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
